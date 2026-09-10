@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>QuickPedido - Delivery Interno</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            marca: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            destaque: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            },
+            neutro: {
+              50: '#fafafa',
+              100: '#f5f5f5',
+              200: '#e5e5e5',
+              300: '#d4d4d4',
+              400: '#a3a3a3',
+              500: '#737373',
+              600: '#525252',
+              700: '#404040',
+              800: '#262626',
+              900: '#171717',
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          boxShadow: {
+            'app': '0 4px 20px rgba(0, 0, 0, 0.08)',
+            'card': '0 2px 8px rgba(0, 0, 0, 0.06)',
+            'modal': '0 20px 50px rgba(0, 0, 0, 0.2)',
+          },
+          borderRadius: {
+            'app': '24px',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+      min-height: 100vh;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    [data-tela]:not(.hidden) {
+      animation: fadeSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+    }
+
+    .btn-primary:hover { box-shadow: 0 6px 16px rgba(34, 197, 94, 0.45); }
+
+    .btn-secondary {
+      background: white;
+      color: #404040;
+      border: 1.5px solid #e5e5e5;
+    }
+
+    .btn-secondary:hover { background: #fafafa; border-color: #d4d4d4; }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f5f5f5;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .badge-sucesso { background: #dcfce7; color: #15803d; }
+    .badge-pendente { background: #ffedd5; color: #c2410c; }
+    .badge-cancelado { background: #fee2e2; color: #b91c1c; }
+    .badge-info { background: #dbeafe; color: #1d4ed8; }
+
+    .ativo {
+      color: #22c55e;
+      background: #f0fdf4;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 16px;
+      color: #737373;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-item:hover { color: #404040; }
+    .nav-item.ativo { color: #22c55e; background: #f0fdf4; }
+    .nav-item svg { width: 22px; height: 22px; }
+    .nav-item span { font-size: 0.6875rem; font-weight: 500; }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+
+    :focus-visible {
+      outline: 2px solid #22c55e;
+      outline-offset: 2px;
+    }
+
+    @media (min-width: 768px) {
+      .app-frame {
+        width: 390px;
+        height: 844px;
+        border-radius: 44px;
+        box-shadow:
+          0 0 0 12px #262626,
+          0 0 0 14px #404040,
+          0 25px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        position: relative;
+        background: white;
+      }
+
+      .status-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 24px 8px;
+        background: #171717;
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .status-bar svg { width: 18px; height: 18px; }
+    }
+
+    @media (max-width: 767px) {
+      .app-frame {
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .status-bar { display: none; }
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      padding: 0.875rem 1.25rem;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+      pointer-events: auto;
+    }
+
+    .toast-ok { background: #166534; color: white; }
+    .toast-erro { background: #b91c1c; color: white; }
+    .toast-info { background: #1e40af; color: white; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-10px) scale(0.95); }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 340px;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: scale(0.9);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.open .modal-content { transform: scale(1); }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 m-0">
+
+  <div class="app-frame flex flex-col overflow-hidden bg-branco-50">
+    <!-- Status Bar (Desktop) -->
+    <div class="status-bar">
+      <span id="horario">14:32</span>
+      <div class="flex items-center gap-1">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 9.5V7a2 2 0 012-2h16a2 2 0 012 2v2.5a2 2 0 01-2 2H4a2 2 0 01-2-2z"/><path d="M2 14.5V17a2 2 0 002 2h16a2 2 0 002-2v-2.5a2 2 0 00-2-2H4a2 2 0 00-2 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+      </div>
+    </div>
+
+    <!-- Header Fixo -->
+    <header class="bg-white px-5 py-4 flex items-center justify-between border-b border-neutral-100 sticky top-0 z-50">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 bg-marca-500 rounded-xl flex items-center justify-center shadow-md">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M3 3h18v18H3V3z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 9h6v6H9V9z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-lg text-neutral-900 leading-tight">QuickPedido</h1>
+          <p class="text-xs text-neutral-500 font-body">Delivery Interno</p>
+        </div>
+      </div>
+      <button class="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-neutral-200 transition-colors">
+        <svg class="w-5 h-5 text-neutral-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 overflow-y-auto pb-20">
+      <!-- TELAS -->
+    </main>
+
+    <!-- Navegação Inferior -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-3 py-2 z-50 safe-area-bottom">
+      <div class="flex items-center justify-around max-w-md mx-auto">
+        <button class="nav-item" data-nav="catalogo-de-produtos" onclick="mostrarTela('catalogo-de-produtos')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span>Cardápio</span>
+        </button>
+        <button class="nav-item" data-nav="meus-pedidos" onclick="mostrarTela('meus-pedidos')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+          </svg>
+          <span>Pedidos</span>
+        </button>
+        <button class="nav-item" data-nav="meu-carrinho" onclick="mostrarTela('meu-carrinho')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+          </svg>
+          <span>Carrinho</span>
+        </button>
+        <button class="nav-item" data-nav="painel-administrativo" onclick="mostrarTela('painel-administrativo')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+          </svg>
+          <span>Admin</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Modal Genérico -->
+  <div class="modal-overlay" id="modal" onclick="fecharModal(event)">
+    <div class="modal-content">
+      <div class="p-5 border-b border-neutral-100 flex items-center justify-between">
+        <h3 class="font-display font-semibold text-lg text-neutral-900" id="modalTitulo">Título</h3>
+        <button onclick="fecharModal()" class="w-8 h-8 rounded-full hover:bg-neutral-100 flex items-center justify-center transition-colors">
+          <svg class="w-5 h-5 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5" id="modalCorpo"></div>
+    </div>
+  </div>
+
+  <script>
+    // Utilitários Globais
+    function brl(valor) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+    }
+
+    function dataBR(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    function toast(mensagem, tipo = 'info') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = `toast toast-${tipo}`;
+      el.textContent = mensagem;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }
+
+    function abrirModal(html, titulo = 'Atenção') {
+      document.getElementById('modalTitulo').textContent = titulo;
+      document.getElementById('modalCorpo').innerHTML = html;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fecharModal(e) {
+      if (!e || e.target === document.getElementById('modal') || e.target.tagName === 'BUTTON' && e.target.onclick) {
+        document.getElementById('modal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') fecharModal();
+    });
+
+    // Relógio na status bar
+    function atualizarRelogio() {
+      const agora = new Date();
+      const horas = String(agora.getHours()).padStart(2, '0');
+      const minutos = String(agora.getMinutes()).padStart(2, '0');
+      document.getElementById('horario').textContent = `${horas}:${minutos}`;
+    }
+    atualizarRelogio();
+    setInterval(atualizarRelogio, 60000);
+
+    // Roteador
+    function mostrarTela(id) {
+      document.querySelectorAll('[data-tela]').forEach(function (s) {
+        s.classList.toggle('hidden', s.dataset.tela !== id);
+      });
+      document.querySelectorAll('[data-nav]').forEach(function (b) {
+        b.classList.toggle('ativo', b.dataset.nav === id);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      mostrarTela('catalogo-de-produtos');
+    });
+  </script>
+</body>
+</html>
