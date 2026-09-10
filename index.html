@@ -2730,6 +2730,503 @@
     })();
     </script>
 
+    <section data-tela="gestao-de-pedidos" class="hidden">
+      <script>
+        // SVG inline reusáveis - renderizados uma vez e clonados via JS
+      </script>
+      <!-- KPI Cards -->
+      <div class="px-4 pt-4 fade-in">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h2 class="font-display text-lg font-bold text-gray-900 leading-tight">Gestão de Pedidos</h2>
+            <p class="text-xs text-gray-500 mt-0.5">Monitore, aprove e gerencie todos os pedidos</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="gestao_de_pedidos_exportarCSV()" class="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-medium text-gray-700 active:scale-95 transition-all hover:bg-gray-50">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              Exportar CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Grid -->
+        <div class="grid grid-cols-2 gap-2.5 mb-3">
+          <div class="card p-3">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Pendentes</span>
+              <div class="w-7 h-7 rounded-full bg-amber-50 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+            </div>
+            <span class="font-display text-xl font-bold text-gray-900" id="kpi-pendentes">23</span>
+            <span class="text-[10px] text-amber-600 font-medium">8 aguardando aprovação</span>
+          </div>
+          <div class="card p-3">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Aprovados</span>
+              <div class="w-7 h-7 rounded-full bg-emerald-50 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+            </div>
+            <span class="font-display text-xl font-bold text-gray-900" id="kpi-aprovados">47</span>
+            <span class="text-[10px] text-emerald-600 font-medium">+12% vs mês anterior</span>
+          </div>
+          <div class="card p-3">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Em Separação</span>
+              <div class="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+              </div>
+            </div>
+            <span class="font-display text-xl font-bold text-gray-900" id="kpi-separacao">15</span>
+            <span class="text-[10px] text-blue-600 font-medium">5 para entrega hoje</span>
+          </div>
+          <div class="card p-3">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Valor Total</span>
+              <div class="w-7 h-7 rounded-full bg-violet-50 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+            </div>
+            <span class="font-display text-xl font-bold text-gray-900" id="kpi-valor">R$ 89.420</span>
+            <span class="text-[10px] text-violet-600 font-medium">este mês</span>
+          </div>
+        </div>
+
+        <!-- Mini Chart - Pedidos por dia -->
+        <div class="card p-3 mb-3">
+          <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Pedidos nos últimos 7 dias</span>
+          <svg id="chart-semanal" class="w-full h-16 mt-2" viewBox="0 0 300 64" preserveAspectRatio="none"></svg>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card p-3 mb-3">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-xs font-semibold text-gray-700">Filtros</span>
+            <button onclick="gestao_de_pedidos_limparFiltros()" class="text-[10px] text-marca-600 font-medium hover:text-marca-700 transition-colors">Limpar filtros</button>
+          </div>
+          <div class="space-y-2">
+            <div class="relative">
+              <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="filtro-busca" placeholder="Buscar por nº ou solicitante..." oninput="gestao_de_pedidos_aplicarFiltros()" class="w-full pl-8 pr-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 bg-gray-50/50 transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <select id="filtro-status" onchange="gestao_de_pedidos_aplicarFiltros()" class="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 transition-all">
+                <option value="">Todos os status</option>
+                <option value="pendente">Pendente</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="separacao">Em Separação</option>
+                <option value="entregue">Entregue</option>
+                <option value="rejeitado">Rejeitado</option>
+                <option value="cancelado">Cancelado</option>
+              </select>
+              <select id="filtro-cc" onchange="gestao_de_pedidos_aplicarFiltros()" class="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 transition-all">
+                <option value="">Centro de Custo</option>
+                <option value="TI">TI</option>
+                <option value="RH">RH</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Operações">Operações</option>
+                <option value="Financeiro">Financeiro</option>
+                <option value="Comercial">Comercial</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="date" id="filtro-data-inicio" onchange="gestao_de_pedidos_aplicarFiltros()" class="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 transition-all">
+              <input type="date" id="filtro-data-fim" onchange="gestao_de_pedidos_aplicarFiltros()" class="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="number" id="filtro-valor-min" placeholder="Valor mínimo (R$)" oninput="gestao_de_pedidos_aplicarFiltros()" class="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 transition-all">
+              <input type="number" id="filtro-valor-max" placeholder="Valor máximo (R$)" oninput="gestao_de_pedidos_aplicarFiltros()" class="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-marca-500 transition-all">
+            </div>
+            <div class="flex items-center gap-2 pt-1">
+              <span id="contador-filtrados" class="text-[10px] text-gray-500"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Pedidos -->
+        <div class="card overflow-hidden mb-3">
+          <div class="bg-gray-50/80 px-3 py-2 border-b border-gray-100">
+            <span class="text-xs font-semibold text-gray-700">Pedidos</span>
+          </div>
+          <div id="tabela-pedidos-container">
+            <!-- Desktop header -->
+            <div class="hidden grid-cols-[40px_1fr_80px_70px_80px_80px_36px] gap-1 px-3 py-1.5 bg-gray-50/50 border-b border-gray-100">
+              <span class="text-[9px] font-semibold text-gray-400 uppercase">Nº</span>
+              <span class="text-[9px] font-semibold text-gray-400 uppercase">Solicitante</span>
+              <span class="text-[9px] font-semibold text-gray-400 uppercase">CC</span>
+              <span class="text-[9px] font-semibold text-gray-400 uppercase">Data</span>
+              <span class="text-[9px] font-semibold text-gray-400 uppercase text-right">Valor</span>
+              <span class="text-[9px] font-semibold text-gray-400 uppercase">Status</span>
+              <span></span>
+            </div>
+            <div id="tabela-pedidos-body"></div>
+          </div>
+          <div id="tabela-vazia" class="hidden text-center py-8">
+            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-2">
+              <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-sm text-gray-500 font-medium">Nenhum pedido encontrado</p>
+            <p class="text-xs text-gray-400 mt-1">Tente ajustar os filtros de busca</p>
+          </div>
+        </div>
+
+        <!-- Paginação -->
+        <div class="flex items-center justify-between mb-6" id="paginacao-container">
+          <span class="text-[10px] text-gray-500" id="paginacao-info">Mostrando 1-6 de 15</span>
+          <div class="flex gap-1.5">
+            <button onclick="gestao_de_pedidos_mudarPagina(-1)" id="btn-pag-anterior" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 active:scale-95 transition-all">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <div id="paginacao-botoes" class="flex gap-1"></div>
+            <button onclick="gestao_de_pedidos_mudarPagina(1)" id="btn-pag-proximo" class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 active:scale-95 transition-all">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Dados de exemplo
+        const gestao_de_pedidos_dados = [
+          { id: "PED-2024-0847", solicitante: "Marina Costa", cc: "TI", data: "2025-01-15", valor: 2840.00, status: "pendente", itens: [{desc:"Licença Microsoft 365 Business", qtd:5, vlUnit:420.00},{desc:"Monitor LG 27\" 4K", qtd:2, vlUnit:650.00}], endereco: "Av. Paulista, 1578 - 12º andar, Bela Vista, SP", telefone: "(11) 98765-4321", observacoes: "Pedido urgente para novo escritório. Entrega deve ser feita até sexta-feira.", historico: [{data:"2025-01-15 09:30", evento:"Pedido criado por Marina Costa", tipo:"criacao"},{data:"2025-01-15 09:32", evento:"Encaminhado para aprovação do gestor", tipo:"aprovacao"}] },
+          { id: "PED-2024-0846", solicitante: "Ricardo Mendes", cc: "Marketing", data: "2025-01-15", valor: 1250.00, status: "aprovado", itens: [{desc:"Material gráfico - Cartazes 1x1m", qtd:20, vlUnit:62.50}], endereco: "Rua Augusta, 420 - Consolação, SP", telefone: "(11) 99876-5432", observacoes: "Evento lançamento de produto em 20/01.", historico: [{data:"2025-01-14 14:00", evento:"Pedido criado por Ricardo Mendes", tipo:"criacao"},{data:"2025-01-14 16:30", evento:"Aprovado por Ana Silva (Gerente Marketing)", tipo:"aprovacao"}] },
+          { id: "PED-2024-0845", solicitante: "Fernanda Lima", cc: "RH", data: "2025-01-14", valor: 5760.00, status: "separacao", itens: [{desc:"Kit integração novos colaboradores", qtd:12, vlUnit:480.00}], endereco: "Rua Oscar Freire, 200 - Jardins, SP", telefone: "(11) 97654-3210", observacoes: "Kits para turma de onboarding de janeiro.", historico: [{data:"2025-01-13 10:00", evento:"Pedido criado por Fernanda Lima", tipo:"criacao"},{data:"2025-01-13 11:00", evento:"Aprovado por Carlos Souza (Diretor RH)", tipo:"aprovacao"},{data:"2025-01-14 08:00", evento:"Enviado para separação no almoxarifado", tipo:"separacao"}] },
+          { id: "PED-2024-0844", solicitante: "Carlos Souza", cc: "Operações", data: "2025-01-14", valor: 4300.00, status: "entregue", itens: [{desc:"Notebook Dell Latitude 5540", qtd:2, vlUnit:2150.00}], endereco: "Av. Brigadeiro Faria Lima, 3477 - 15º andar, SP", telefone: "(11) 96543-2109", observacoes: "", historico: [{data:"2025-01-10 09:00", evento:"Pedido criado por Carlos Souza", tipo:"criacao"},{data:"2025-01-10 14:00", evento:"Aprovado por Diretoria", tipo:"aprovacao"},{data:"2025-01-11 08:00", evento:"Em separação", tipo:"separacao"},{data:"2025-01-13 16:30", evento:"Entregue - assinado por Carlos Souza", tipo:"entrega"}] },
+          { id: "PED-2024-0843", solicitante: "Ana Silva", cc: "Marketing", data: "2025-01-13", valor: 890.00, status: "rejeitado", itens: [{desc:"Assinatura revista Exame PME", qtd:1, vlUnit:890.00}], endereco: "Rua Haddock Lobo, 350 - Cerqueira César, SP", telefone: "(11) 95432-1098", observacoes: "", historico: [{data:"2025-01-13 11:00", evento:"Pedido criado por Ana Silva", tipo:"criacao"},{data:"2025-01-13 15:00", evento:"Rejeitado por Diretoria - Fora do orçamento trimestral", tipo:"rejeicao"}] },
+          { id: "PED-2024-0842", solicitante: "João Pedro", cc: "Financeiro", data: "2025-01-13", valor: 650.00, status: "aprovado", itens: [{desc:"Assinatura planilha financeira premium", qtd:3, vlUnit:216.67}], endereco: "Alameda Santos, 900 - 8º andar, SP", telefone: "(11) 94321-0987", observacoes: "Renovação anual de licenças.", historico: [{data:"2025-01-12 16:00", evento:"Pedido criado por João Pedro", tipo:"criacao"},{data:"2025-01-13 09:00", evento:"Aprovado por Diretoria Financeira", tipo:"aprovacao"}] },
+          { id: "PED-2024-0841", solicitante: "Patrícia Alves", cc: "TI", data: "2025-01-12", valor: 15200.00, status: "pendente", itens: [{desc:"Servidor rack Dell PowerEdge R7625", qtd:1, vlUnit:12500.00},{desc:"Switch Cisco Catalyst 9300", qtd:1, vlUnit:2700.00}], endereco: "Av. Rebouças, 3050 - Pinheiros, SP", telefone: "(11) 93210-9876", observacoes: "Expansão do data center - urgente. Necessário aprovação da diretoria de TI.", historico: [{data:"2025-01-12 08:00", evento:"Pedido criado por Patrícia Alves", tipo:"criacao"},{data:"2025-01-12 08:05", evento:"Encaminhado para aprovação", tipo:"aprovacao"}] },
+          { id: "PED-2024-0840", solicitante: "Lucas Oliveira", cc: "Comercial", data: "2025-01-12", valor: 340.00, status: "entregue", itens: [{desc:"Cartões de visita premium - 500un", qtd:1, vlUnit:340.00}], endereco: "Rua Pamplona, 650 - Jardim América, SP", telefone: "(11) 92109-8765", observacoes: "Papel couché 250g com verniz localizado.", historico: [{data:"2025-01-08 10:00", evento:"Pedido criado por Lucas Oliveira", tipo:"criacao"},{data:"2025-01-08 14:00", evento:"Aprovado", tipo:"aprovacao"},{data:"2025-01-09 08:00", evento:"Em separação", tipo:"separacao"},{data:"2025-01-11 11:00", evento:"Entregue", tipo:"entrega"}] },
+          { id: "PED-2024-0839", solicitante: "Beatriz Santos", cc: "RH", data: "2025-01-11", valor: 1200.00, status: "cancelado", itens: [{desc:"Coffee break - reunião trimestral", qtd:1, vlUnit:1200.00}], endereco: "Rua Bela Cintra, 715 - Consolação, SP", telefone: "(11) 91098-7654", observacoes: "Reunião cancelada.", historico: [{data:"2025-01-10 09:00", evento:"Pedido criado por Beatriz Santos", tipo:"criacao"},{data:"2025-01-11 14:00", evento:"Cancelado - reunião cancelada pela diretoria", tipo:"cancelamento"}] },
+          { id: "PED-2024-0838", solicitante: "Roberto Dias", cc: "Operações", data: "2025-01-11", valor: 2180.00, status: "separacao", itens: [{desc:"Coletes de segurança EPI - caixa c/50", qtd:4, vlUnit:545.00}], endereco: "Av. do Estado, 5500 - Cambuci, SP", telefone: "(11) 90987-6543", observacoes: "Equipamentos obrigatórios para equipe de campo.", historico: [{data:"2025-01-09 08:00", evento:"Pedido criado por Roberto Dias", tipo:"criacao"},{data:"2025-01-09 16:00", evento:"Aprovado por Supervisão de Operações", tipo:"aprovacao"},{data:"2025-01-10 07:30", evento:"Enviado para separação", tipo:"separacao"}] },
+          { id: "PED-2024-0837", solicitante: "Juliana Rocha", cc: "Marketing", data: "2025-01-10", valor: 4200.00, status: "aprovado", itens: [{desc:"Filmagem institucional - pacote completo", qtd:1, vlUnit:4200.00}], endereco: "Rua Joaquim Floriano, 500 - Itaim Bibi, SP", telefone: "(11) 89876-5432", observacoes: "Filmagem para novo site e redes sociais.", historico: [{data:"2025-01-09 11:00", evento:"Pedido criado por Juliana Rocha", tipo:"criacao"},{data:"2025-01-10 09:00", evento:"Aprovado por Vice-presidência", tipo:"aprovacao"}] },
+          { id: "PED-2024-0836", solicitante: "Tiago Nascimento", cc: "TI", data: "2025-01-10", valor: 780.00, status: "pendente", itens: [{desc:"Mouse e teclado sem fio Logitech", qtd:10, vlUnit:78.00}], endereco: "Av. Morumbi, 8200 - Morumbi, SP", telefone: "(11) 88765-4321", observacoes: "Pedido padrão mensal de periféricos.", historico: [{data:"2025-01-10 07:30", evento:"Pedido criado por Tiago Nascimento", tipo:"criacao"},{data:"2025-01-10 07:35", evento:"Encaminhado para aprovação", tipo:"aprovacao"}] },
+        ];
+
+        const gestao_de_pedidos_statusMap = {
+          pendente: { label: "Pendente", class: "bg-amber-100 text-amber-700" },
+          aprovado: { label: "Aprovado", class: "bg-emerald-100 text-emerald-700" },
+          separacao: { label: "Separação", class: "bg-blue-100 text-blue-700" },
+          entregue: { label: "Entregue", class: "bg-gray-100 text-gray-600" },
+          rejeitado: { label: "Rejeitado", class: "bg-red-100 text-red-700" },
+          cancelado: { label: "Cancelado", class: "bg-gray-100 text-gray-400" }
+        };
+
+        const gestao_de_pedidos_coresAvatar = ["bg-marca-600","bg-emerald-600","bg-violet-600","bg-amber-600","bg-rose-600","bg-sky-600","bg-teal-600","bg-orange-600"];
+
+        let gestao_de_pedidos_pagina = 1;
+        const gestao_de_pedidos_porPagina = 6;
+
+        function gestao_de_pedidos_iniciais(nome) {
+          return nome.split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase();
+        }
+
+        function gestao_de_pedidos_corAvatar(nome) {
+          let hash = 0;
+          for (let i = 0; i < nome.length; i++) hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+          return gestao_de_pedidos_coresAvatar[Math.abs(hash) % gestao_de_pedidos_coresAvatar.length];
+        }
+
+        function gestao_de_pedidos_renderizarTabela(pedidos) {
+          const container = document.getElementById("tabela-pedidos-body");
+          const vazia = document.getElementById("tabela-vazia");
+          const totalPages = Math.max(1, Math.ceil(pedidos.length / gestao_de_pedidos_porPagina));
+          if (gestao_de_pedidos_pagina > totalPages) gestao_de_pedidos_pagina = totalPages;
+          const inicio = (gestao_de_pedidos_pagina - 1) * gestao_de_pedidos_porPagina;
+          const pagina = pedidos.slice(inicio, inicio + gestao_de_pedidos_porPagina);
+
+          if (pedidos.length === 0) {
+            container.innerHTML = "";
+            vazia.classList.remove("hidden");
+          } else {
+            vazia.classList.add("hidden");
+            let html = "";
+            pagina.forEach((p) => {
+              const s = gestao_de_pedidos_statusMap[p.status] || gestao_de_pedidos_statusMap.pendente;
+              const ini = gestao_de_pedidos_iniciais(p.solicitante);
+              const cor = gestao_de_pedidos_corAvatar(p.solicitante);
+              html += `<div class="grid grid-cols-[32px_1fr_auto] gap-2 items-center px-3 py-2.5 border-b border-gray-50 active:bg-gray-50 transition-colors cursor-pointer" onclick="gestao_de_pedidos_abrirDetalhe('${p.id}')">
+                <div class="hidden sm:contents">
+                  <span class="text-[10px] font-mono font-semibold text-gray-500">${p.id.split("-")[2]}</span>
+                  <div class="flex items-center gap-2 min-w-0">
+                    <div class="w-7 h-7 rounded-full ${cor} flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0">${ini}</div>
+                    <div class="min-w-0">
+                      <p class="text-xs font-semibold text-gray-900 truncate">${p.solicitante}</p>
+                      <p class="text-[10px] text-gray-500">${p.cc}</p>
+                    </div>
+                  </div>
+                  <span class="text-[10px] font-medium text-gray-500 bg-gray-100 rounded px-1.5 py-0.5 text-center">${p.cc}</span>
+                  <span class="text-[10px] text-gray-500 hidden sm:block">${dataBR(p.data)}</span>
+                  <span class="text-xs font-semibold text-gray-900 text-right hidden sm:block">${brl(p.valor)}</span>
+                  <span class="badge ${s.class} text-[9px] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">${s.label}</span>
+                </div>
+                <div class="sm:hidden flex items-center gap-2.5 col-span-3">
+                  <div class="w-8 h-8 rounded-full ${cor} flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0">${ini}</div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                      <p class="text-xs font-semibold text-gray-900 truncate">${p.solicitante}</p>
+                      <span class="text-xs font-semibold text-gray-900 ml-2">${brl(p.valor)}</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-0.5">
+                      <span class="text-[10px] text-gray-500">${p.cc} · ${dataBR(p.data)}</span>
+                      <span class="badge ${s.class} text-[9px] px-2 py-0.5 rounded-full font-medium">${s.label}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
+            });
+            container.innerHTML = html;
+          }
+          gestao_de_pedidos_renderizarPaginacao(pedidos.length, totalPages);
+        }
+
+        function gestao_de_pedidos_renderizarPaginacao(total, totalPages) {
+          const inicio = (gestao_de_pedidos_pagina - 1) * gestao_de_pedidos_porPagina + 1;
+          const fim = Math.min(gestao_de_pedidos_pagina * gestao_de_pedidos_porPagina, total);
+          document.getElementById("paginacao-info").textContent = total > 0 ? `Mostrando ${inicio}-${fim} de ${total}` : "Nenhum registro";
+          document.getElementById("paginacao-container").classList.toggle("hidden", total === 0);
+          const btns = document.getElementById("paginacao-botoes");
+          let h = "";
+          for (let i = 1; i <= totalPages; i++) {
+            const ativo = i === gestao_de_pedidos_pagina;
+            h += `<button onclick="gestao_de_pedidos_irPagina(${i})" class="w-8 h-8 flex items-center justify-center rounded-lg text-[11px] font-semibold transition-all active:scale-95 ${ativo ? "bg-marca-600 text-white shadow-sm" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}">${i}</button>`;
+          }
+          btns.innerHTML = h;
+          document.getElementById("btn-pag-anterior").disabled = gestao_de_pedidos_pagina <= 1;
+          document.getElementById("btn-pag-anterior").classList.toggle("opacity-40", gestao_de_pedidos_pagina <= 1);
+          document.getElementById("btn-pag-proximo").disabled = gestao_de_pedidos_pagina >= totalPages;
+          document.getElementById("btn-pag-proximo").classList.toggle("opacity-40", gestao_de_pedidos_pagina >= totalPages);
+        }
+
+        function gestao_de_pedidos_aplicarFiltros() {
+          const busca = document.getElementById("filtro-busca").value.toLowerCase();
+          const status = document.getElementById("filtro-status").value;
+          const cc = document.getElementById("filtro-cc").value;
+          const dtInicio = document.getElementById("filtro-data-inicio").value;
+          const dtFim = document.getElementById("filtro-data-fim").value;
+          const valMin = parseFloat(document.getElementById("filtro-valor-min").value) || 0;
+          const valMax = parseFloat(document.getElementById("filtro-valor-max").value) || Infinity;
+          gestao_de_pedidos_pagina = 1;
+          const filtrados = gestao_de_pedidos_dados.filter(p => {
+            if (busca && !p.id.toLowerCase().includes(busca) && !p.solicitante.toLowerCase().includes(busca)) return false;
+            if (status && p.status !== status) return false;
+            if (cc && p.cc !== cc) return false;
+            if (dtInicio && p.data < dtInicio) return false;
+            if (dtFim && p.data > dtFim) return false;
+            if (p.valor < valMin) return false;
+            if (valMax !== Infinity && p.valor > valMax) return false;
+            return true;
+          });
+          document.getElementById("contador-filtrados").textContent = filtrados.length !== gestao_de_pedidos_dados.length ? `${filtrados.length} de ${gestao_de_pedidos_dados.length} pedidos` : `${gestao_de_pedidos_dados.length} pedidos no total`;
+          gestao_de_pedidos_renderizarTabela(filtrados);
+        }
+
+        function gestao_de_pedidos_limparFiltros() {
+          document.getElementById("filtro-busca").value = "";
+          document.getElementById("filtro-status").value = "";
+          document.getElementById("filtro-cc").value = "";
+          document.getElementById("filtro-data-inicio").value = "";
+          document.getElementById("filtro-data-fim").value = "";
+          document.getElementById("filtro-valor-min").value = "";
+          document.getElementById("filtro-valor-max").value = "";
+          gestao_de_pedidos_pagina = 1;
+          document.getElementById("contador-filtrados").textContent = `${gestao_de_pedidos_dados.length} pedidos no total`;
+          gestao_de_pedidos_renderizarTabela(gestao_de_pedidos_dados);
+          toast("Filtros limpos com sucesso", "info");
+        }
+
+        function gestao_de_pedidos_mudarPagina(delta) {
+          const busca = document.getElementById("filtro-busca").value.toLowerCase();
+          const status = document.getElementById("filtro-status").value;
+          const cc = document.getElementById("filtro-cc").value;
+          const dtInicio = document.getElementById("filtro-data-inicio").value;
+          const dtFim = document.getElementById("filtro-data-fim").value;
+          const valMin = parseFloat(document.getElementById("filtro-valor-min").value) || 0;
+          const valMax = parseFloat(document.getElementById("filtro-valor-max").value) || Infinity;
+          const filtrados = gestao_de_pedidos_dados.filter(p => {
+            if (busca && !p.id.toLowerCase().includes(busca) && !p.solicitante.toLowerCase().includes(busca)) return false;
+            if (status && p.status !== status) return false;
+            if (cc && p.cc !== cc) return false;
+            if (dtInicio && p.data < dtInicio) return false;
+            if (dtFim && p.data > dtFim) return false;
+            if (p.valor < valMin) return false;
+            if (valMax !== Infinity && p.valor > valMax) return false;
+            return true;
+          });
+          const totalPages = Math.ceil(filtrados.length / gestao_de_pedidos_porPagina);
+          const nova = gestao_de_pedidos_pagina + delta;
+          if (nova >= 1 && nova <= totalPages) {
+            gestao_de_pedidos_pagina = nova;
+            gestao_de_pedidos_renderizarTabela(filtrados);
+          }
+        }
+
+        function gestao_de_pedidos_irPagina(p) {
+          gestao_de_pedidos_pagina = p;
+          gestao_de_pedidos_aplicarFiltros();
+        }
+
+        function gestao_de_pedidos_abrirDetalhe(id) {
+          const p = gestao_de_pedidos_dados.find(d => d.id === id);
+          if (!p) return;
+          const s = gestao_de_pedidos_statusMap[p.status] || gestao_de_pedidos_statusMap.pendente;
+          const valorItens = p.itens.reduce((a, b) => a + (b.qtd * b.vlUnit), 0);
+          let itensHtml = p.itens.map(i => `<tr class="border-b border-gray-50"><td class="py-2 text-xs text-gray-700">${i.desc}</td><td class="py-2 text-xs text-center text-gray-500">${i.qtd}x</td><td class="py-2 text-xs text-right text-gray-500">${brl(i.vlUnit)}</td><td class="py-2 text-xs text-right font-semibold text-gray-900">${brl(i.qtd * i.vlUnit)}</td></tr>`).join("");
+          let histHtml = p.historico.map(h => `<div class="flex gap-2"><div class="flex flex-col items-center"><div class="w-2 h-2 rounded-full ${h.tipo === 'rejeicao' ? 'bg-red-400' : h.tipo === 'aprovacao' ? 'bg-emerald-400' : h.tipo === 'entrega' ? 'bg-blue-400' : h.tipo === 'separacao' ? 'bg-amber-400' : 'bg-gray-300'}"></div><div class="w-px flex-1 bg-gray-200 mt-1"></div></div><div class="pb-3"><p class="text-xs text-gray-600">${h.evento}</p><p class="text-[10px] text-gray-400">${h.data}</p></div></div>`).join("");
+          const html = `<div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div><h3 class="font-display font-bold text-base text-gray-900">${p.id}</h3><p class="text-xs text-gray-500 mt-0.5">Solicitado em ${dataBR(p.data)}</p></div>
+              <span class="badge ${s.class} text-[10px] px-3 py-1 rounded-full font-semibold">${s.label}</span>
+            </div>
+            <div class="flex gap-3">
+              <div class="flex-1 bg-gray-50 rounded-lg p-2.5 text-center"><p class="text-[10px] text-gray-500 mb-0.5">Solicitante</p><p class="text-xs font-semibold text-gray-900">${p.solicitante}</p></div>
+              <div class="flex-1 bg-gray-50 rounded-lg p-2.5 text-center"><p class="text-[10px] text-gray-500 mb-0.5">Centro de Custo</p><p class="text-xs font-semibold text-gray-900">${p.cc}</p></div>
+            </div>
+            <div>
+              <h4 class="text-xs font-semibold text-gray-700 mb-2">Itens do Pedido</h4>
+              <div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b border-gray-200"><th class="text-left py-1.5 text-[10px] font-semibold text-gray-500">Item</th><th class="text-center py-1.5 text-[10px] font-semibold text-gray-500">Qtd</th><th class="text-right py-1.5 text-[10px] font-semibold text-gray-500">Unit.</th><th class="text-right py-1.5 text-[10px] font-semibold text-gray-500">Subtotal</th></tr></thead><tbody>${itensHtml}</tbody></table></div>
+              <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-200"><span class="text-xs font-semibold text-gray-700">Total</span><span class="font-display font-bold text-base text-marca-600">${brl(valorItens)}</span></div>
+            </div>
+            <div><h4 class="text-xs font-semibold text-gray-700 mb-1.5">Endereço de Entrega</h4><div class="bg-gray-50 rounded-lg p-2.5 flex gap-2"><svg class="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><div><p class="text-xs text-gray-700">${p.endereco}</p>${p.telefone ? `<p class="text-[10px] text-gray-500 mt-0.5">${p.telefone}</p>` : ""}</div></div></div>
+            ${p.observacoes ? `<div><h4 class="text-xs font-semibold text-gray-700 mb-1">Observações</h4><p class="text-xs text-gray-600 bg-amber-50 rounded-lg p-2.5">${p.observacoes}</p></div>` : ""}
+            <div>
+              <h4 class="text-xs font-semibold text-gray-700 mb-2">Histórico de Status</h4>
+              <div class="pl-1">${histHtml}</div>
+            </div>
+            <div class="flex gap-2 pt-2 border-t border-gray-100">
+              ${p.status === 'pendente' ? `<button onclick="gestao_de_pedidos_aprovar('${p.id}'); fecharModal()" class="flex-1 bg-emerald-600 text-white text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-emerald-700">Aprovar</button><button onclick="gestao_de_pedidos_abrirRejeicao('${p.id}');" class="flex-1 bg-red-600 text-white text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-red-700">Rejeitar</button>` : ""}
+              ${p.status === 'aprovado' ? `<button onclick="gestao_de_pedidos_enviarSeparacao('${p.id}'); fecharModal()" class="flex-1 bg-blue-600 text-white text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-blue-700">Enviar Separação</button>` : ""}
+              ${p.status === 'separacao' ? `<button onclick="gestao_de_pedidos_entregar('${p.id}'); fecharModal()" class="flex-1 bg-emerald-600 text-white text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-emerald-700">Marcar Entregue</button>` : ""}
+              ${p.status !== 'entregue' && p.status !== 'cancelado' ? `<button onclick="gestao_de_pedidos_cancelar('${p.id}'); fecharModal()" class="px-4 border border-red-200 text-red-600 text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-red-50">Cancelar</button>` : ""}
+            </div>
+          </div>`;
+          abrirModal(html, `Detalhes do Pedido`);
+        }
+
+        function gestao_de_pedidos_abrirRejeicao(id) {
+          const html = `<div class="space-y-3">
+            <p class="text-xs text-gray-600">Informe o motivo da rejeição do pedido <strong>${id}</strong>:</p>
+            <textarea id="justificativa-rejeicao" rows="3" placeholder="Descreva o motivo..." class="w-full text-xs border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 resize-none transition-all"></textarea>
+            <div class="flex gap-2">
+              <button onclick="gestao_de_pedidos_rejeitar('${id}')" class="flex-1 bg-red-600 text-white text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-red-700">Confirmar Rejeição</button>
+              <button onclick="fecharModal(); gestao_de_pedidos_abrirDetalhe('${id}')" class="flex-1 border border-gray-200 text-gray-700 text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-gray-50">Cancelar</button>
+            </div>
+          </div>`;
+          fecharModal();
+          setTimeout(() => abrirModal(html, "Justificativa de Rejeição"), 200);
+        }
+
+        function gestao_de_pedidos_rejeitar(id) {
+          const just = document.getElementById("justificativa-rejeicao").value.trim();
+          if (!just) { toast("Informe a justificativa da rejeição", "erro"); return; }
+          const p = gestao_de_pedidos_dados.find(d => d.id === id);
+          if (p) { p.status = "rejeitado"; p.historico.push({data: new Date().toISOString().slice(0,16).replace("T"," "), evento: `Rejeitado - ${just}`, tipo: "rejeicao"}); }
+          fecharModal();
+          gestao_de_pedidos_aplicarFiltros();
+          gestao_de_pedidos_atualizarKPIs();
+          toast(`Pedido ${id} rejeitado com sucesso`, "info");
+        }
+
+        function gestao_de_pedidos_aprovar(id) {
+          const p = gestao_de_pedidos_dados.find(d => d.id === id);
+          if (p) { p.status = "aprovado"; p.historico.push({data: new Date().toISOString().slice(0,16).replace("T"," "), evento: "Pedido aprovado", tipo: "aprovacao"}); }
+          gestao_de_pedidos_aplicarFiltros();
+          gestao_de_pedidos_atualizarKPIs();
+          toast(`Pedido ${id} aprovado com sucesso`, "ok");
+        }
+
+        function gestao_de_pedidos_enviarSeparacao(id) {
+          const p = gestao_de_pedidos_dados.find(d => d.id === id);
+          if (p) { p.status = "separacao"; p.historico.push({data: new Date().toISOString().slice(0,16).replace("T"," "), evento: "Enviado para separação no almoxarifado", tipo: "separacao"}); }
+          gestao_de_pedidos_aplicarFiltros();
+          gestao_de_pedidos_atualizarKPIs();
+          toast(`Pedido ${id} enviado para separação`, "ok");
+        }
+
+        function gestao_de_pedidos_entregar(id) {
+          const p = gestao_de_pedidos_dados.find(d => d.id === id);
+          if (p) { p.status = "entregue"; p.historico.push({data: new Date().toISOString().slice(0,16).replace("T"," "), evento: "Pedido entregue e assinado", tipo: "entrega"}); }
+          gestao_de_pedidos_aplicarFiltros();
+          gestao_de_pedidos_atualizarKPIs();
+          toast(`Pedido ${id} marcado como entregue`, "ok");
+        }
+
+        function gestao_de_pedidos_cancelar(id) {
+          const html = `<div class="space-y-3 text-center">
+            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto"><svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg></div>
+            <p class="text-xs text-gray-600">Deseja realmente cancelar o pedido <strong>${id}</strong>? Esta ação não pode ser desfeita.</p>
+            <div class="flex gap-2">
+              <button onclick="gestao_de_pedidos_confirmarCancelar('${id}')" class="flex-1 bg-red-600 text-white text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-red-700">Sim, cancelar</button>
+              <button onclick="fecharModal(); gestao_de_pedidos_abrirDetalhe('${id}')" class="flex-1 border border-gray-200 text-gray-700 text-xs font-semibold py-2.5 rounded-lg active:scale-95 transition-all hover:bg-gray-50">Voltar</button>
+            </div>
+          </div>`;
+          fecharModal();
+          setTimeout(() => abrirModal(html, "Confirmar Cancelamento"), 200);
+        }
+
+        function gestao_de_pedidos_confirmarCancelar(id) {
+          const p = gestao_de_pedidos_dados.find(d => d.id === id);
+          if (p) { p.status = "cancelado"; p.historico.push({data: new Date().toISOString().slice(0,16).replace("T"," "), evento: "Pedido cancelado", tipo: "cancelamento"}); }
+          fecharModal();
+          gestao_de_pedidos_aplicarFiltros();
+          gestao_de_pedidos_atualizarKPIs();
+          toast(`Pedido ${id} cancelado`, "info");
+        }
+
+        function gestao_de_pedidos_atualizarKPIs() {
+          const pendentes = gestao_de_pedidos_dados.filter(p => p.status === "pendente").length;
+          const aprovados = gestao_de_pedidos_dados.filter(p => p.status === "aprovado").length;
+          const separacao = gestao_de_pedidos_dados.filter(p => p.status === "separacao").length;
+          const totalVal = gestao_de_pedidos_dados.reduce((a, b) => a + b.valor, 0);
+          document.getElementById("kpi-pendentes").textContent = pendentes;
+          document.getElementById("kpi-aprovados").textContent = aprovados;
+          document.getElementById("kpi-separacao").textContent = separacao;
+          document.getElementById("kpi-valor").textContent = "R$ " + Math.round(totalVal).toLocaleString("pt-BR");
+        }
+
+        function gestao_de_pedidos_exportarCSV() {
+          const filtrados = gestao_de_pedidos_dados; // exporta todos os dados
+          const csv = ["Nº;Solicitante;Centro de Custo;Data;Valor;Status"];
+          filtrados.forEach(p => { csv.push(`${p.id};${p.solicitante};${p.cc};${p.data};${p.valor.toFixed(2)};${p.status}`); });
+          const blob = new Blob([csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a"); a.href = url; a.download = "pedidos_export.csv"; a.click();
+          URL.revokeObjectURL(url);
+          toast("CSV exportado com sucesso", "ok");
+        }
+
+        // Gráfico SVG - barras semanais
+        function gestao_de_pedidos_desenharGrafico() {
+          const svg = document.getElementById("chart-semanal");
+          const dados = [8, 12, 6, 15, 10, 18, 13];
+          const dias = ["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"];
+          const max = Math.max(...dados);
+          const barW = 300 / dados.length;
+          const h = 56;
+          let html = "";
+          dados.forEach((v, i) => {
+            const barH = (v / max) * (h - 8);
+            const x = i * barW + barW * 0.15;
+            const w = barW * 0.7;
+            const y = h - barH;
+            html += `<rect x="${x}" y="${y}" width="${w}" height="${barH}" rx="3" class="fill-marca-500/80 hover:fill-marca-600 transition-colors cursor-pointer" onclick="gestao_de_pedidos_detalharDia('${dias[i]}', ${v})"/>
+                     <text x="${x + w/2}" y="${h - barH - 4}" text-anchor="middle" class="text-[8px] fill-gray-600 font-semibold">${v}</text>
+                     <text x="${x + w/2}" y="${h + 4}" text-anchor="middle" class="text-[8px] fill-gray-400">${dias[i]}</text>`;
+          });
+          svg.innerHTML = html;
+        }
+
+        function gestao_de_pedidos_detalharDia(dia, valor) {
+          toast(`${dia}: ${valor} pedidos`, "info");
+        }
+
+        // Inicialização
+        gestao_de_pedidos_renderizarTabela(gestao_de_pedidos_dados);
+        gestao_de_pedidos_desenharGrafico();
+        document.getElementById("contador-filtrados").textContent = `${gestao_de_pedidos_dados.length} pedidos no total`;
+      </script>
+    </section>
+
     <!-- TELAS -->
     </main>
 
