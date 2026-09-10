@@ -2088,6 +2088,345 @@
   </script>
 </section>
 
+    <section data-tela="meus-pedidos" class="hidden">
+  <div class="px-5 pt-2 pb-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-1">
+      <div>
+        <h1 class="text-2xl font-display font-bold text-gray-900 tracking-tight">Meus Pedidos</h1>
+        <p class="text-sm text-gray-500 mt-0.5 mt-1">Acompanhe todos os pedidos da sua equipe</p>
+      </div>
+      <button onclick="mostrarTela('catalogo-de-produtos')" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform" title="Novo pedido">
+        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      </button>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-3 gap-3 mt-5 mb-5">
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100">
+        <div class="flex items-center gap-1.5 mb-2">
+          <div class="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+          </div>
+          <span class="text-xs text-gray-400 font-medium">Pendentes</span>
+        </div>
+        <p class="text-xl font-display font-bold text-gray-900" id="stat-pendentes">3</p>
+        <p class="text-[10px] text-amber-600 font-medium mt-0.5">2 vencendo hoje</p>
+      </div>
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100">
+        <div class="flex items-center gap-1.5 mb-2">
+          <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <span class="text-xs text-gray-400 font-medium">Entregues</span>
+        </div>
+        <p class="text-xl font-display font-bold text-gray-900">42</p>
+        <p class="text-[10px] text-emerald-600 font-medium mt-0.5">+8 este mês</p>
+      </div>
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100">
+        <div class="flex items-center gap-1.5 mb-2">
+          <div class="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </div>
+          <span class="text-xs text-gray-400 font-medium">Cancelados</span>
+        </div>
+        <p class="text-xl font-display font-bold text-gray-900">5</p>
+        <p class="text-[10px] text-gray-400 font-medium mt-0.5">Taxa 10.6%</p>
+      </div>
+    </div>
+
+    <!-- Mini Chart: Weekly Orders -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-semibold text-gray-800">Pedidos na semana</span>
+        <span class="text-xs text-gray-400">Últimos 7 dias</span>
+      </div>
+      <svg viewBox="0 0 320 80" class="w-full h-16">
+        <defs>
+          <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="320" height="80" fill="transparent"/>
+        <!-- Grid lines -->
+        <line x1="0" y1="20" x2="320" y2="20" stroke="#f3f4f6" stroke-width="1"/>
+        <line x1="0" y1="40" x2="320" y2="40" stroke="#f3f4f6" stroke-width="1"/>
+        <line x1="0" y1="60" x2="320" y2="60" stroke="#f3f4f6" stroke-width="1"/>
+        <!-- Bars -->
+        <rect x="10" y="38" width="26" height="34" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <rect x="50" y="25" width="26" height="47" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <rect x="90" y="42" width="26" height="30" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <rect x="130" y="18" width="26" height="54" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <rect x="170" y="30" width="26" height="42" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <rect x="210" y="12" width="26" height="60" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <rect x="250" y="22" width="26" height="50" rx="4" fill="url(#barGrad)" stroke="#3b82f6" stroke-width="1.2"/>
+        <!-- Value labels on top -->
+        <text x="23" y="34" text-anchor="middle" font-size="8" fill="#6b7280" font-family="sans-serif">5</text>
+        <text x="63" y="21" text-anchor="middle" font-size="8" fill="#6b7280" font-family="sans-serif">8</text>
+        <text x="103" y="38" text-anchor="middle" font-size="8" fill="#6b7280" font-family="sans-serif">4</text>
+        <text x="143" y="14" text-anchor="middle" font-size="8" fill="#3b82f6" font-weight="bold" font-family="sans-serif">11</text>
+        <text x="183" y="26" text-anchor="middle" font-size="8" fill="#6b7280" font-family="sans-serif">7</text>
+        <text x="223" y="8" text-anchor="middle" font-size="8" fill="#3b82f6" font-weight="bold" font-family="sans-serif">14</text>
+        <text x="263" y="18" text-anchor="middle" font-size="8" fill="#6b7280" font-family="sans-serif">9</text>
+        <!-- Day labels -->
+        <text x="23" y="78" text-anchor="middle" font-size="8" fill="#9ca3af" font-family="sans-serif">Seg</text>
+        <text x="63" y="78" text-anchor="middle" font-size="8" fill="#9ca3af" font-family="sans-serif">Ter</text>
+        <text x="103" y="78" text-anchor="middle" font-size="8" fill="#9ca3af" font-family="sans-serif">Qua</text>
+        <text x="143" y="78" text-anchor="middle" font-size="8" fill="#3b82f6" font-weight="600" font-family="sans-serif">Qui</text>
+        <text x="183" y="78" text-anchor="middle" font-size="8" fill="#9ca3af" font-family="sans-serif">Sex</text>
+        <text x="223" y="78" text-anchor="middle" font-size="8" fill="#3b82f6" font-weight="600" font-family="sans-serif">Sáb</text>
+        <text x="263" y="78" text-anchor="middle" font-size="8" fill="#9ca3af" font-family="sans-serif">Dom</text>
+      </svg>
+    </div>
+
+    <!-- Search -->
+    <div class="relative mb-3">
+      <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="mp-busca" placeholder="Buscar por número do pedido..."
+        class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all">
+    </div>
+
+    <!-- Filters -->
+    <div class="flex gap-2 mb-4 overflow-x-auto pb-1 -mx-5 px-5" id="mp-filtros">
+      <button onclick="meus_pedidos_filtrar('todos')" data-filtro="todos" class="mp-filtro-btn flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-gray-900 text-white">Todos</button>
+      <button onclick="meus_pedidos_filtrar('pendentes')" data-filtro="pendentes" class="mp-filtro-btn flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600">Pendentes</button>
+      <button onclick="meus_pedidos_filtrar('entregues')" data-filtro="entregues" class="mp-filtro-btn flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600">Entregues</button>
+      <button onclick="meus_pedidos_filtrar('cancelados')" data-filtro="cancelados" class="mp-filtro-btn flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600">Cancelados</button>
+    </div>
+
+    <!-- Orders List -->
+    <div id="mp-lista" class="space-y-3"></div>
+
+    <!-- Empty State -->
+    <div id="mp-vazio" class="hidden text-center py-10">
+      <div class="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
+        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      </div>
+      <p class="text-sm font-semibold text-gray-500">Nenhum pedido encontrado</p>
+      <p class="text-xs text-gray-400 mt-1">Tente ajustar os filtros ou a busca</p>
+    </div>
+
+    <!-- Back to top -->
+    <div class="h-8"></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+
+  var pedidos = [
+    { id: 'PED-10428', data: '2025-07-18T14:32:00', valor: 2890.50, status: 'entregue', itens: 5, cliente: 'Construtora Horizonte', responsavel: 'Carlos M.', pagamento: 'boleto', temDevolucao: false },
+    { id: 'PED-10427', data: '2025-07-18T11:05:00', valor: 1340.00, status: 'entregue', itens: 3, cliente: 'Mendes & Associados', responsavel: 'Ana P.', pagamento: 'pix', temDevolucao: false },
+    { id: 'PED-10426', data: '2025-07-17T16:48:00', valor: 5670.00, status: 'entregue', itens: 8, cliente: 'Prefeitura Municipal', responsavel: 'Roberto L.', pagamento: 'boleto', temDevolucao: true },
+    { id: 'PED-10425', data: '2025-07-17T09:22:00', valor: 890.90, status: 'cancelado', itens: 2, cliente: 'Lima Transportes', responsavel: 'Juliana F.', pagamento: 'pix', temDevolucao: false },
+    { id: 'PED-10424', data: '2025-07-16T15:10:00', valor: 4250.00, status: 'entregue', itens: 6, cliente: 'Silva & Cia Ltda', responsavel: 'Paulo R.', pagamento: 'cartao', temDevolucao: false },
+    { id: 'PED-10423', data: '2025-07-18T10:00:00', valor: 1780.00, status: 'pendente', itens: 4, cliente: 'Tech Solutions', responsavel: 'Marina S.', pagamento: 'boleto', temDevolucao: false },
+    { id: 'PED-10422', data: '2025-07-17T08:15:00', valor: 3200.00, status: 'pendente', itens: 7, cliente: 'Grupo Norte', responsavel: 'Felipe A.', pagamento: 'pix', temDevolucao: false },
+    { id: 'PED-10421', data: '2025-07-16T12:40:00', valor: 750.00, status: 'cancelado', itens: 1, cliente: 'Costa Advogados', responsavel: 'Beatriz N.', pagamento: 'pix', temDevolucao: false },
+    { id: 'PED-10420', data: '2025-07-18T13:05:00', valor: 5100.00, status: 'pendente', itens: 9, cliente: 'Prefeitura Municipal', responsavel: 'Roberto L.', pagamento: 'boleto', temDevolucao: false },
+    { id: 'PED-10419', data: '2025-07-15T09:30:00', valor: 2100.00, status: 'entregue', itens: 4, cliente: 'Construtora Horizonte', responsavel: 'Carlos M.', pagamento: 'cartao', temDevolucao: true }
+  ];
+
+  var itensMap = {
+    'PED-10428': [{nome:'Cimento CP II 50kg', qtd:20, vl:38.90},{nome:'Areia Média m³', qtd:3, vl:320.00},{nome:'Tijolo 8 furos', qtd:500, vl:1.45},{nome:'Ferro 10mm', qtd:30, vl:42.50},{nome:'Tinta Acrílica 18L', qtd:2, vl:189.90}],
+    'PED-10427': [{nome:'Papel A4 75g', qtd:20, vl:24.50},{nome:'Caneta Esferográfica', qtd:50, vl:3.20},{nome:'Grampeador Grande', qtd:5, vl:18.90}],
+    'PED-10426': [{nome:'Computador Desktop i5', qtd:5, vl:3200.00},{nome:'Monitor 24"', qtd:5, vl:890.00},{nome:'Teclado+Mouse USB', qtd:5, vl:89.90},{nome:'Cadeira Ergonômica', qtd:5, vl:980.00},{nome:'Mesa Escritório', qtd:3, vl:650.00},{nome:'Estante de Aço', qtd:4, vl:420.00},{nome:'Ar Condicionado', qtd:2, vl:2800.00},{nome:'Cabo de Rede 50m', qtd:2, vl:180.00}],
+    'PED-10425': [{nome:'Combustível Diesel S10', qtd:200, vl:4.45},{nome:'Óleo Lubrificante', qtd:10, vl:45.00}],
+    'PED-10424': [{nome:'EPI Kit Completo', qtd:20, vl:89.90},{nome:'Cinto de Segurança', qtd:15, vl:42.00},{nome:'Luva de Vaqueta', qtd:50, vl:18.50},{nome:'Óculos de Proteção', qtd:30, vl:12.90},{nome:'Capacete Segurança', qtd:10, vl:38.00},{nome:'Bota de Borracha', qtd:10, vl:89.90}],
+    'PED-10423': [{nome:'Mouse Pad', qtd:20, vl:15.90},{nome:'Suporte Notebook', qtd:10, vl:89.90},{nome:'Webcam HD', qtd:10, vl:129.90},{nome:'Headset USB', qtd:10, vl:149.90}],
+    'PED-10422': [{nome:'Manutenção Ar Condicionado', qtd:3, vl:450.00},{nome:'Filtro de Ar', qtd:6, vl:35.00},{nome:'Limpeza de Caixa D\'água', qtd:1, vl:450.00},{nome:'Instalação Elétrica', qtd:1, vl:1200.00},{nome:'Materiais Hidráulicos', qtd:1, vl:290.00},{nome:'Pintura Interna', qtd:1, vl:780.00},{nome:'Jardinagem', qtd:1, val:250.00}],
+    'PED-10421': [{nome:'Assinatura Revista Jurídica', qtd:1, vl:750.00}],
+    'PED-10420': [{nome:'Servidor Rack 2U', qtd:2, vl:8900.00},{nome:'Switch Gerenciável', qtd:2, vl:1200.00},{nome:'Nobreak 3kVA', qtd:2, vl:2100.00},{nome:'Cabos Ópticos', qtd:10, vl:89.00},{nome:'Roteador WiFi 6', qtd:3, vl:780.00},{nome:'Access Point', qtd:5, vl:450.00},{nome:'Patch Panel 24P', qtd:2, vl:320.00},{nome:'DVR 16C', qtd:1, vl:2800.00},{nome:'Câmeras IP', qtd:8, vl:420.00}],
+    'PED-10419': [{nome:'Papel A4 75g', qtd:100, vl:24.50},{nome:'Toner Impressora', qtd:4, vl:189.00},{nome:'Mouse Wireless', qtd:10, vl:79.90},{nome:'Teclado Sem Fio', qtd:10, vl:89.90}]
+  };
+
+  var historialMap = {
+    'PED-10428': [{dt:'2025-07-15 09:12', ev:'Pedido criado por Carlos M.'},{dt:'2025-07-15 09:14', ev:'Pagamento confirmado via boleto'},{dt:'2025-07-16 14:20', ev:'Pedido separado no estoque'},{dt:'2025-07-17 08:30', ev:'Rota atribuída — Motorista: João S.'},{dt:'2025-07-17 10:15', ev:'Saiu para entrega'},{dt:'2025-07-17 13:45', ev:'Entregue e confirmado pelo destinatário'}],
+    'PED-10427': [{dt:'2025-07-17 11:05', ev:'Pedido criado por Ana P.'},{dt:'2025-07-17 11:08', ev:'Pagamento via PIX confirmado'},{dt:'2025-07-17 15:00', ev:'Pedido separado'},{dt:'2025-07-17 16:30', ev:'Saiu para entrega'},{dt:'2025-07-17 17:22', ev:'Entregue'}],
+    'PED-10426': [{dt:'2025-07-17 08:00', ev:'Pedido criado por Roberto L.'},{dt:'2025-07-17 08:03', ev:'Boleto gerado e enviado'},{dt:'2025-07-17 14:00', ev:'Pagamento confirmado'},{dt:'2025-07-17 16:00', ev:'Pedido separado — 2 unidades aprovadas'},{dt:'2025-07-17 17:30', ev:'Saiu para entrega parcial'},{dt:'2025-07-17 19:00', ev:'Entrega parcial confirmada (5 de 8 itens)'}],
+    'PED-10425': [{dt:'2025-07-16 12:40', ev:'Pedido criado por Juliana F.'},{dt:'2025-07-16 12:42', ev:'Pagamento via PIX'},{dt:'2025-07-16 13:00', ev:'Cancelado — Cliente solicitou cancelamento'},{dt:'2025-07-16 13:05', ev:'Reembolso processado'}],
+    'PED-10424': [{dt:'2025-07-16 15:10', ev:'Pedido criado por Paulo R.'},{dt:'2025-07-16 15:12', ev:'Cartão de crédito confirmado'},{dt:'2025-07-16 16:00', ev:'Pedido separado'},{dt:'2025-07-17 07:00', ev:'Saiu para entrega'},{dt:'2025-07-17 09:30', ev:'Entregue'}],
+    'PED-10423': [{dt:'2025-07-18 10:00', ev:'Pedido criado por Marina S.'},{dt:'2025-07-18 10:02', ev:'Aguardando pagamento do boleto'}],
+    'PED-10422': [{dt:'2025-07-17 08:15', ev:'Pedido criado por Felipe A.'},{dt:'2025-07-17 08:17', ev:'PIX enviado para confirmação'},{dt:'2025-07-17 09:00', ev:'Pagamento confirmado'},{dt:'2025-07-17 10:00', ev:'Agendado para dia 18/07'},{dt:'2025-07-18 07:00', ev:'Equipe enviada ao local'}],
+    'PED-10421': [{dt:'2025-07-16 12:40', ev:'Pedido criado por Beatriz N.'},{dt:'2025-07-16 12:45', ev:'PIX confirmado'},{dt:'2025-07-16 13:00', ev:'Cancelado — Estoque indisponível'},{dt:'2025-07-16 13:05', ev:'Reembolso automático iniciado'}],
+    'PED-10420': [{dt:'2025-07-18 13:05', ev:'Pedido criado por Roberto L.'},{dt:'2025-07-18 13:07', ev:'Aguardando aprovação orçamentária'}],
+    'PED-10419': [{dt:'2025-07-15 09:30', ev:'Pedido criado por Carlos M.'},{dt:'2025-07-15 09:32', ev:'Cartão confirmado'},{dt:'2025-07-15 10:00', ev:'Separado no estoque'},{dt:'2025-07-15 11:30', ev:'Entregue'},{dt:'2025-07-15 14:00', ev:'Solicitação de devolução — 1x mouse com defeito'}]
+  };
+
+  var badgeCls = {entregue:'bg-emerald-50 text-emerald-700 border-emerald-200', pendente:'bg-amber-50 text-amber-700 border-amber-200', cancelado:'bg-red-50 text-red-600 border-red-200'};
+  var badgeLabel = {entregue:'Entregue', pendente:'Em andamento', cancelado:'Cancelado'};
+  var pagIcon = {boleto:'📄', pix:'📱', cartao:'💳'};
+  var pagLabel = {boleto:'Boleto', pix:'PIX', cartao:'Cartão'};
+
+  function meus_pedidos_inicializar() {
+    meus_pedidos_filtrar('todos');
+    document.getElementById('mp-busca').addEventListener('input', function(e){
+      var q = e.target.value.toLowerCase().trim();
+      meus_pedidos_renderizar(meus_pedidos_filtroAtual, q);
+    });
+  }
+
+  var meus_pedidos_filtroAtual = 'todos';
+
+  function meus_pedidos_filtrar(f){
+    meus_pedidos_filtroAtual = f;
+    document.querySelectorAll('.mp-filtro-btn').forEach(function(b){
+      if(b.dataset.filtro === f){
+        b.className = 'mp-filtro-btn flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-gray-900 text-white';
+      } else {
+        b.className = 'mp-filtro-btn flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200';
+      }
+    });
+    meus_pedidos_renderizar(f, document.getElementById('mp-busca').value.toLowerCase().trim());
+  }
+
+  function meus_pedidos_renderizar(filtro, busca){
+    var lista = document.getElementById('mp-lista');
+    var vazio = document.getElementById('mp-vazio');
+    var html = '';
+    var count = 0;
+    for(var i = 0; i < pedidos.length; i++){
+      var p = pedidos[i];
+      if(filtro !== 'todos' && p.status !== filtro) continue;
+      if(busca && p.id.toLowerCase().indexOf(busca) === -1) continue;
+      count++;
+      var isLast = i === pedidos.length - 1;
+      var inicial = p.responsavel.split(' ').map(function(w){return w[0];}).join('').slice(0,2);
+      var bgClass = ['bg-blue-100','bg-emerald-100','bg-amber-100','bg-rose-100','bg-indigo-100','bg-teal-100'][count % 6];
+      html += '<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 active:scale-[0.98] transition-all cursor-pointer" onclick="meus_pedidos_abrirDetalhe(\''+p.id+'\')">';
+      html += '<div class="flex items-start justify-between mb-2">';
+      html += '<div class="flex items-center gap-2.5">';
+      html += '<div class="w-9 h-9 rounded-full '+bgClass+' flex items-center justify-center text-xs font-bold text-gray-700 flex-shrink-0">'+inicial+'</div>';
+      html += '<div>';
+      html += '<p class="text-sm font-semibold text-gray-900">'+p.id+'</p>';
+      html += '<p class="text-xs text-gray-400">'+dataBR(p.data)+'</p>';
+      html += '</div></div>';
+      html += '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border '+badgeCls[p.status]+'">'+badgeLabel[p.status]+'</span>';
+      html += '</div>';
+      html += '<div class="flex items-center justify-between mt-3">';
+      html += '<div>';
+      html += '<p class="text-lg font-display font-bold text-gray-900">'+brl(p.valor)+'</p>';
+      html += '<p class="text-xs text-gray-400">'+p.itens+' item(ns) · '+pagIcon[p.pagamento]+' '+pagLabel[p.pagamento]+'</p>';
+      html += '</div>';
+      html += '<svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>';
+      html += '</div></div>';
+    }
+    lista.innerHTML = html;
+    vazio.classList.toggle('hidden', count > 0);
+  }
+
+  function meus_pedidos_abrirDetalhe(pid){
+    var p = pedidos.find(function(x){return x.id === pid;});
+    if(!p) return;
+    var itens = itensMap[pid] || [];
+    var hist = historialMap[pid] || [];
+    var ini = p.responsavel.split(' ').map(function(w){return w[0];}).join('').slice(0,2);
+    var bg = ['bg-blue-100','bg-emerald-100','bg-amber-100','bg-rose-100','bg-indigo-100','bg-teal-100'][Math.floor(Math.random()*6)];
+    var totalItens = itens.reduce(function(s,it){return s + it.qtd;}, 0);
+
+    var h = '';
+    h += '<div class="p-5">';
+
+    // Header do pedido
+    h += '<div class="flex items-center justify-between mb-4">';
+    h += '<div class="flex items-center gap-3">';
+    h += '<div class="w-10 h-10 rounded-full '+bg+' flex items-center justify-center text-sm font-bold text-gray-700">'+ini+'</div>';
+    h += '<div><p class="font-display font-bold text-gray-900">'+p.id+'</p><p class="text-xs text-gray-400">'+p.cliente+'</p></div>';
+    h += '</div>';
+    h += '<span class="px-3 py-1 rounded-full text-xs font-bold border '+badgeCls[p.status]+'">'+badgeLabel[p.status]+'</span>';
+    h += '</div>';
+
+    // Info grid
+    h += '<div class="grid grid-cols-2 gap-2 mb-4">';
+    h += '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Data</p><p class="text-sm font-semibold text-gray-800">'+dataBR(p.data)+'</p></div>';
+    h += '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Pagamento</p><p class="text-sm font-semibold text-gray-800">'+pagIcon[p.pagamento]+' '+pagLabel[p.pagamento]+'</p></div>';
+    h += '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Itens</p><p class="text-sm font-semibold text-gray-800">'+totalItens+' unidades</p></div>';
+    h += '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Valor Total</p><p class="text-sm font-semibold text-blue-600">'+brl(p.valor)+'</p></div>';
+    h += '</div>';
+
+    // Timeline
+    h += '<div class="mb-4">';
+    h += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Histórico</p>';
+    if(hist.length > 0){
+      h += '<div class="space-y-0">';
+      for(var j = 0; j < hist.length; j++){
+        var ev = hist[j];
+        var isLast = j === hist.length - 1;
+        h += '<div class="flex gap-3">';
+        h += '<div class="flex flex-col items-center">';
+        h += '<div class="w-2.5 h-2.5 rounded-full bg-gray-800 flex-shrink-0"></div>';
+        if(!isLast) h += '<div class="w-px h-8 bg-gray-200 mt-1"></div>';
+        h += '</div>';
+        h += '<div class="pb-3"><p class="text-xs text-gray-700 leading-relaxed">'+ev.ev+'</p><p class="text-[10px] text-gray-400 mt-0.5">'+ev.dt+'</p></div>';
+        h += '</div>';
+      }
+      h += '</div>';
+    }
+    h += '</div>';
+
+    // Items
+    h += '<div class="mb-4">';
+    h += '<p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Itens do Pedido</p>';
+    h += '<div class="space-y-1.5">';
+    for(var k = 0; k < itens.length; k++){
+      var it = itens[k];
+      h += '<div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">';
+      h += '<div class="flex-1 min-w-0">';
+      h += '<p class="text-sm text-gray-800 truncate">'+it.nome+'</p>';
+      h += '<p class="text-xs text-gray-400">Qtd: '+it.qtd+'</p>';
+      h += '</div>';
+      h += '<p class="text-sm font-semibold text-gray-700 ml-2">'+brl(it.vl)+'</p>';
+      h += '</div>';
+    }
+    h += '</div>';
+    h += '<div class="flex justify-between items-center mt-3 pt-2 border-t border-gray-200">';
+    h += '<span class="text-sm font-semibold text-gray-700">Total</span>';
+    h += '<span class="text-base font-display font-bold text-gray-900">'+brl(p.valor)+'</span>';
+    h += '</div>';
+    h += '</div>';
+
+    // Invoice button
+    h += '<button onclick="toast(\'Nota fiscal aberta em nova aba\',\'info\'); window.open(\'#\',\'_blank\')" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors mb-3">';
+    h += '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
+    h += '<span class="text-sm font-semibold text-gray-700">Ver Nota Fiscal</span>';
+    h += '</button>';
+
+    // Actions
+    if(p.status === 'entregue' && p.temDevolucao){
+      h += '<button onclick="fecharModal(); mostrarTela(\'solicitacao-devolucao\'); toast(\'Devolução iniciada para '+p.id+'\',\'info\')" class="w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold active:scale-95 transition-all mb-2">Solicitar Devolução</button>';
+    } else if(p.status === 'entregue'){
+      h += '<button onclick="toast(\'Pedido recebido com sucesso\',\'ok\')" class="w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold active:scale-95 transition-all mb-2">Confirmar Recebimento</button>';
+    } else if(p.status === 'pendente'){
+      h += '<button onclick="mostrarTela(\'chat-suporte\'); fecharModal(); toast(\'Abrindo chat sobre '+p.id+'\',\'info\')" class="w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold active:scale-95 transition-all mb-2">Suporte do Pedido</button>';
+    } else if(p.status === 'cancelado'){
+      h += '<button onclick="mostrarTela(\'catalogo-de-produtos\'); fecharModal()" class="w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold active:scale-95 transition-all mb-2">Fazer Novo Pedido</button>';
+    }
+
+    // WhatsApp
+    h += '<button onclick="toast(\'Abrindo WhatsApp para '+p.cliente+'\',\'info\')" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">';
+    h += '<svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+    h += 'Contatar por WhatsApp';
+    h += '</button>';
+
+    h += '</div>';
+
+    abrirModal(h, 'Detalhe do Pedido ' + p.id);
+  }
+
+  window.meus_pedidos_filtrar = meus_pedidos_filtrar;
+  window.meus_pedidos_abrirDetalhe = meus_pedidos_abrirDetalhe;
+  window.meus_pedidos_inicializar = meus_pedidos_inicializar;
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', meus_pedidos_inicializar);
+  } else {
+    meus_pedidos_inicializar();
+  }
+})();
+</script>
+
     <!-- TELAS -->
     </main>
 
