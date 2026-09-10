@@ -316,7 +316,413 @@
 
     <!-- Conteúdo Principal -->
     <main class="flex-1 overflow-y-auto pb-20">
-      <!-- TELAS -->
+      <section data-tela="catalogo-de-produtos" class="hidden">
+  <div class="catalogo-entrada flex flex-col gap-4 pb-24">
+    <!-- Cabeçalho da tela -->
+    <div class="px-4 pt-4">
+      <div class="flex items-center justify-between mb-1">
+        <div>
+          <p class="text-sm text-gray-500 font-body">Bom dia, equipe</p>
+          <h1 class="text-xl font-display font-bold text-gray-900">Catálogo</h1>
+        </div>
+        <div class="relative">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%231e3a5f'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='white' font-size='14' font-family='sans-serif'%3EMA%3C/text%3E%3C/svg%3E" alt="Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-marca-200">
+          <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+        </div>
+      </div>
+      <p class="text-xs text-gray-400 font-body -mt-0.5 mb-3">São Paulo, 14 de julho de 2025</p>
+      <!-- Busca -->
+      <button onclick="catalogo_de_produtos_abrirBusca()" class="w-full flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3 text-left transition hover:bg-gray-200 active:scale-[0.98]">
+        <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="text-sm text-gray-400 font-body">Buscar produto, material ou serviço...</span>
+      </button>
+    </div>
+
+    <!-- Categorias -->
+    <div class="catalogo-categorias-scroll">
+      <div id="catalogo-lista-categorias" class="flex gap-2.5 px-4 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width:none;-ms-overflow-style:none;">
+      </div>
+    </div>
+
+    <!-- Seção destaque / Banner -->
+    <div class="px-4">
+      <div onclick="catalogo_de_produtos_abrirPromocao()" class="relative bg-gradient-to-br from-marca-700 to-marca-900 rounded-2xl p-5 overflow-hidden cursor-pointer transition hover:shadow-lg active:scale-[0.98]">
+        <div class="absolute right-2 top-2 opacity-10">
+          <svg class="w-24 h-24 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <p class="text-marca-200 text-xs font-body font-medium uppercase tracking-wider">Oferta da semana</p>
+        <h2 class="text-white font-display font-bold text-lg mt-0.5">Kit Material de Escritório</h2>
+        <p class="text-marca-200 text-xs font-body mt-1">Até 25% off em pedidos acima de R$ 500</p>
+        <span class="inline-block mt-3 bg-white/20 text-white text-xs font-body font-semibold px-3 py-1.5 rounded-lg backdrop-blur-sm">Ver oferta</span>
+      </div>
+    </div>
+
+    <!-- Produtos em destaque -->
+    <div class="px-4">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-display font-semibold text-gray-900 text-base">Populares</h3>
+        <button onclick="catalogo_de_produtos_limparFiltro()" class="text-xs text-marca-600 font-body font-medium hover:text-marca-700">Ver todos</button>
+      </div>
+      <div id="catalogo-grid-produtos" class="grid grid-cols-2 gap-3">
+      </div>
+    </div>
+
+    <!-- Estado vazio (escondido por padrão) -->
+    <div id="catalogo-estado-vazio" class="hidden flex-col items-center justify-center py-16 px-8 text-center">
+      <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+        <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="1.5"/><path d="M21 21l-4.35-4.35" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <p class="font-display font-semibold text-gray-700 text-base">Nenhum produto encontrado</p>
+      <p class="text-xs text-gray-400 font-body mt-1">Tente outra busca ou categoria</p>
+      <button onclick="catalogo_de_produtos_limparFiltro()" class="mt-4 bg-marca-600 text-white text-sm font-body font-medium px-5 py-2.5 rounded-xl transition hover:bg-marca-700 active:scale-95">Limpar filtros</button>
+    </div>
+  </div>
+
+  <!-- Carrinho flutuante -->
+  <button onclick="mostrarTela('meu-carrinho')" id="catalogo-btn-carrinho" class="hidden fixed bottom-6 right-4 z-40 bg-marca-600 text-white rounded-full w-14 h-14 shadow-xl flex items-center justify-center transition hover:bg-marca-700 active:scale-90">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="21" r="1" fill="currentColor" stroke="none"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="catalogo-badge-carrinho" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center font-body">0</span>
+  </button>
+
+  <!-- Modal: Busca e Filtros -->
+  <div id="catalogo-modal-busca" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="catalogo_de_produtos_fecharBusca()"></div>
+    <div class="absolute top-0 left-0 right-0 bg-white rounded-b-3xl shadow-2xl p-5 transform transition-transform duration-300" style="max-width:430px;margin:0 auto;">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="flex-1 flex items-center bg-gray-100 rounded-xl px-4 py-3">
+          <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="text" id="catalogo-input-busca" placeholder="Buscar produto..." class="bg-transparent text-sm font-body text-gray-900 placeholder-gray-400 outline-none w-full" oninput="catalogo_de_produtos_buscar(this.value)">
+        </div>
+        <button onclick="catalogo_de_produtos_fecharBusca()" class="text-marca-600 text-sm font-body font-medium">Cancelar</button>
+      </div>
+      <!-- Filtro por categoria -->
+      <div class="mb-3">
+        <p class="text-xs text-gray-500 font-body font-medium uppercase tracking-wider mb-2">Categoria</p>
+        <div id="catalogo-filtro-categorias" class="flex flex-wrap gap-2"></div>
+      </div>
+      <!-- Filtro por faixa de preço -->
+      <div class="mb-3">
+        <p class="text-xs text-gray-500 font-body font-medium uppercase tracking-wider mb-2">Faixa de preço</p>
+        <div class="flex gap-2">
+          <button onclick="catalogo_de_produtos_filtrarPreco('todos')" class="catalogo-filtro-preco flex-1 text-xs font-body py-2 rounded-lg border border-gray-200 transition hover:border-marca-300 bg-white" data-preco="todos">Todos</button>
+          <button onclick="catalogo_de_produtos_filtrarPreco('ate50')" class="catalogo-filtro-preco flex-1 text-xs font-body py-2 rounded-lg border border-gray-200 transition hover:border-marca-300 bg-white" data-preco="ate50">Até R$ 50</button>
+          <button onclick="catalogo_de_produtos_filtrarPreco('50a200')" class="catalogo-filtro-preco flex-1 text-xs font-body py-2 rounded-lg border border-gray-200 transition hover:border-marca-300 bg-white" data-preco="50a200">R$ 50 a R$ 200</button>
+          <button onclick="catalogo_de_produtos_filtrarPreco('acima200')" class="catalogo-filtro-preco flex-1 text-xs font-body py-2 rounded-lg border border-gray-200 transition hover:border-marca-300 bg-white" data-preco="acima200">Acima de R$ 200</button>
+        </div>
+      </div>
+      <!-- Resultados da busca -->
+      <div id="catalogo-resultados-busca" class="max-h-60 overflow-y-auto space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Detalhe do Produto -->
+  <div id="catalogo-modal-detalhe" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="catalogo_de_produtos_fecharDetalhe()"></div>
+    <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl overflow-hidden transform transition-transform duration-300" style="max-width:430px;margin:0 auto;">
+      <div id="catalogo-conteudo-detalhe" class="p-5 pb-8 max-h-[80vh] overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const CATEGORIAS = [
+        { id: 'escritorio', nome: 'Material de Escritório', cor: 'bg-blue-100 text-blue-700', icone: '📎' },
+        { id: 'limpeza', nome: 'Limpeza', cor: 'bg-teal-100 text-teal-700', icone: '🧹' },
+        { id: 'ti', nome: 'TI', cor: 'bg-indigo-100 text-indigo-700', icone: '💻' },
+        { id: 'copa', nome: 'Copa', cor: 'bg-orange-100 text-orange-700', icone: '☕' },
+        { id: 'seguranca', nome: 'Segurança', cor: 'bg-red-100 text-red-700', icone: '🛡️' },
+        { id: 'farmacia', nome: 'Farmácia', cor: 'bg-green-100 text-green-700', icone: '💊' },
+        { id: 'manutencao', nome: 'Manutenção', cor: 'bg-amber-100 text-amber-700', icone: '🔧' },
+        { id: 'rh', nome: 'Recursos Humanos', cor: 'bg-pink-100 text-pink-700', icone: '👥' },
+        { id: 'marketing', nome: 'Marketing', cor: 'bg-purple-100 text-purple-700', icone: '📢' },
+        { id: 'logistica', nome: 'Logística', cor: 'bg-cyan-100 text-cyan-700', icone: '📦' },
+        { id: 'financeiro', nome: 'Financeiro', cor: 'bg-emerald-100 text-emerald-700', icone: '💰' },
+        { id: 'juridico', nome: 'Jurídico', cor: 'bg-slate-100 text-slate-700', icone: '⚖️' }
+      ];
+
+      const PRODUTOS = [
+        { id: 1, nome: 'Caneta Esferográfica Azul cx/50', categoria: 'escritorio', preco: 12.90, unidade: 'cx', estoque: 340, codigo: 'MAT-001', descricao: 'Canetas esferográficas ponta média, tinta azul. Ideal para escritório. Caixa com 50 unidades.', imagem: 'caneta' },
+        { id: 2, nome: 'Papel A4 sulfite 75g cx/10', categoria: 'escritorio', preco: 28.50, unidade: 'cx', estoque: 200, codigo: 'MAT-002', descricao: 'Papel sulfite branco A4 75g/m². Caixa com 10 resmas de 500 folhas cada.', imagem: 'papel' },
+        { id: 3, nome: 'Grampeador de Mesa Grande', categoria: 'escritorio', preco: 34.90, unidade: 'un', estoque: 85, codigo: 'MAT-003', descricao: 'Grampeador metálico capacidade até 50 folhas. Cor preta.', imagem: 'grampeador' },
+        { id: 4, nome: 'Post-it 76x76mm amarelo', categoria: 'escritorio', preco: 8.75, unidade: 'blc', estoque: 500, codigo: 'MAT-004', descricao: 'Bloco de notas adesivas amarelas. 100 folhas por bloco.', imagem: 'postit' },
+        { id: 5, nome: 'Marcador Permanente Preto', categoria: 'escritorio', preco: 6.20, unidade: 'un', estoque: 280, codigo: 'MAT-005', descricao: 'Marcador permanente ponta grossa. Tinta preta resistente à água.', imagem: 'marcador' },
+        { id: 6, nome: 'Pasta Catálogo 50 Envelopes', categoria: 'escritorio', preco: 22.00, unidade: 'un', estoque: 120, codigo: 'MAT-006', descricao: 'Pasta catálogo com 50 envelopes plásticos. Capa preta.', imagem: 'pasta' },
+        { id: 7, nome: 'Detergente Líquido 5L', categoria: 'limpeza', preco: 15.90, unidade: 'un', estoque: 90, codigo: 'LIM-001', descricao: 'Detergente líquido neutro concentrado. Galão 5 litros.', imagem: 'detergente' },
+        { id: 8, nome: 'Papel Toalha Interfolhado', categoria: 'limpeza', preco: 18.40, unidade: 'pct', estoque: 160, codigo: 'LIM-002', descricao: 'Papel toalha interfolhado 2 dobras. Pacote com 1000 folhas.', imagem: 'papel-toalha' },
+        { id: 9, nome: 'Desinfetante Lavanda 5L', categoria: 'limpeza', preco: 19.90, unidade: 'un', estoque: 75, codigo: 'LIM-003', descricao: 'Desinfetante concentrado aroma lavanda. Galão 5 litros.', imagem: 'desinfetante' },
+        { id: 10, nome: 'Saco de Lixo 100L preto cx/100', categoria: 'limpeza', preco: 32.00, unidade: 'cx', estoque: 50, codigo: 'LIM-004', descricao: 'Sacos de lixo 100 litros resistentes. Caixa com 100 unidades.', imagem: 'saco-lixo' },
+        { id: 11, nome: 'Luvas de Limpeza L (par)', categoria: 'limpeza', preco: 4.50, unidade: 'par', estoque: 400, codigo: 'LIM-005', descricao: 'Luvas de borracha resistente, tamanho L. Par.', imagem: 'luvas' },
+        { id: 12, nome: 'Mousepad Ergonômico', categoria: 'ti', preco: 45.00, unidade: 'un', estoque: 60, codigo: 'TEC-001', descricao: 'Mousepad com apoio de pulso em gel. Dimensões 25x21cm.', imagem: 'mousepad' },
+        { id: 13, nome: 'Cabo USB-C 2m', categoria: 'ti', preco: 29.90, unidade: 'un', estoque: 150, codigo: 'TEC-002', descricao: 'Cabo USB-C para USB-A 2.0. Comprimento 2 metros. Nylon trançado.', imagem: 'cabo' },
+        { id: 14, nome: 'Pendrive 64GB USB 3.0', categoria: 'ti', preco: 59.90, unidade: 'un', estoque: 80, codigo: 'TEC-003', descricao: 'Pendrive 64GB velocidade USB 3.0. Design compacto metálico.', imagem: 'pendrive' },
+        { id: 15, nome: 'Suporte para Notebook ajustável', categoria: 'ti', preco: 89.00, unidade: 'un', estoque: 40, codigo: 'TEC-004', descricao: 'Suporte de alumínio para notebook 10-17 polegadas. Ajustável em altura.', imagem: 'suporte-note' },
+        { id: 16, nome: 'Filtro de Linha 6 tomadas', categoria: 'ti', preco: 42.00, unidade: 'un', estoque: 55, codigo: 'TEC-005', descricao: 'Filtro de linha com 6 tomadas e 2 USB. Cabo 1,5m.', imagem: 'filtro' },
+        { id: 17, nome: 'Café Torrado e Moído 500g', categoria: 'copa', preco: 16.90, unidade: 'pct', estoque: 200, codigo: 'COP-001', descricao: 'Café especial torrado e moído. Pacote 500g. Sabor suave.', imagem: 'cafe' },
+        { id: 18, nome: 'Açúcar Cristal 1kg', categoria: 'copa', preco: 5.40, unidade: 'pct', estoque: 300, codigo: 'COP-002', descricao: 'Açúcar cristal orgânico. Pacote 1kg.', imagem: 'acucar' },
+        { id: 19, nome: 'Água Mineral 20L', categoria: 'copa', preco: 9.90, unidade: 'un', estoque: 120, codigo: 'COP-003', descricao: 'Água mineral sem gás galão 20 litros.', imagem: 'agua' },
+        { id: 20, nome: 'Chá Mate Leão cx/25', categoria: 'copa', preco: 11.50, unidade: 'cx', estoque: 180, codigo: 'COP-004', descricao: 'Chá mate sabor limão. Caixa com 25 saquinhos.', imagem: 'cha' },
+        { id: 21, nome: 'Extintor Pó ABC 6kg', categoria: 'seguranca', preco: 135.00, unidade: 'un', estoque: 25, codigo: 'SEG-001', descricao: 'Extintor de incêndio pó ABC 6kg. Certificado Inmetro. Recarga inclusa.', imagem: 'extintor' },
+        { id: 22, nome: 'Cinto de Segurança 3 pontos', categoria: 'seguranca', preco: 189.00, unidade: 'un', estoque: 15, codigo: 'SEG-002', descricao: 'Cinto de segurança NR-6 para veículos. Universal.', imagem: 'cinto' },
+        { id: 23, nome: 'Luva de Segurança Nitrílica', categoria: 'seguranca', preco: 7.80, unidade: 'par', estoque: 350, codigo: 'SEG-003', descricao: 'Luva de segurança nitrílica resistente. Par.', imagem: 'luva-seg' },
+        { id: 24, nome: 'Dipirona Sódica 500mg cx/200', categoria: 'farmacia', preco: 22.00, unidade: 'cx', estoque: 90, codigo: 'FAR-001', descricao: 'Dipirona sódica 500mg. Caixa com 200 comprimidos.', imagem: 'dipirona' },
+        { id: 25, nome: 'Curativo Adesivo Diversos', categoria: 'farmacia', preco: 8.90, unidade: 'cx', estoque: 140, codigo: 'FAR-002', descricao: 'Curativos adesivos Diversos tamanhos. Caixa com 100 unidades.', imagem: 'curativo' },
+        { id: 26, nome: 'Álcool Gel 70% 5L', categoria: 'farmacia', preco: 38.00, unidade: 'un', estoque: 100, codigo: 'FAR-003', descricao: 'Álcool gel 70% antisséptico. Galão 5 litros.', imagem: 'alcool' },
+        { id: 27, nome: 'Chave de Fenda Philips', categoria: 'manutencao', preco: 18.50, unidade: 'un', estoque: 60, codigo: 'MAN-001', descricao: 'Chave de fenda Philips ponta magnetizada. Cabo emborrachado.', imagem: 'chave' },
+        { id: 28, nome: 'Fita Adesiva Larga 48mm', categoria: 'manutencao', preco: 6.90, unidade: 'un', estoque: 180, codigo: 'MAN-002', descricao: 'Fita adesiva transparente larga 48mm. Rolo 30 metros.', imagem: 'fita' },
+        { id: 29, nome: 'Pilhas AA Alcalinas 4un', categoria: 'manutencao', preco: 14.90, unidade: 'pct', estoque: 200, codigo: 'MAN-003', descricao: 'Pilhas alcalinas AA pack com 4 unidades. Duração prolongada.', imagem: 'pilhas' },
+        { id: 30, nome: 'Lâmpada LED 9W E27', categoria: 'manutencao', preco: 12.00, unidade: 'un', estoque: 250, codigo: 'MAN-004', descricao: 'Lâmpada LED 9W equivalente a 60W. Base E27. Luz branca quente.', imagem: 'lampada' },
+        { id: 31, nome: 'Cartão de Visita Premium', categoria: 'rh', preco: 0.25, unidade: 'un', estoque: 9999, codigo: 'RH-001', descricao: 'Cartão de visita papel couchê 250g. 9x5cm. Impressão frente e verso.', imagem: 'cartao' },
+        { id: 32, nome: 'Cracha de Identificação PVC', categoria: 'rh', preco: 8.00, unidade: 'un', estoque: 500, codigo: 'RH-002', descricao: 'Cracha de identificação PVC personalizado. Com presilha.', imagem: 'cracha' },
+        { id: 33, nome: 'Camiseta Polo Uniforme G', categoria: 'rh', preco: 55.00, unidade: 'un', estoque: 45, codigo: 'RH-003', descricao: 'Camiseta polo uniforme tamanho G. Malha piacard. Logo bordado.', imagem: 'camiseta' },
+        { id: 34, nome: 'Banner em Lona 1x2m', categoria: 'marketing', preco: 180.00, unidade: 'un', estoque: 20, codigo: 'MKT-001', descricao: 'Banner em lona vinílica 1x2m. Impressão digital incluso arquivo.', imagem: 'banner' },
+        { id: 35, nome: 'Cartaz A3 Colorido', categoria: 'marketing', preco: 8.50, unidade: 'un', estoque: 500, codigo: 'MKT-002', descricao: 'Cartaz A3 papel couché brilho 150g. Impressão colorida frente.', imagem: 'cartaz' },
+        { id: 36, nome: 'Adesivo Vinil 15x15cm', categoria: 'marketing', preco: 3.50, unidade: 'un', estoque: 1000, codigo: 'MKT-003', descricao: 'Adesivo vinil cortado 15x15cm. Resistente a intempéries.', imagem: 'adesivo' },
+        { id: 37, nome: 'Caixa de Papelão P', categoria: 'logistica', preco: 4.20, unidade: 'un', estoque: 600, codigo: 'LOG-001', descricao: 'Caixa de papelão ondulado tamanho P. 30x20x15cm.', imagem: 'caixa' },
+        { id: 38, nome: 'Fita Crepe 48mmx50m', categoria: 'logistica', preco: 9.50, unidade: 'un', estoque: 200, codigo: 'LOG-002', descricao: 'Fita crepe 48mm x 50 metros. Para proteção e pintura.', imagem: 'fita-crepe' },
+        { id: 39, nome: 'Pallet de Madeira P', categoria: 'logistica', preco: 35.00, unidade: 'un', estoque: 100, codigo: 'LOG-003', descricao: 'Pallet de madeira tratada tamanho P. 80x60x14cm.', imagem: 'pallet' },
+        { id: 40, nome: 'Nota Fiscal Eletrônica', categoria: 'financeiro', preco: 0.15, unidade: 'un', estoque: 9999, codigo: 'FIN-001', descricao: 'Emissão de nota fiscal eletrônica NF-e/NFC-e. Valor por documento.', imagem: 'nfe' },
+        { id: 41, nome: 'Recibo de Pagamento', categoria: 'financeiro', preco: 0.10, unidade: 'un', estoque: 9999, codigo: 'FIN-002', descricao: 'Recibo de pagamento padrão. Valor por documento emitido.', imagem: 'recibo' },
+        { id: 42, nome: 'Contrato Padrão Editável', categoria: 'juridico', preco: 45.00, unidade: 'un', estoque: 9999, codigo: 'JUR-001', descricao: 'Modelo de contrato editável em Word. Diversos tipos disponíveis.', imagem: 'contrato' },
+        { id: 43, nome: 'Certidão Negativa Federal', categoria: 'juridico', preco: 28.00, unidade: 'un', estoque: 9999, codigo: 'JUR-002', descricao: 'Emissão de certidão negativa federal. Consulta e emissão.', imagem: 'certidao' },
+        { id: 44, nome: 'Bateria Recarregável AA 4un', categoria: 'ti', preco: 35.00, unidade: 'pct', estoque: 70, codigo: 'TEC-006', descricao: 'Baterias recarregáveis NiMH AA 2000mAh. Pack com 4 + carregador.', imagem: 'bateria' },
+        { id: 45, nome: 'Organizador de Mesa', categoria: 'escritorio', preco: 27.90, unidade: 'un', estoque: 90, codigo: 'MAT-007', descricao: 'Organizador de mesa em acrílico transparente. Compartimentos múltiplos.', imagem: 'organizador' }
+      ];
+
+      const IMAGENS_PRODUTO = {
+        'caneta': 'from-blue-200 to-blue-400', 'papel': 'from-gray-100 to-gray-300', 'grampeador': 'from-gray-500 to-gray-700',
+        'postit': 'from-yellow-200 to-yellow-400', 'marcador': 'from-purple-300 to-purple-500', 'pasta': 'from-slate-300 to-slate-500',
+        'organizador': 'from-slate-200 to-slate-400', 'detergente': 'from-teal-200 to-teal-400', 'papel-toalha': 'from-blue-50 to-blue-200',
+        'desinfetante': 'from-green-200 to-green-400', 'saco-lixo': 'from-gray-400 to-gray-600', 'luvas': 'from-yellow-100 to-yellow-300',
+        'mousepad': 'from-gray-600 to-gray-800', 'cabo': 'from-gray-400 to-gray-600', 'pendrive': 'from-indigo-300 to-indigo-500',
+        'suporte-note': 'from-gray-500 to-gray-700', 'filtro': 'from-white to-gray-200', 'bateria': 'from-green-300 to-green-500',
+        'cafe': 'from-amber-700 to-amber-900', 'acucar': 'from-white to-gray-100', 'agua': 'from-blue-200 to-blue-400',
+        'cha': 'from-green-400 to-green-600', 'extintor': 'from-red-500 to-red-700', 'cinto': 'from-orange-400 to-orange-600',
+        'luva-seg': 'from-yellow-300 to-yellow-500', 'dipirona': 'from-red-100 to-red-300', 'curativo': 'from-pink-200 to-pink-400',
+        'alcool': 'from-cyan-200 to-cyan-400', 'chave': 'from-gray-500 to-gray-700', 'fita': 'from-gray-300 to-gray-500',
+        'pilhas': 'from-amber-400 to-amber-600', 'lampada': 'from-yellow-200 to-yellow-400', 'cartao': 'from-indigo-200 to-indigo-400',
+        'cracha': 'from-blue-300 to-blue-500', 'camiseta': 'from-sky-400 to-sky-600', 'banner': 'from-purple-300 to-purple-500',
+        'cartaz': 'from-pink-200 to-pink-400', 'adesivo': 'from-red-300 to-red-500', 'caixa': 'from-amber-600 to-amber-800',
+        'fita-crepe': 'from-orange-200 to-orange-400', 'pallet': 'from-yellow-700 to-yellow-900', 'nfe': 'from-emerald-300 to-emerald-500',
+        'recibo': 'from-slate-300 to-slate-500', 'contrato': 'from-slate-500 to-slate-700', 'certidao': 'from-blue-400 to-blue-600'
+      };
+
+      let carrinho = [];
+      let categoriaSelecionada = 'todas';
+      let filtroPrecoAtual = 'todos';
+      let termoBuscaAtual = '';
+
+      function inicializar() {
+        renderizarCategorias();
+        renderizarProdutos();
+        atualizarCarrinho();
+      }
+
+      function renderizarCategorias() {
+        const container = document.getElementById('catalogo-lista-categorias');
+        if (!container) return;
+        let html = '<button onclick="catalogo_de_produtos_selecionarCategoria(\'todas\')" class="catalogo-cat-btn flex-shrink-0 flex flex-col items-center justify-center w-[72px] h-[68px] rounded-xl border-2 transition ' + (categoriaSelecionada === 'todas' ? 'border-marca-600 bg-marca-50' : 'border-gray-100 bg-white hover:border-marca-200') + '" data-cat="todas"><span class="text-xl mb-0.5">🏪</span><span class="text-[10px] font-body font-medium ' + (categoriaSelecionada === 'todas' ? 'text-marca-700' : 'text-gray-500') + ' text-center leading-tight">Todos</span></button>';
+        CATEGORIAS.forEach(cat => {
+          const ativo = categoriaSelecionada === cat.id;
+          html += '<button onclick="catalogo_de_produtos_selecionarCategoria(\'' + cat.id + '\')" class="catalogo-cat-btn flex-shrink-0 flex flex-col items-center justify-center w-[72px] h-[68px] rounded-xl border-2 transition ' + (ativo ? 'border-marca-600 bg-marca-50' : 'border-gray-100 bg-white hover:border-marca-200') + '" data-cat="' + cat.id + '"><span class="text-xl mb-0.5">' + cat.icone + '</span><span class="text-[10px] font-body font-medium ' + (ativo ? 'text-marca-700' : 'text-gray-500') + ' text-center leading-tight">' + cat.nome + '</span></button>';
+        });
+        container.innerHTML = html;
+      }
+
+      function getProdutosFiltrados() {
+        return PRODUTOS.filter(p => {
+          const catMatch = categoriaSelecionada === 'todas' || p.categoria === categoriaSelecionada;
+          const precoMatch = filtroPrecoAtual === 'todos' || (filtroPrecoAtual === 'ate50' && p.preco <= 50) || (filtroPrecoAtual === '50a200' && p.preco > 50 && p.preco <= 200) || (filtroPrecoAtual === 'acima200' && p.preco > 200);
+          const buscaMatch = !termoBuscaAtual || p.nome.toLowerCase().includes(termoBuscaAtual.toLowerCase()) || p.codigo.toLowerCase().includes(termoBuscaAtual.toLowerCase());
+          return catMatch && precoMatch && buscaMatch;
+        });
+      }
+
+      function renderizarProdutos() {
+        const container = document.getElementById('catalogo-grid-produtos');
+        const estadoVazio = document.getElementById('catalogo-estado-vazio');
+        if (!container || !estadoVazio) return;
+        const produtos = getProdutosFiltrados();
+        if (produtos.length === 0) {
+          container.classList.add('hidden');
+          estadoVazio.classList.remove('hidden');
+          estadoVazio.classList.add('flex');
+          return;
+        }
+        container.classList.remove('hidden');
+        estadoVazio.classList.add('hidden');
+        estadoVazio.classList.remove('flex');
+        let html = '';
+        produtos.forEach(prod => {
+          const cat = CATEGORIAS.find(c => c.id === prod.categoria);
+          const imgGrad = IMAGENS_PRODUTO[prod.imagem] || 'from-gray-200 to-gray-400';
+          const inicial = prod.nome.charAt(0);
+          html += '<div onclick="catalogo_de_produtos_abrirDetalhe(' + prod.id + ')" class="card bg-white rounded-2xl p-3 cursor-pointer transition hover:shadow-md active:scale-[0.97] flex flex-col"><div class="w-full aspect-square rounded-xl bg-gradient-to-br ' + imgGrad + ' flex items-center justify-center mb-2.5 relative overflow-hidden"><span class="text-3xl font-display font-bold text-white/90 drop-shadow-sm">' + inicial + '</span><span class="absolute top-1.5 right-1.5 text-[9px] font-body font-medium px-1.5 py-0.5 rounded-md bg-white/80 text-gray-600">' + prod.codigo + '</span></div><p class="text-xs font-body text-gray-800 font-medium leading-snug line-clamp-2 flex-1">' + prod.nome + '</p><div class="flex items-center justify-between mt-2"><span class="text-sm font-body font-bold text-marca-700">' + brl(prod.preco) + '</span><span class="text-[10px] font-body text-gray-400">/' + prod.unidade + '</span></div><button onclick="event.stopPropagation();catalogo_de_produtos_adicionarCarrinho(' + prod.id + ')" class="mt-2 w-full bg-marca-600 text-white text-xs font-body font-semibold py-2 rounded-xl transition hover:bg-marca-700 active:scale-95 flex items-center justify-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-width="2.5" stroke-linecap="round"/></svg>Adicionar</button></div>';
+        });
+        container.innerHTML = html;
+      }
+
+      function getCarrinhoCount() {
+        return carrinho.reduce((s, i) => s + i.qtd, 0);
+      }
+
+      function atualizarCarrinho() {
+        const btn = document.getElementById('catalogo-btn-carrinho');
+        const badge = document.getElementById('catalogo-badge-carrinho');
+        const count = getCarrinhoCount();
+        if (btn) btn.classList.toggle('hidden', count === 0);
+        if (badge) {
+          badge.textContent = count > 99 ? '99+' : count;
+          badge.classList.toggle('scale-0', count === 0);
+        }
+      }
+
+      function selecionarCategoria(id) {
+        categoriaSelecionada = id;
+        renderizarCategorias();
+        renderizarProdutos();
+      }
+
+      function filtrarPreco(faixa) {
+        filtroPrecoAtual = faixa;
+        document.querySelectorAll('.catalogo-filtro-preco').forEach(b => {
+          const ativo = b.dataset.preco === faixa;
+          b.className = 'catalogo-filtro-preco flex-1 text-xs font-body py-2 rounded-lg border transition font-medium ' + (ativo ? 'border-marca-600 bg-marca-50 text-marca-700' : 'border-gray-200 bg-white text-gray-600 hover:border-marca-300');
+        });
+        renderizarProdutos();
+      }
+
+      function buscar(termo) {
+        termoBuscaAtual = termo.trim();
+        renderizarProdutos();
+        const resultados = document.getElementById('catalogo-resultados-busca');
+        if (!resultados) return;
+        if (!termoBuscaAtual) { resultados.innerHTML = ''; return; }
+        const encontrados = PRODUTOS.filter(p => p.nome.toLowerCase().includes(termoBuscaAtual.toLowerCase()) || p.codigo.toLowerCase().includes(termoBuscaAtual.toLowerCase()));
+        if (encontrados.length === 0) {
+          resultados.innerHTML = '<p class="text-center text-sm text-gray-400 font-body py-4">Nenhum resultado para "' + termoBuscaAtual + '"</p>';
+          return;
+        }
+        let html = '';
+        encontrados.forEach(prod => {
+          html += '<div onclick="catalogo_de_produtos_selecionarResultadoBusca(' + prod.id + ')" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer transition hover:bg-gray-100 active:scale-[0.98]"><div class="w-10 h-10 rounded-lg bg-gradient-to-br ' + (IMAGENS_PRODUTO[prod.imagem] || 'from-gray-200 to-gray-400') + ' flex items-center justify-center flex-shrink-0"><span class="text-sm font-display font-bold text-white">' + prod.nome.charAt(0) + '</span></div><div class="flex-1 min-w-0"><p class="text-sm font-body font-medium text-gray-800 truncate">' + prod.nome + '</p><p class="text-xs font-body text-gray-400">' + prod.codigo + '</p></div><span class="text-sm font-body font-bold text-marca-700 flex-shrink-0">' + brl(prod.preco) + '</span></div>';
+        });
+        resultados.innerHTML = html;
+      }
+
+      function selecionarResultadoBusca(id) {
+        fecharBusca();
+        setTimeout(() => abrirDetalhe(id), 200);
+      }
+
+      function abrirBusca() {
+        const modal = document.getElementById('catalogo-modal-busca');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          const input = document.getElementById('catalogo-input-busca');
+          if (input) input.focus();
+        }, 100);
+      }
+
+      function fecharBusca() {
+        const modal = document.getElementById('catalogo-modal-busca');
+        if (modal) modal.classList.add('hidden');
+        const input = document.getElementById('catalogo-input-busca');
+        if (input) input.value = '';
+        termoBuscaAtual = '';
+        const resultados = document.getElementById('catalogo-resultados-busca');
+        if (resultados) resultados.innerHTML = '';
+      }
+
+      function abrirDetalhe(id) {
+        const prod = PRODUTOS.find(p => p.id === id);
+        if (!prod) return;
+        const cat = CATEGORIAS.find(c => c.id === prod.categoria);
+        const imgGrad = IMAGENS_PRODUTO[prod.imagem] || 'from-gray-200 to-gray-400';
+        const modal = document.getElementById('catalogo-modal-detalhe');
+        const conteudo = document.getElementById('catalogo-conteudo-detalhe');
+        if (!modal || !conteudo) return;
+        const noCarrinho = carrinho.find(c => c.id === prod.id);
+        const qtdCarrinho = noCarrinho ? noCarrinho.qtd : 0;
+        conteudo.innerHTML = '<div class="flex items-center justify-between mb-4"><button onclick="catalogo_de_produtos_fecharDetalhe()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition"><svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-width="2.5" stroke-linecap="round"/></svg></button><span class="text-xs font-body font-medium text-gray-400 bg-gray-100 px-3 py-1 rounded-full">' + prod.codigo + '</span></div><div class="w-full aspect-video rounded-2xl bg-gradient-to-br ' + imgGrad + ' flex items-center justify-center mb-4 relative"><span class="text-6xl font-display font-bold text-white/80">' + prod.nome.charAt(0) + '</span></div><div class="flex items-start justify-between mb-2"><div><p class="text-base font-body font-bold text-gray-900">' + prod.nome + '</p><p class="text-xs font-body text-gray-400 mt-0.5 flex items-center gap-1">' + (cat ? cat.icone + ' ' : '') + (cat ? cat.nome : '') + '</p></div></div><p class="text-sm font-body text-gray-500 leading-relaxed mb-4">' + prod.descricao + '</p><div class="bg-gray-50 rounded-xl p-4 mb-4 space-y-2.5"><div class="flex justify-between"><span class="text-xs font-body text-gray-400">Preço unitário</span><span class="text-sm font-body font-semibold text-gray-800">' + brl(prod.preco) + ' / ' + prod.unidade + '</span></div><div class="flex justify-between"><span class="text-xs font-body text-gray-400">Estoque disponível</span><span class="text-sm font-body font-semibold ' + (prod.estoque > 50 ? 'text-green-600' : 'text-amber-600') + '">' + prod.estoque + ' ' + prod.unidade + '(s)</span></div><div class="flex justify-between"><span class="text-xs font-body text-gray-400">Código</span><span class="text-sm font-body font-medium text-gray-600">' + prod.codigo + '</span></div></div><div class="flex items-center gap-3 mb-5"><span class="text-sm font-body font-medium text-gray-600">Qtd:</span><div class="flex items-center border border-gray-200 rounded-xl overflow-hidden"><button onclick="catalogo_de_produtos_alterarQtdDetalhe(' + prod.id + ', -1)" class="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition text-gray-600 font-body font-bold text-lg active:scale-90">−</button><span id="catalogo-qtd-detalhe" class="w-10 h-10 flex items-center justify-center text-sm font-body font-bold text-gray-800 bg-white">' + Math.max(1, qtdCarrinho) + '</span><button onclick="catalogo_de_produtos_alterarQtdDetalhe(' + prod.id + ', 1)" class="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition text-gray-600 font-body font-bold text-lg active:scale-90">+</button></div></div><button onclick="catalogo_de_produtos_adicionarDoDetalhe(' + prod.id + ')" class="w-full bg-marca-600 text-white font-body font-semibold py-3.5 rounded-xl transition hover:bg-marca-700 active:scale-[0.97] flex items-center justify-center gap-2 shadow-lg shadow-marca-600/20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="21" r="1" fill="currentColor" stroke="none"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Adicionar ao Carrinho</button>';
+        modal.classList.remove('hidden');
+      }
+
+      function fecharDetalhe() {
+        const modal = document.getElementById('catalogo-modal-detalhe');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      function alterarQtdDetalhe(id, delta) {
+        const span = document.getElementById('catalogo-qtd-detalhe');
+        if (!span) return;
+        let qtd = parseInt(span.textContent) + delta;
+        if (qtd < 1) qtd = 1;
+        span.textContent = qtd;
+      }
+
+      function adicionarCarrinho(id) {
+        const prod = PRODUTOS.find(p => p.id === id);
+        if (!prod) return;
+        const existente = carrinho.find(c => c.id === id);
+        if (existente) {
+          existente.qtd += 1;
+        } else {
+          carrinho.push({ id: id, qtd: 1 });
+        }
+        atualizarCarrinho();
+        toast(prod.nome + ' adicionado ao carrinho', 'ok');
+      }
+
+      function adicionarDoDetalhe(id) {
+        const span = document.getElementById('catalogo-qtd-detalhe');
+        const qtd = span ? parseInt(span.textContent) : 1;
+        const prod = PRODUTOS.find(p => p.id === id);
+        if (!prod) return;
+        const existente = carrinho.find(c => c.id === id);
+        if (existente) {
+          existente.qtd += qtd;
+        } else {
+          carrinho.push({ id: id, qtd: qtd });
+        }
+        atualizarCarrinho();
+        fecharDetalhe();
+        toast(qtd + 'x ' + prod.nome + ' adicionado(s) ao carrinho', 'ok');
+      }
+
+      function limparFiltro() {
+        categoriaSelecionada = 'todas';
+        filtroPrecoAtual = 'todos';
+        termoBuscaAtual = '';
+        renderizarCategorias();
+        filtrarPreco('todos');
+        renderizarProdutos();
+      }
+
+      function abrirPromocao() {
+        toast('Oferta aplicada! Adicione itens de Material de Escritório ao carrinho.', 'info');
+      }
+
+      window.catalogo_de_produtos_selecionarCategoria = selecionarCategoria;
+      window.catalogo_de_produtos_filtrarPreco = filtrarPreco;
+      window.catalogo_de_produtos_buscar = buscar;
+      window.catalogo_de_produtos_abrirBusca = abrirBusca;
+      window.catalogo_de_produtos_fecharBusca = fecharBusca;
+      window.catalogo_de_produtos_abrirDetalhe = abrirDetalhe;
+      window.catalogo_de_produtos_fecharDetalhe = fecharDetalhe;
+      window.catalogo_de_produtos_alterarQtdDetalhe = alterarQtdDetalhe;
+      window.catalogo_de_produtos_adicionarCarrinho = adicionarCarrinho;
+      window.catalogo_de_produtos_adicionarDoDetalhe = adicionarDoDetalhe;
+      window.catalogo_de_produtos_limparFiltro = limparFiltro;
+      window.catalogo_de_produtos_abrirPromocao = abrirPromocao;
+      window.catalogo_de_produtos_selecionarResultadoBusca = selecionarResultadoBusca;
+
+      inicializar();
+    })();
+  </script>
+</section>
+
+    <!-- TELAS -->
     </main>
 
     <!-- Navegação Inferior -->
