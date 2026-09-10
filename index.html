@@ -2427,6 +2427,309 @@
 })();
 </script>
 
+    <section data-tela="painel-administrativo" class="hidden">
+      <div class="animate-fadeIn">
+        <!-- Cabeçalho da tela -->
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-display font-bold text-gray-900">Painel Administrativo</h2>
+            <p class="text-sm text-gray-500 mt-1">Visão geral do delivery — maio de 2026</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="abrirModal('','Exportar Relatório')" class="p-2.5 rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 active:scale-95 transition-all" title="Exportar relatório">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </button>
+            <button onclick="painel_administrativo_abrirModalNovoPedido()" class="btn btn-primary text-sm py-2 px-4 active:scale-95 transition-transform flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              Novo Pedido
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards de KPIs -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-marca-100 flex items-center justify-center">
+                <svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+              </div>
+              <span class="badge badge-success text-xs">+12%</span>
+            </div>
+            <p class="text-2xl font-display font-bold text-gray-900">142</p>
+            <p class="text-xs text-gray-500 mt-1">Pedidos do mês</p>
+          </div>
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <span class="badge badge-success text-xs">+8,3%</span>
+            </div>
+            <p class="text-2xl font-display font-bold text-gray-900">R$ 28.450</p>
+            <p class="text-xs text-gray-500 mt-1">Valor total movimentado</p>
+          </div>
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              </div>
+              <span class="badge badge-success text-xs">+3,2%</span>
+            </div>
+            <p class="text-2xl font-display font-bold text-gray-900">R$ 200,35</p>
+            <p class="text-xs text-gray-500 mt-1">Ticket médio</p>
+          </div>
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <span class="badge badge-success text-xs">+1,1%</span>
+            </div>
+            <p class="text-2xl font-display font-bold text-gray-900">96,5%</p>
+            <p class="text-xs text-gray-500 mt-1">Taxa de aprovação</p>
+          </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <!-- Gráfico de Barras -->
+          <div class="card p-4 sm:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-semibold text-gray-800 text-sm">Pedidos por semana</h3>
+              <span class="text-xs text-gray-400">Últimos 30 dias</span>
+            </div>
+            <div class="relative h-40">
+              <svg class="w-full h-full" viewBox="0 0 400 140" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#6366f1" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#6366f1" stop-opacity="0.4"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="125" x2="400" y2="125" stroke="#e5e7eb" stroke-width="1"/>
+                <rect x="8" y="65" width="18" height="60" rx="4" fill="url(#barGrad)"/>
+                <rect x="34" y="35" width="18" height="90" rx="4" fill="url(#barGrad)"/>
+                <rect x="60" y="50" width="18" height="75" rx="4" fill="url(#barGrad)"/>
+                <rect x="86" y="85" width="18" height="40" rx="4" fill="url(#barGrad)"/>
+                <rect x="112" y="25" width="18" height="100" rx="4" fill="url(#barGrad)"/>
+                <rect x="138" y="45" width="18" height="80" rx="4" fill="url(#barGrad)"/>
+                <rect x="164" y="55" width="18" height="70" rx="4" fill="url(#barGrad)"/>
+                <rect x="190" y="15" width="18" height="110" rx="4" fill="url(#barGrad)"/>
+                <rect x="216" y="75" width="18" height="50" rx="4" fill="url(#barGrad)"/>
+                <rect x="242" y="40" width="18" height="85" rx="4" fill="url(#barGrad)"/>
+                <rect x="268" y="60" width="18" height="65" rx="4" fill="url(#barGrad)"/>
+                <rect x="294" y="30" width="18" height="95" rx="4" fill="url(#barGrad)"/>
+                <rect x="320" y="80" width="18" height="45" rx="4" fill="url(#barGrad)"/>
+                <rect x="346" y="20" width="18" height="105" rx="4" fill="#4f46e5"/>
+                <rect x="372" y="10" width="18" height="115" rx="4" fill="#4f46e5"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Gráfico de Pizza -->
+          <div class="card p-4">
+            <h3 class="font-display font-semibold text-gray-800 text-sm mb-4">Por centro de custo</h3>
+            <div class="flex flex-col items-center">
+              <svg viewBox="0 0 160 160" class="w-36 h-36">
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#f3f4f6" stroke-width="24"/>
+                <path d="M80 20 A60 60 0 0 1 131.6 128.2 L80 80 Z" fill="#6366f1"/>
+                <path d="M131.6 128.2 A60 60 0 0 1 48.4 128.2 L80 80 Z" fill="#f59e0b"/>
+                <path d="M48.4 128.2 A60 60 0 0 1 80 20 L80 80 Z" fill="#10b981"/>
+                <path d="M131.6 128.2 A60 60 0 0 1 148.2 58.4 A60 60 0 0 1 80 20 A60 60 0 0 1 131.6 128.2 Z" fill="#6366f1" opacity="0.5"/>
+                <circle cx="80" cy="80" r="36" fill="white"/>
+                <text x="80" y="76" text-anchor="middle" class="text-lg font-bold fill-gray-800" font-size="14" font-weight="700">142</text>
+                <text x="80" y="92" text-anchor="middle" fill="#9ca3af" font-size="8">total</text>
+              </svg>
+              <div class="w-full mt-3 space-y-1.5">
+                <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-marca-500 inline-block"></span>Operações</div><span class="font-semibold text-gray-700">45%</span></div>
+                <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block"></span>Tecnologia</div><span class="font-semibold text-gray-700">28%</span></div>
+                <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block"></span>RH</div><span class="font-semibold text-gray-700">18%</span></div>
+                <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-marca-300 inline-block"></span>Outros</div><span class="font-semibold text-gray-700">9%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações rápidas -->
+        <div class="flex gap-2 mb-6 overflow-x-auto pb-1 -mx-1 px-1">
+          <button onclick="painel_administrativo_abrirModalNovoPedido()" class="btn btn-primary text-xs py-2 px-4 active:scale-95 transition-transform whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Novo Pedido Manual
+          </button>
+          <button onclick="mostrarTela('gestao-de-pedidos')" class="btn text-xs py-2 px-4 bg-gray-100 text-gray-700 hover:bg-gray-200 active:scale-95 transition-transform whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Gerenciar Pedidos
+          </button>
+          <button onclick="mostrarTela('catalogo-de-produtos')" class="btn text-xs py-2 px-4 bg-gray-100 text-gray-700 hover:bg-gray-200 active:scale-95 transition-transform whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Gerenciar Produtos
+          </button>
+          <button onclick="mostrarTela('meus-pedidos')" class="btn text-xs py-2 px-4 bg-gray-100 text-gray-700 hover:bg-gray-200 active:scale-95 transition-transform whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Relatórios
+          </button>
+        </div>
+
+        <!-- Busca -->
+        <div class="mb-4">
+          <div class="relative">
+            <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input id="painelBusca" type="text" placeholder="Buscar pedido por nome ou nº..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent bg-white" oninput="painel_administrativo_buscarPedidos(this.value)">
+          </div>
+        </div>
+
+        <!-- Tabela de últimos pedidos -->
+        <div class="card overflow-hidden p-0">
+          <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+            <h3 class="font-display font-semibold text-gray-800 text-sm">Últimos pedidos</h3>
+            <button onclick="mostrarTela('gestao-de-pedidos')" class="text-xs text-marca-600 font-medium hover:text-marca-700">Ver todos</button>
+          </div>
+          <div id="painelListaPedidos" class="divide-y divide-gray-50">
+          </div>
+          <div id="painelVazio" class="hidden px-4 py-8 text-center">
+            <svg class="w-10 h-10 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-sm text-gray-400">Nenhum pedido encontrado</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+    (function(){
+      var dadosPedidos = [
+        {id:'#PD-1456',solicitante:'Ana Carolina Mendes',cargo:'Assistente Administrativo',cc:'Operações',valor:1250.00,data:'2026-05-27T14:23:00',status:'entregue',itens:3,forma:'Cartão corporativo'},
+        {id:'#PD-1455',solicitante:'Roberto Carlos Lima',cargo:'Engenheiro de Produção',cc:'Tecnologia',valor:890.50,data:'2026-05-27T11:05:00',status:'aprovado',itens:2,forma:'Faturamento'},
+        {id:'#PD-1454',solicitante:'Fernanda Oliveira',cargo:'Gerente de Marketing',cc:'Marketing',valor:2340.00,data:'2026-05-26T16:42:00',status:'pendente',itens:5,forma:'Cartão corporativo'},
+        {id:'#PD-1453',solicitante:'João Pedro Santos',cargo:'Técnico de TI',cc:'Tecnologia',valor:567.80,data:'2026-05-26T09:18:00',status:'aprovado',itens:1,forma:'Faturamento'},
+        {id:'#PD-1452',solicitante:'Mariana Costa',cargo:'Analista de RH',cc:'Recursos Humanos',valor:1890.00,data:'2026-05-25T13:50:00',status:'entregue',itens:4,forma:'Cartão corporativo'},
+        {id:'#PD-1451',solicitante:'Carlos Eduardo Rocha',cargo:'Supervisor de Operações',cc:'Operações',valor:3450.00,data:'2026-05-25T08:30:00',status:'aprovado',itens:7,forma:'Faturamento'},
+        {id:'#PD-1450',solicitante:'Patrícia Almeida',cargo:'Coordenadora Financeira',cc:'Administração',valor:720.00,data:'2026-05-24T15:10:00',status:'cancelado',itens:2,forma:'Cartão corporativo'},
+        {id:'#PD-1449',solicitante:'Lucas Gabriel Souza',cargo:'Desenvolvedor Pleno',cc:'Tecnologia',valor:1560.00,data:'2026-05-24T10:22:00',status:'entregue',itens:3,forma:'Faturamento'}
+      ];
+      var statusMap = {
+        pendente:{label:'Pendente',cls:'badge-warning'},
+        aprovado:{label:'Aprovado',cls:'badge-info'},
+        entregue:{label:'Entregue',cls:'badge-success'},
+        cancelado:{label:'Cancelado',cls:'badge-error'}
+      };
+      var ccColors = {'Operações':'bg-marca-500','Tecnologia':'bg-amber-400','Marketing':'bg-emerald-500','Recursos Humanos':'bg-marca-400','Administração':'bg-violet-500'};
+
+      function painel_administrativo_avatarIniciais(nome){
+        var p = nome.split(' ');
+        return (p[0][0]||'')+(p.length>1?(p[p.length-1][0]||''):'');
+      }
+      function painel_administrativo_formatarDataHora(iso){
+        var d = new Date(iso);
+        return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      }
+      function painel_administrativo_renderizarPedidos(lista){
+        var el = document.getElementById('painelListaPedidos');
+        var vazio = document.getElementById('painelVazio');
+        if(!lista||lista.length===0){el.innerHTML='';vazio.classList.remove('hidden');return;}
+        vazio.classList.add('hidden');
+        var html='';
+        for(var i=0;i<lista.length;i++){
+          var p = lista[i];
+          var st = statusMap[p.status];
+          var ini = painel_administrativo_avatarIniciais(p.solicitante);
+          var bg = ccColors[p.cc]||'bg-gray-400';
+          html+='<div onclick="painel_administrativo_abrirDetalhePedido(\''+p.id+'\')" class="px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors">'+
+            '<div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 '+bg+'">'+ini+'</div>'+
+            '<div class="flex-1 min-w-0">'+
+              '<div class="flex items-center justify-between">'+
+                '<p class="text-sm font-semibold text-gray-800 truncate">'+p.solicitante+'</p>'+
+                '<span class="text-sm font-bold text-gray-900 flex-shrink-0 ml-2">'+brl(p.valor)+'</span>'+
+              '</div>'+
+              '<div class="flex items-center justify-between mt-1">'+
+                '<span class="text-xs text-gray-400">'+p.id+' · '+p.itens+' item(ns)</span>'+
+                '<span class="badge '+st.cls+' text-[10px] py-0.5 px-2">'+st.label+'</span>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+        }
+        el.innerHTML = html;
+      }
+      function painel_administrativo_buscarPedidos(termo){
+        if(!termo){painel_administrativo_renderizarPedidos(dadosPedidos);return;}
+        termo = termo.toLowerCase();
+        var filtrados = dadosPedidos.filter(function(p){return p.solicitante.toLowerCase().indexOf(termo)!==-1||p.id.toLowerCase().indexOf(termo)!==-1;});
+        painel_administrativo_renderizarPedidos(filtrados);
+      }
+      function painel_administrativo_abrirDetalhePedido(id){
+        var p = null;
+        for(var i=0;i<dadosPedidos.length;i++){if(dadosPedidos[i].id===id){p=dadosPedidos[i];break;}}
+        if(!p)return;
+        var st = statusMap[p.status];
+        var ini = painel_administrativo_avatarIniciais(p.solicitante);
+        var bg = ccColors[p.cc]||'bg-gray-400';
+        var html='<div class="p-5">'+
+          '<div class="flex items-center gap-3 mb-5">'+
+            '<div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-base font-bold '+bg+'">'+ini+'</div>'+
+            '<div><p class="font-display font-bold text-gray-900">'+p.solicitante+'</p><p class="text-xs text-gray-500">'+p.cargo+'</p></div>'+
+          '</div>'+
+          '<div class="space-y-3 text-sm">'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-gray-500">Pedido</span><span class="font-semibold text-gray-800">'+p.id+'</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-gray-500">Data</span><span class="font-semibold text-gray-800">'+painel_administrativo_formatarDataHora(p.data)+'</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-gray-500">Itens</span><span class="font-semibold text-gray-800">'+p.itens+' produto(s)</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-gray-500">Centro de custo</span><span class="font-semibold text-gray-800">'+p.cc+'</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-gray-500">Forma de pagamento</span><span class="font-semibold text-gray-800">'+p.forma+'</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-gray-500">Valor</span><span class="font-bold text-lg text-marca-700">'+brl(p.valor)+'</span></div>'+
+            '<div class="flex justify-between py-2"><span class="text-gray-500">Status</span><span class="badge '+st.cls+'">'+st.label+'</span></div>'+
+          '</div>'+
+          '<div class="mt-5 flex gap-2">'+
+            (p.status==='pendente'?'<button onclick="painel_administrativo_aprovarPedido(\''+p.id+'\')" class="btn btn-primary flex-1 py-2.5 text-sm active:scale-95 transition-transform">Aprovar Pedido</button>':'')+
+            (p.status==='aprovado'?'<button onclick="painel_administrativo_marcarEntregue(\''+p.id+'\')" class="btn btn-primary flex-1 py-2.5 text-sm active:scale-95 transition-transform">Marcar como Entregue</button>':'')+
+            (p.status!=='cancelado'&&p.status!=='entregue'?'<button onclick="painel_administrativo_cancelarPedido(\''+p.id+'\')" class="btn text-sm py-2.5 px-4 bg-red-50 text-red-600 hover:bg-red-100 active:scale-95 transition-transform">Cancelar</button>':'')+
+          '</div>'+
+        '</div>';
+        abrirModal(html,'Detalhe do Pedido');
+      }
+      function painel_administrativo_aprovarPedido(id){
+        for(var i=0;i<dadosPedidos.length;i++){if(dadosPedidos[i].id===id){dadosPedidos[i].status='aprovado';break;}}
+        fecharModal();
+        painel_administrativo_renderizarPedidos(dadosPedidos);
+        toast('Pedido '+id+' aprovado com sucesso','ok');
+      }
+      function painel_administrativo_marcarEntregue(id){
+        for(var i=0;i<dadosPedidos.length;i++){if(dadosPedidos[i].id===id){dadosPedidos[i].status='entregue';break;}}
+        fecharModal();
+        painel_administrativo_renderizarPedidos(dadosPedidos);
+        toast('Pedido '+id+' marcado como entregue','ok');
+      }
+      function painel_administrativo_cancelarPedido(id){
+        for(var i=0;i<dadosPedidos.length;i++){if(dadosPedidos[i].id===id){dadosPedidos[i].status='cancelado';break;}}
+        fecharModal();
+        painel_administrativo_renderizarPedidos(dadosPedidos);
+        toast('Pedido '+id+' cancelado','info');
+      }
+      function painel_administrativo_abrirModalNovoPedido(){
+        var html='<div class="p-5">'+
+          '<p class="text-sm text-gray-500 mb-4">Preencha os dados abaixo para criar um novo pedido manualmente.</p>'+
+          '<div class="space-y-3">'+
+            '<div><label class="block text-xs font-medium text-gray-700 mb-1">Solicitante</label><input id="pmNome" type="text" placeholder="Nome completo" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-marca-500"></div>'+
+            '<div><label class="block text-xs font-medium text-gray-700 mb-1">Centro de custo</label><select id="pmCC" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-marca-500 bg-white"><option>Operações</option><option>Tecnologia</option><option>Recursos Humanos</option><option>Marketing</option><option>Administração</option></select></div>'+
+            '<div><label class="block text-xs font-medium text-gray-700 mb-1">Valor estimado (R$)</label><input id="pmValor" type="text" placeholder="0,00" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-marca-500" oninput="painel_administrativo_mascaraMoeda(this)"></div>'+
+            '<div><label class="block text-xs font-medium text-gray-700 mb-1">Observações</label><textarea id="pmObs" rows="2" placeholder="Detalhes do pedido..." class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-marca-500 resize-none"></textarea></div>'+
+          '</div>'+
+          '<button onclick="painel_administrativo_criarPedidoManual()" class="btn btn-primary w-full mt-4 py-3 text-sm active:scale-95 transition-transform">Criar Pedido</button>'+
+        '</div>';
+        abrirModal(html,'Novo Pedido Manual');
+      }
+      function painel_administrativo_mascaraMoeda(campo){
+        var v = campo.value.replace(/\D/g,'');
+        if(v){v = (parseInt(v)/100).toFixed(2).replace('.',',');campo.value=v;}
+        else{campo.value='';}
+      }
+      function painel_administrativo_criarPedidoManual(){
+        var nome = document.getElementById('pmNome').value.trim();
+        var valor = document.getElementById('pmValor').value.trim();
+        if(!nome){toast('Informe o nome do solicitante','erro');return;}
+        if(!valor||parseFloat(valor.replace(',','.'))<=0){toast('Informe o valor do pedido','erro');return;}
+        var novoId = '#PD-'+(1449+dadosPedidos.length+1);
+        var cc = document.getElementById('pmCC').value;
+        dadosPedidos.unshift({id:novoId,solicitante:nome,cargo:'Solicitante',cc:cc,valor:parseFloat(valor.replace(',','.')),data:new Date().toISOString(),status:'pendente',itens:1,forma:'Cartão corporativo'});
+        fecharModal();
+        painel_administrativo_renderizarPedidos(dadosPedidos);
+        toast('Pedido '+novoId+' criado com sucesso','ok');
+      }
+      painel_administrativo_renderizarPedidos(dadosPedidos);
+    })();
+    </script>
+
     <!-- TELAS -->
     </main>
 
