@@ -722,6 +722,368 @@
   </script>
 </section>
 
+    <section data-tela="detalhe-do-produto" class="hidden">
+      <!-- Back button -->
+      <div class="px-4 pt-3 pb-2 flex items-center gap-3">
+        <button onclick="mostrarTela('catalogo-de-produtos')" class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center active:scale-95 transition-all hover:bg-gray-50 shadow-sm">
+          <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="flex-1 min-w-0">
+          <h1 class="font-display text-lg font-bold text-gray-900 truncate">Detalhe do Produto</h1>
+          <p class="text-xs text-gray-500">Catálogo · Cafeteria Corporativa</p>
+        </div>
+        <button onclick="mostrarTela('meu-carrinho')" class="w-10 h-10 rounded-xl bg-marca-50 flex items-center justify-center active:scale-95 transition-all relative hover:bg-marca-100">
+          <svg class="w-5 h-5 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+          <span id="detail-cart-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
+        </button>
+      </div>
+
+      <!-- Image Slider -->
+      <div class="px-4">
+        <div id="product-slider" class="relative rounded-2xl overflow-hidden bg-gray-100 aspect-square">
+          <div id="slider-track" class="flex transition-transform duration-500 ease-out h-full">
+            <div class="w-full h-full flex-shrink-0 flex items-center justify-center" style="background: linear-gradient(135deg, #5D4037 0%, #8D6E63 50%, #A1887F 100%)">
+              <div class="text-center p-8">
+                <div class="w-28 h-28 mx-auto rounded-full bg-white/20 flex items-center justify-center mb-4 backdrop-blur-sm">
+                  <svg class="w-14 h-14 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M2 21V19H20V21H2ZM20 8V5H22V8C22 9.1 21.1 10 20 10H19.73C19.37 13.39 16.49 16 13 16C9.51 16 6.63 13.39 6.27 10H4C2.9 10 2 9.1 2 8V5H4V8H20ZM13 14C15.76 14 18 11.76 18 8H6C6 11.76 8.24 14 13 14Z"/></svg>
+                </div>
+                <p class="text-white/70 text-sm font-medium">Imagem do produto 1/3</p>
+              </div>
+            </div>
+            <div class="w-full h-full flex-shrink-0 flex items-center justify-center" style="background: linear-gradient(135deg, #4E342E 0%, #795548 50%, #BCAAA4 100%)">
+              <div class="text-center p-8">
+                <div class="w-28 h-28 mx-auto rounded-full bg-white/20 flex items-center justify-center mb-4 backdrop-blur-sm">
+                  <svg class="w-14 h-14 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <p class="text-white/70 text-sm font-medium">Imagem do produto 2/3</p>
+              </div>
+            </div>
+            <div class="w-full h-full flex-shrink-0 flex items-center justify-center" style="background: linear-gradient(135deg, #3E2723 0%, #6D4C41 50%, #D7CCC8 100%)">
+              <div class="text-center p-8">
+                <div class="w-28 h-28 mx-auto rounded-full bg-white/20 flex items-center justify-center mb-4 backdrop-blur-sm">
+                  <svg class="w-14 h-14 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg>
+                </div>
+                <p class="text-white/70 text-sm font-medium">Imagem do produto 3/3</p>
+              </div>
+            </div>
+          </div>
+          <button onclick="detalhe_do_produto_slideAnterior()" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white">
+            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button onclick="detalhe_do_produto_proximoSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg active:scale-90 transition-all hover:bg-white">
+            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5" id="slider-dots"></div>
+        </div>
+      </div>
+
+      <!-- Product Info Card -->
+      <div class="px-4 mt-4">
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="badge bg-marca-100 text-marca-800 text-xs font-semibold px-2.5 py-1 rounded-lg">Cafeteria</span>
+                <span class="badge bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-lg">Disponível</span>
+              </div>
+              <h2 class="font-display text-xl font-bold text-gray-900 leading-tight">Café Especial em Grãos Torra Média</h2>
+              <p class="text-xs text-gray-500 mt-1.5 font-mono">SKU: <span class="font-semibold text-gray-700">CAF-GRA-001-SM</span></p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mt-3 leading-relaxed">Café especial 100% arábica, cultivado nas montanhas de Minas Gerais. Torra média com notas de caramelo, nozes e chocolate ao leite. Corpo médio e acidez suave. Perfeito para café filtrado, espresso e coado.</p>
+
+          <!-- Prices -->
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="bg-marca-50 rounded-xl p-3 border border-marca-100">
+              <p class="text-[11px] text-marca-600 font-semibold uppercase tracking-wide">Preço Unitário</p>
+              <p class="font-display text-xl font-bold text-marca-800 mt-0.5">R$ 34,90</p>
+              <p class="text-[11px] text-marca-500 mt-0.5">por pacote 1kg</p>
+            </div>
+            <div class="bg-amber-50 rounded-xl p-3 border border-amber-100">
+              <p class="text-[11px] text-amber-700 font-semibold uppercase tracking-wide">Caixa Fechada</p>
+              <p class="font-display text-xl font-bold text-amber-800 mt-0.5">R$ 299,90</p>
+              <p class="text-[11px] text-amber-600 mt-0.5">10 unidades · 8% off</p>
+            </div>
+          </div>
+
+          <!-- Stock -->
+          <div class="mt-4 flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-marca-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+              <span class="text-sm font-medium text-gray-700">Estoque disponível:</span>
+            </div>
+            <span id="stock-count" class="text-sm font-bold text-green-700 bg-green-100 px-3 py-1 rounded-lg">47 unidades</span>
+          </div>
+
+          <!-- Specifications -->
+          <div class="mt-4">
+            <h3 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              Especificações Técnicas
+            </h3>
+            <div class="space-y-2">
+              <div class="flex justify-between text-sm py-2 border-b border-gray-100">
+                <span class="text-gray-500">Peso líquido</span>
+                <span class="text-gray-900 font-medium">1,0 kg</span>
+              </div>
+              <div class="flex justify-between text-sm py-2 border-b border-gray-100">
+                <span class="text-gray-500">Dimensões (C×L×A)</span>
+                <span class="text-gray-900 font-medium">15 × 10 × 20 cm</span>
+              </div>
+              <div class="flex justify-between text-sm py-2 border-b border-gray-100">
+                <span class="text-gray-500">Origem</span>
+                <span class="text-gray-900 font-medium">Sul de Minas Gerais</span>
+              </div>
+              <div class="flex justify-between text-sm py-2 border-b border-gray-100">
+                <span class="text-gray-500">Variedade</span>
+                <span class="text-gray-900 font-medium">100% Arábica</span>
+              </div>
+              <div class="flex justify-between text-sm py-2 border-b border-gray-100">
+                <span class="text-gray-500">Torra</span>
+                <span class="text-gray-900 font-medium">Média</span>
+              </div>
+              <div class="flex justify-between text-sm py-2 border-b border-gray-100">
+                <span class="text-gray-500">Fornecedor</span>
+                <span class="text-gray-900 font-medium">Grão & Fogo Distribuidora</span>
+              </div>
+              <div class="flex justify-between text-sm py-2">
+                <span class="text-gray-500">Validade</span>
+                <span class="text-gray-900 font-medium">18 meses a partir da torra</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quantity & Add to Cart -->
+      <div class="px-4 mt-4">
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <h3 class="text-sm font-bold text-gray-900 mb-3">Quantidade</h3>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center bg-gray-100 rounded-xl overflow-hidden">
+              <button onclick="detalhe_do_produto_alterarQuantidade(-1)" class="w-12 h-12 flex items-center justify-center text-gray-600 hover:bg-gray-200 active:scale-90 transition-all text-xl font-bold">−</button>
+              <span id="qty-display" class="w-14 h-12 flex items-center justify-center text-lg font-bold text-gray-900 bg-white border-x border-gray-200">1</span>
+              <button onclick="detalhe_do_produto_alterarQuantidade(1)" class="w-12 h-12 flex items-center justify-center text-gray-600 hover:bg-gray-200 active:scale-90 transition-all text-xl font-bold">+</button>
+            </div>
+            <span class="text-sm text-gray-500 flex-1">unidades de 1kg</span>
+          </div>
+          <button onclick="detalhe_do_produto_adicionarCarrinho()" id="btn-add-cart" class="btn w-full mt-4 bg-marca-600 text-white font-display font-bold text-base py-4 rounded-xl active:scale-[0.97] transition-all hover:bg-marca-700 flex items-center justify-center gap-2 shadow-lg shadow-marca-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      </div>
+
+      <!-- Purchase History -->
+      <div class="px-4 mt-4 mb-24">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-5 pb-3">
+            <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2">
+              <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Histórico de Compras da Equipe
+            </h3>
+            <p class="text-xs text-gray-500 mt-1">Últimas aquisições deste produto</p>
+          </div>
+          <div class="divide-y divide-gray-100" id="purchase-history-list"></div>
+        </div>
+      </div>
+
+      <!-- WhatsApp Floating Button -->
+      <button onclick="detalhe_do_produto_abrirWhatsApp()" class="fixed bottom-20 right-4 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl active:scale-90 transition-all z-40 hover:bg-green-600 hover:shadow-2xl">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </button>
+
+      <!-- Observation Modal -->
+      <div id="modal-obs-overlay" class="fixed inset-0 bg-black/50 z-50 hidden flex items-end justify-center" onclick="if(event.target===this)detalhe_do_produto_fecharModalObs()">
+        <div class="bg-white rounded-t-3xl w-full max-w-[430px] p-6 pb-8 transform transition-transform duration-300" id="modal-obs-content">
+          <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5"></div>
+          <h3 class="font-display text-lg font-bold text-gray-900 mb-1">Adicionar Observações</h3>
+          <p class="text-sm text-gray-500 mb-4">Você está adicionando <strong id="obs-qty">3</strong> unidades ao pedido</p>
+          <textarea id="obs-textarea" placeholder="Ex: Entregar no 3º andar, pedido para reunião, embrulhar separadamente..." rows="4" class="w-full border border-gray-200 rounded-xl p-4 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent resize-none"></textarea>
+          <div class="flex gap-3 mt-4">
+            <button onclick="detalhe_do_produto_fecharModalObs()" class="flex-1 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-semibold text-sm active:scale-95 transition-all hover:bg-gray-50">Cancelar</button>
+            <button onclick="detalhe_do_produto_confirmarObs()" class="flex-1 py-3.5 rounded-xl bg-marca-600 text-white font-semibold text-sm active:scale-95 transition-all hover:bg-marca-700 shadow-lg shadow-marca-200">Confirmar Pedido</button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        var qty = 1;
+        var currentSlide = 0;
+        var totalSlides = 3;
+
+        function atualizarQty() {
+          document.getElementById('qty-display').textContent = qty;
+          var btn = document.getElementById('btn-add-cart');
+          if (qty > 1) {
+            btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg> Adicionar ' + qty + ' ao Carrinho';
+          } else {
+            btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg> Adicionar ao Carrinho';
+          }
+        }
+
+        window.detalhe_do_produto_alterarQuantidade = function(delta) {
+          var novaQty = qty + delta;
+          if (novaQty < 1) novaQty = 1;
+          if (novaQty > 47) {
+            toast('Estoque máximo disponível: 47 unidades', 'erro');
+            return;
+          }
+          qty = novaQty;
+          atualizarQty();
+        };
+
+        window.detalhe_do_produto_slideAnterior = function() {
+          currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+          atualizarSlider();
+        };
+
+        window.detalhe_do_produto_proximoSlide = function() {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          atualizarSlider();
+        };
+
+        function atualizarSlider() {
+          var track = document.getElementById('slider-track');
+          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+          var dots = document.querySelectorAll('#slider-dots .slider-dot');
+          dots.forEach(function(d, i) {
+            if (i === currentSlide) {
+              d.classList.remove('bg-white/50');
+              d.classList.add('bg-white');
+            } else {
+              d.classList.remove('bg-white');
+              d.classList.add('bg-white/50');
+            }
+          });
+        }
+
+        window.detalhe_do_produto_adicionarCarrinho = function() {
+          if (qty > 1) {
+            window.detalhe_do_produto_abrirModalObs();
+          } else {
+            toast('Produto adicionado ao carrinho!', 'ok');
+            var badge = document.getElementById('detail-cart-badge');
+            var current = parseInt(badge.textContent) || 0;
+            badge.textContent = current + qty;
+          }
+        };
+
+        window.detalhe_do_produto_abrirModalObs = function() {
+          document.getElementById('obs-qty').textContent = qty;
+          document.getElementById('obs-textarea').value = '';
+          var overlay = document.getElementById('modal-obs-overlay');
+          overlay.classList.remove('hidden');
+          requestAnimationFrame(function() {
+            document.getElementById('modal-obs-content').style.transform = 'translateY(0)';
+          });
+        };
+
+        window.detalhe_do_produto_fecharModalObs = function() {
+          document.getElementById('modal-obs-overlay').classList.add('hidden');
+        };
+
+        window.detalhe_do_produto_confirmarObs = function() {
+          var obs = document.getElementById('obs-textarea').value.trim();
+          detalhe_do_produto_fecharModalObs();
+          var badge = document.getElementById('detail-cart-badge');
+          var current = parseInt(badge.textContent) || 0;
+          badge.textContent = current + qty;
+          if (obs) {
+            toast(qty + 'x Café adicionado com observação!', 'ok');
+          } else {
+            toast(qty + 'x Café adicionado ao carrinho!', 'ok');
+          }
+        };
+
+        window.detalhe_do_produto_abrirWhatsApp = function() {
+          var mensagem = encodeURIComponent('Olá! Tenho uma dúvida sobre o produto Café Especial em Grãos Torra Média (SKU: CAF-GRA-001-SM).');
+          window.open('https://wa.me/5511999999999?text=' + mensagem, '_blank');
+        };
+
+        // Initialize slider dots
+        var dotsContainer = document.getElementById('slider-dots');
+        for (var i = 0; i < totalSlides; i++) {
+          var dot = document.createElement('button');
+          dot.className = 'slider-dot w-2 h-2 rounded-full transition-all ' + (i === 0 ? 'bg-white' : 'bg-white/50');
+          dot.onclick = (function(idx) {
+            return function() {
+              currentSlide = idx;
+              atualizarSlider();
+            };
+          })(i);
+          dotsContainer.appendChild(dot);
+        }
+
+        // Purchase history data
+        var compras = [
+          { nome: 'Marina Costa', funcao: 'Assistente Adm.', qtd: 5, data: '2026-01-08', valor: 174.50, status: 'entregue' },
+          { nome: 'Roberto Lima', funcao: 'Gerente de Ops.', qtd: 10, data: '2025-12-19', valor: 349.00, status: 'entregue' },
+          { nome: 'Ana Beatriz', funcao: 'Coordenadora RH', qtd: 3, data: '2025-12-02', valor: 104.70, status: 'entregue' },
+          { nome: 'Carlos Drum', funcao: 'Diretor Financeiro', qtd: 2, data: '2025-11-15', valor: 69.80, status: 'entregue' },
+          { nome: 'Fernanda Alv', funcao: 'Analista TI', qtd: 8, data: '2025-10-28', valor: 279.20, status: 'entregue' },
+          { nome: 'Paulo Henrique', funcao: 'Supervisor Logística', qtd: 6, data: '2025-10-05', valor: 209.40, status: 'entregue' },
+          { nome: 'Juliana Rocha', funcao: 'Recepcionista', qtd: 2, data: '2025-09-14', valor: 69.80, status: 'entregue' }
+        ];
+
+        var historicoList = document.getElementById('purchase-history-list');
+        compras.forEach(function(c) {
+          var iniciais = c.nome.split(' ').map(function(n){ return n[0]; }).join('');
+          var cores = ['bg-red-200 text-red-800','bg-blue-200 text-blue-800','bg-green-200 text-green-800','bg-purple-200 text-purple-800','bg-amber-200 text-amber-800','bg-teal-200 text-teal-800','bg-pink-200 text-pink-800'];
+          var corIdx = Math.abs(hashCode(c.nome)) % cores.length;
+          var statusBadge = c.status === 'entregue'
+            ? '<span class="badge bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-md">Entregue</span>'
+            : '<span class="badge bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-md">Pendente</span>';
+
+          var item = document.createElement('div');
+          item.className = 'flex items-center gap-3 px-5 py-3.5 active:bg-gray-50 transition-colors cursor-pointer';
+          item.onclick = function() {
+            abrirModal(
+              '<div class="space-y-4">' +
+              '<div class="flex items-center gap-3">' +
+              '<div class="w-12 h-12 rounded-full ' + cores[corIdx] + ' flex items-center justify-center font-bold text-sm">' + iniciais + '</div>' +
+              '<div><p class="font-semibold text-gray-900">' + c.nome + '</p><p class="text-xs text-gray-500">' + c.funcao + '</p></div>' +
+              '</div>' +
+              '<div class="grid grid-cols-2 gap-3">' +
+              '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[11px] text-gray-500">Quantidade</p><p class="font-bold text-gray-900">' + c.qtd + ' un</p></div>' +
+              '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[11px] text-gray-500">Valor Total</p><p class="font-bold text-gray-900">' + brl(c.valor) + '</p></div>' +
+              '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[11px] text-gray-500">Data</p><p class="font-bold text-gray-900">' + dataBR(c.data) + '</p></div>' +
+              '<div class="bg-gray-50 rounded-xl p-3"><p class="text-[11px] text-gray-500">Status</p>' + statusBadge + '</div>' +
+              '</div>' +
+              '</div>',
+              'Detalhe da Compra'
+            );
+          };
+
+          item.innerHTML =
+            '<div class="w-10 h-10 rounded-full ' + cores[corIdx] + ' flex items-center justify-center font-bold text-xs flex-shrink-0">' + iniciais + '</div>' +
+            '<div class="flex-1 min-w-0">' +
+              '<p class="text-sm font-semibold text-gray-900 truncate">' + c.nome + '</p>' +
+              '<p class="text-xs text-gray-500">' + c.qtd + ' un · ' + dataBR(c.data) + '</p>' +
+            '</div>' +
+            '<div class="text-right flex-shrink-0">' +
+              '<p class="text-sm font-bold text-gray-900">' + brl(c.valor) + '</p>' +
+              statusBadge +
+            '</div>';
+
+          historicoList.appendChild(item);
+        });
+
+        function hashCode(str) {
+          var hash = 0;
+          for (var i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash) + str.charCodeAt(i);
+            hash |= 0;
+          }
+          return hash;
+        }
+
+        atualizarQty();
+      })();
+      </script>
+    </section>
+
     <!-- TELAS -->
     </main>
 
