@@ -1281,6 +1281,454 @@
   </script>
 </section>
 
+    <section data-tela="checkout-e-pagamento" class="hidden">
+      <div class="px-5 pt-2 pb-8 space-y-4">
+        <!-- Resumo do Pedido -->
+        <div class="flex items-center justify-between mb-1">
+          <div>
+            <h2 class="text-xl font-display font-bold text-gray-900">Checkout</h2>
+            <p class="text-sm text-gray-500 mt-0.5">Pedido #BL-20250618-0047</p>
+          </div>
+          <button onclick="mostrarTela('meu-carrinho')" class="p-2 rounded-full hover:bg-gray-100 transition-colors active:scale-90">
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+        </div>
+
+        <!-- Card do Resumo -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-3 border-b border-gray-50">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Itens do Pedido</p>
+          </div>
+          <div id="checkout-itens" class="divide-y divide-gray-50">
+            <!-- populated by JS -->
+          </div>
+          <div class="px-4 py-3 bg-gray-50/50 space-y-1.5">
+            <div class="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span id="checkout-subtotal">R$ 0,00</span></div>
+            <div class="flex justify-between text-sm text-gray-600"><span>Taxa de entrega</span><span id="checkout-frete">R$ 0,00</span></div>
+            <div class="flex justify-between text-sm text-gray-600" id="checkout-desconto-row"><span>Desconto institucional</span><span class="text-emerald-600" id="checkout-desconto">- R$ 0,00</span></div>
+            <div class="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-200"><span>Total</span><span id="checkout-total">R$ 0,00</span></div>
+          </div>
+        </div>
+
+        <!-- Centro de Custo -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-2">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Centro de Custo</p>
+          </div>
+          <div class="px-4 pb-4 space-y-2" id="checkout-centros">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+        <!-- Forma de Pagamento -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-2">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Forma de Pagamento</p>
+          </div>
+          <div class="px-4 pb-3 space-y-2" id="checkout-pagamentos">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+        <!-- Parcelamento (condicional) -->
+        <div id="checkout-parcelamento-container" class="hidden bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-2">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Parcelamento</p>
+          </div>
+          <div class="px-4 pb-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-gray-600">Parcelado em</span>
+              <span id="checkout-parcelas-info" class="text-sm font-semibold text-gray-900">1x de R$ 0,00</span>
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1" id="checkout-parcelas">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Data de Entrega -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-2">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Data de Entrega Desejada</p>
+          </div>
+          <div class="px-4 pb-4">
+            <button onclick="checkout_e_pagamento_abrirCalendario()" class="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200 hover:border-marca-300 transition-colors active:scale-[0.98]">
+              <svg class="w-5 h-5 text-marca-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span id="checkout-data-selecionada" class="text-sm text-gray-700">Selecione uma data</span>
+              <svg class="w-4 h-4 text-gray-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Endereço de Entrega -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Endereço de Entrega</p>
+            <button onclick="checkout_e_pagamento_toggleEndereco()" class="text-xs text-marca-600 font-semibold hover:text-marca-700 transition-colors">Alterar</button>
+          </div>
+          <div id="checkout-endereco-display" class="px-4 pb-3">
+            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+              <svg class="w-5 h-5 text-marca-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <div>
+                <p class="text-sm font-semibold text-gray-900" id="checkout-endereco-label">Matriz — São Paulo</p>
+                <p class="text-xs text-gray-500 mt-0.5" id="checkout-endereco-detalhe">Av. Paulista, 1578, cj 101 — Bela Vista</p>
+                <p class="text-xs text-gray-500">São Paulo — SP, 01310-200</p>
+              </div>
+            </div>
+          </div>
+          <div id="checkout-endereco-form" class="hidden px-4 pb-4 space-y-3">
+            <div>
+              <label class="text-xs font-medium text-gray-600 block mb-1">Apelido do endereço</label>
+              <input type="text" placeholder="Ex: Matriz, Filial Campinas..." class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="Matriz — São Paulo">
+            </div>
+            <div>
+              <label class="text-xs font-medium text-gray-600 block mb-1">CEP</label>
+              <input type="text" placeholder="00000-000" maxlength="9" oninput="checkout_e_pagamento_mascaraCep(this)" class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="01310-200">
+            </div>
+            <div>
+              <label class="text-xs font-medium text-gray-600 block mb-1">Logradouro</label>
+              <input type="text" placeholder="Rua, avenida..." class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="Av. Paulista">
+            </div>
+            <div class="flex gap-3">
+              <div class="flex-1">
+                <label class="text-xs font-medium text-gray-600 block mb-1">Número</label>
+                <input type="text" placeholder="1578" class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="1578">
+              </div>
+              <div class="flex-[2]">
+                <label class="text-xs font-medium text-gray-600 block mb-1">Complemento</label>
+                <input type="text" placeholder="Cj, sala..." class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="cj 101">
+              </div>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-gray-600 block mb-1">Bairro</label>
+              <input type="text" placeholder="Bairro" class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="Bela Vista">
+            </div>
+            <div class="flex gap-3">
+              <div class="flex-1">
+                <label class="text-xs font-medium text-gray-600 block mb-1">Cidade</label>
+                <input type="text" placeholder="Cidade" class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all" value="São Paulo">
+              </div>
+              <div class="w-20">
+                <label class="text-xs font-medium text-gray-600 block mb-1">UF</label>
+                <input type="text" placeholder="SP" maxlength="2" class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all text-center uppercase" value="SP">
+              </div>
+            </div>
+            <button onclick="checkout_e_pagamento_salvarEndereco()" class="w-full bg-marca-600 text-white text-sm font-semibold py-3 rounded-xl hover:bg-marca-700 transition-colors active:scale-[0.97]">Salvar Endereço</button>
+          </div>
+        </div>
+
+        <!-- Observações -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-4 pt-4 pb-2">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Observações</p>
+          </div>
+          <div class="px-4 pb-4">
+            <textarea rows="2" placeholder="Instruções especiais de entrega, horário preferido..." class="w-full text-sm px-3 py-2.5 rounded-xl border border-gray-200 focus:border-marca-400 focus:ring-2 focus:ring-marca-100 outline-none transition-all resize-none"></textarea>
+          </div>
+        </div>
+
+        <!-- Botão Confirmar -->
+        <button onclick="checkout_e_pagamento_confirmar()" id="checkout-btn-confirmar" class="w-full bg-marca-600 text-white font-semibold text-base py-4 rounded-2xl hover:bg-marca-700 transition-all active:scale-[0.97] shadow-lg shadow-marca-200 flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          Confirmar e Pagar
+        </button>
+        <p class="text-center text-xs text-gray-400 pb-2">Pagamento seguro · Dados protegidos</p>
+      </div>
+
+      <!-- Modal Calendário -->
+      <div id="checkout-modal-calendario" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+        <div class="absolute inset-0 bg-black/40" onclick="checkout_e_pagamento_fecharCalendario()"></div>
+        <div class="relative bg-white rounded-t-3xl sm:rounded-2xl w-full max-w-sm mx-auto p-5 shadow-2xl">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-display font-bold text-gray-900">Data de Entrega</h3>
+            <button onclick="checkout_e_pagamento_fecharCalendario()" class="p-1 rounded-full hover:bg-gray-100 transition-colors"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+          </div>
+          <div id="checkout-calendario-grid" class="space-y-1"></div>
+          <button onclick="checkout_e_pagamento_selecionarData()" class="w-full mt-4 bg-marca-600 text-white font-semibold py-3 rounded-xl hover:bg-marca-700 transition-colors active:scale-[0.97]">Confirmar Data</button>
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        const dados = {
+          itens: [
+            { nome: 'Notebook Dell Latitude 5540', qtd: 2, valor: 4899.00, img: null },
+            { nome: 'Monitor Samsung 27" 4K', qtd: 1, valor: 2199.00, img: null },
+            { nome: 'Teclado Mecânico Logitech MX', qtd: 3, valor: 749.90, img: null },
+            { nome: 'Mouse Logitech MX Master 3S', qtd: 3, valor: 499.90, img: null },
+            { nome: 'Suporte Articulado p/ Monitor', qtd: 2, valor: 189.90, img: null }
+          ],
+          centros: [
+            { id: 'marketing', nome: 'Marketing', sigla: 'MKT' },
+            { id: 'ti', nome: 'Tecnologia da Informação', sigla: 'TI' },
+            { id: 'rh', nome: 'Recursos Humanos', sigla: 'RH' },
+            { id: 'financeiro', nome: 'Financeiro', sigla: 'FIN' },
+            { id: 'comercial', nome: 'Comercial', sigla: 'COM' }
+          ],
+          pagamentos: [
+            { id: 'boleto', nome: 'Boleto Empresarial', desc: 'Vencimento em 3 dias úteis', icone: 'boleto' },
+            { id: 'cartao', nome: 'Cartão de Crédito Corporativo', desc: 'Visa / Mastercard empresarial', icone: 'cartao' },
+            { id: 'pix', nome: 'Pix', desc: 'Aprovação instantânea', icone: 'pix' },
+            { id: 'nota_debito', nome: 'Nota de Débito Interna', desc: 'Lançamento no fechamento mensal', icone: 'nota' }
+          ],
+          enderecos: [
+            { label: 'Matriz — São Paulo', detalhe: 'Av. Paulista, 1578, cj 101 — Bela Vista', cidade: 'São Paulo — SP, 01310-200' },
+            { label: 'Filial Campinas', detalhe: 'R. das Figueiras, 450, 3º andar — Cambuí', cidade: 'Campinas — SP, 13025-320' },
+            { label: 'Filial Rio de Janeiro', detalhe: 'Av. Rio Branco, 200, sl 1201 — Centro', cidade: 'Rio de Janeiro — RJ, 20040-002' }
+          ],
+          juros: [0, 0.0199, 0.0299, 0.0399, 0.0499, 0.0599, 0.0699, 0.0799, 0.0899, 0.0999, 0.1099, 0.1199]
+        };
+
+        let estado = {
+          centroSelecionado: null,
+          pagamentoSelecionado: 'boleto',
+          dataSelecionada: null,
+          mesCalendario: new Date().getMonth(),
+          anoCalendario: new Date().getFullYear(),
+          enderecoAtual: 0,
+          numParcelas: 1
+        };
+
+        function init() {
+          renderItens();
+          renderCentros();
+          renderPagamentos();
+          renderParcelas();
+        }
+
+        function renderItens() {
+          const el = document.getElementById('checkout-itens');
+          if (!el) return;
+          const subtotal = dados.itens.reduce((s, i) => s + i.valor * i.qtd, 0);
+          const frete = subtotal > 15000 ? 0 : 89.90;
+          const desconto = subtotal > 10000 ? subtotal * 0.05 : 0;
+          const total = subtotal + frete - desconto;
+
+          el.innerHTML = dados.itens.map(item => `
+            <div class="flex items-center gap-3 px-4 py-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">${item.nome}</p>
+                <p class="text-xs text-gray-400">Qtd: ${item.qtd}</p>
+              </div>
+              <span class="text-sm font-semibold text-gray-900 flex-shrink-0">${brl(item.valor * item.qtd)}</span>
+            </div>
+          `).join('');
+
+          const subtotalEl = document.getElementById('checkout-subtotal');
+          const freteEl = document.getElementById('checkout-frete');
+          const descontoEl = document.getElementById('checkout-desconto');
+          const descontoRow = document.getElementById('checkout-desconto-row');
+          const totalEl = document.getElementById('checkout-total');
+
+          if (subtotalEl) subtotalEl.textContent = brl(subtotal);
+          if (freteEl) freteEl.textContent = frete === 0 ? 'Grátis' : brl(frete);
+          if (descontoRow) descontoRow.style.display = desconto > 0 ? 'flex' : 'none';
+          if (descontoEl) descontoEl.textContent = desconto > 0 ? '- ' + brl(desconto) : '- R$ 0,00';
+          if (totalEl) totalEl.textContent = brl(total);
+        }
+
+        function renderCentros() {
+          const el = document.getElementById('checkout-centros');
+          if (!el) return;
+          el.innerHTML = dados.centros.map(c => {
+            const sel = estado.centroSelecionado === c.id;
+            return `
+            <button onclick="checkout_e_pagamento_selecionarCentro('${c.id}')" class="w-full flex items-center gap-3 p-3 rounded-xl border-2 transition-all active:scale-[0.98] ${sel ? 'border-marca-500 bg-marca-50' : 'border-gray-200 hover:border-marca-300 bg-white'}">
+              <div class="w-10 h-10 rounded-full ${sel ? 'bg-marca-200 text-marca-700' : 'bg-gray-100 text-gray-500'} flex items-center justify-center text-xs font-bold flex-shrink-0 transition-colors">${c.sigla}</div>
+              <span class="text-sm font-medium ${sel ? 'text-marca-900' : 'text-gray-700'} transition-colors">${c.nome}</span>
+              ${sel ? '<svg class="w-5 h-5 text-marca-600 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' : ''}
+            </button>`;
+          }).join('');
+        }
+
+        function renderPagamentos() {
+          const el = document.getElementById('checkout-pagamentos');
+          if (!el) return;
+          const icones = {
+            boleto: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
+            cartao: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>',
+            pix: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+            nota: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m5 5l-6-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>'
+          };
+
+          el.innerHTML = dados.pagamentos.map(p => {
+            const sel = estado.pagamentoSelecionado === p.id;
+            return `
+            <button onclick="checkout_e_pagamento_selecionarPagamento('${p.id}')" class="w-full flex items-center gap-3 p-3.5 rounded-xl border-2 transition-all active:scale-[0.98] ${sel ? 'border-marca-500 bg-marca-50' : 'border-gray-200 hover:border-marca-300 bg-white'}">
+              <svg class="w-6 h-6 ${sel ? 'text-marca-600' : 'text-gray-400'} flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">${icones[p.icone]}</svg>
+              <div class="text-left">
+                <p class="text-sm font-medium ${sel ? 'text-marca-900' : 'text-gray-800'} transition-colors">${p.nome}</p>
+                <p class="text-xs ${sel ? 'text-marca-500' : 'text-gray-400'} transition-colors">${p.desc}</p>
+              </div>
+              <div class="ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${sel ? 'border-marca-500 bg-marca-500' : 'border-gray-300'}">
+                ${sel ? '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
+              </div>
+            </button>`;
+          }).join('');
+        }
+
+        function renderParcelas() {
+          const el = document.getElementById('checkout-parcelas');
+          const infoEl = document.getElementById('checkout-parcelas-info');
+          if (!el || !infoEl) return;
+
+          const subtotal = dados.itens.reduce((s, i) => s + i.valor * i.qtd, 0);
+          const total = subtotal + (subtotal > 15000 ? 0 : 89.90) - (subtotal > 10000 ? subtotal * 0.05 : 0);
+
+          el.innerHTML = Array.from({ length: 12 }, (_, i) => {
+            const num = i + 1;
+            const valor = total * Math.pow(1 + dados.juros[i], num) / num;
+            const sel = estado.numParcelas === num;
+            return `<button onclick="checkout_e_pagamento_selecionarParcela(${num})" class="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all active:scale-95 border-2 ${sel ? 'bg-marca-600 text-white border-marca-600 shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-marca-300'}">${num}x<br><span class="text-[10px] font-normal opacity-80">${brl(valor)}</span></button>`;
+          }).join('');
+
+          const valorParcela = total * Math.pow(1 + dados.juros[estado.numParcelas - 1], estado.numParcelas) / estado.numParcelas;
+          const totalComJuros = valorParcela * estado.numParcelas;
+          infoEl.textContent = estado.numParcelas === 1 ? `${brl(total)} à vista` : `${estado.numParcelas}x de ${brl(valorParcela)} (total ${brl(totalComJuros)})`;
+        }
+
+        window.checkout_e_pagamento_selecionarCentro = function(id) {
+          estado.centroSelecionado = id;
+          renderCentros();
+        };
+
+        window.checkout_e_pagamento_selecionarPagamento = function(id) {
+          estado.pagamentoSelecionado = id;
+          renderPagamentos();
+          const container = document.getElementById('checkout-parcelamento-container');
+          if (container) {
+            container.classList.toggle('hidden', id !== 'cartao');
+          }
+        };
+
+        window.checkout_e_pagamento_selecionarParcela = function(num) {
+          estado.numParcelas = num;
+          renderParcelas();
+        };
+
+        window.checkout_e_pagamento_toggleEndereco = function() {
+          const display = document.getElementById('checkout-endereco-display');
+          const form = document.getElementById('checkout-endereco-form');
+          if (display) display.classList.toggle('hidden');
+          if (form) form.classList.toggle('hidden');
+        };
+
+        window.checkout_e_pagamento_salvarEndereco = function() {
+          const inputs = document.querySelectorAll('#checkout-endereco-form input');
+          const apelido = inputs[0]?.value || 'Endereço';
+          const logradouro = inputs[2]?.value || '';
+          const numero = inputs[3]?.value || '';
+          const bairro = inputs[5]?.value || '';
+          const cidade = inputs[6]?.value || '';
+          const uf = inputs[7]?.value || '';
+
+          document.getElementById('checkout-endereco-label').textContent = apelido;
+          document.getElementById('checkout-endereco-detalhe').textContent = logradouro + ', ' + numero + ' — ' + bairro;
+          document.getElementById('checkout-endereco-detalhe').nextElementSibling.textContent = cidade + ' — ' + uf;
+
+          toast('Endereço atualizado com sucesso', 'ok');
+          window.checkout_e_pagamento_toggleEndereco();
+        };
+
+        window.checkout_e_pagamento_mascaraCep = function(input) {
+          let v = input.value.replace(/\D/g, '');
+          if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5, 8);
+          input.value = v;
+        };
+
+        window.checkout_e_pagamento_abrirCalendario = function() {
+          const modal = document.getElementById('checkout-modal-calendario');
+          if (modal) { modal.classList.remove('hidden'); renderCalendario(); }
+        };
+
+        window.checkout_e_pagamento_fecharCalendario = function() {
+          const modal = document.getElementById('checkout-modal-calendario');
+          if (modal) modal.classList.add('hidden');
+        };
+
+        function renderCalendario() {
+          const grid = document.getElementById('checkout-calendario-grid');
+          if (!grid) return;
+          const ano = estado.anoCalendario;
+          const mes = estado.mesCalendario;
+          const nomes = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+          const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+          const primeiro = new Date(ano, mes, 1);
+          const ultimo = new Date(ano, mes + 1, 0);
+          const inicioSemana = primeiro.getDay();
+          const nomeMes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][mes];
+
+          let html = `
+            <div class="flex items-center justify-between mb-3">
+              <button onclick="checkout_e_pagamento_mudarMes(-1)" class="p-2 rounded-full hover:bg-gray-100 transition-colors"><svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+              <span class="text-sm font-bold text-gray-900">${nomeMes} ${ano}</span>
+              <button onclick="checkout_e_pagamento_mudarMes(1)" class="p-2 rounded-full hover:bg-gray-100 transition-colors"><svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center mb-1">${nomes.map(d => `<span class="text-[10px] font-semibold text-gray-400 py-1">${d}</span>`).join('')}</div>
+            <div class="grid grid-cols-7 gap-1 text-center">`;
+
+          for (let i = 0; i < inicioSemana; i++) html += `<span class="py-2"></span>`;
+          for (let d = 1; d <= ultimo.getDate(); d++) {
+            const data = new Date(ano, mes, d);
+            const isHoje = data.getTime() === hoje.getTime();
+            const isPassado = data < hoje;
+            const isSel = estado.dataSelecionada && estado.dataSelecionada.getTime() === data.getTime();
+            const cls = isPassado ? 'text-gray-300' : isSel ? 'bg-marca-600 text-white rounded-xl font-bold' : isHoje ? 'text-marca-600 font-bold hover:bg-marca-50 rounded-xl' : 'text-gray-700 hover:bg-gray-100 rounded-xl';
+            html += `<button onclick="checkout_e_pagamento_escolherData(${ano},${mes},${d})" class="py-2 text-sm transition-colors ${cls}">${d}</button>`;
+          }
+          html += '</div>';
+          grid.innerHTML = html;
+        }
+
+        window.checkout_e_pagamento_mudarMes = function(delta) {
+          estado.mesCalendario += delta;
+          if (estado.mesCalendario > 11) { estado.mesCalendario = 0; estado.anoCalendario++; }
+          if (estado.mesCalendario < 0) { estado.mesCalendario = 11; estado.anoCalendario--; }
+          renderCalendario();
+        };
+
+        window.checkout_e_pagamento_escolherData = function(y, m, d) {
+          estado.dataSelecionada = new Date(y, m, d);
+          renderCalendario();
+        };
+
+        window.checkout_e_pagamento_selecionarData = function() {
+          if (!estado.dataSelecionada) { toast('Selecione uma data de entrega', 'erro'); return; }
+          const d = estado.dataSelecionada;
+          const nomeMes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][d.getMonth()];
+          document.getElementById('checkout-data-selecionada').textContent = d.getDate() + ' de ' + nomeMes + ' de ' + d.getFullYear();
+          checkout_e_pagamento_fecharCalendario();
+          toast('Data de entrega selecionada', 'ok');
+        };
+
+        window.checkout_e_pagamento_confirmar = function() {
+          if (!estado.centroSelecionado) { toast('Selecione um centro de custo', 'erro'); return; }
+          if (!estado.dataSelecionada) { toast('Selecione a data de entrega', 'erro'); return; }
+
+          const btn = document.getElementById('checkout-btn-confirmar');
+          if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processando...';
+          }
+
+          setTimeout(function() {
+            toast('Pedido #BL-20250618-0047 confirmado com sucesso!', 'ok');
+            mostrarTela('confirmacao-e-acompanhar');
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Confirmar e Pagar';
+            }
+          }, 1800);
+        };
+
+        init();
+      })();
+      </script>
+    </section>
+
     <!-- TELAS -->
     </main>
 
