@@ -610,6 +610,248 @@
       </script>
     </section>
 
+    <section data-tela="carrinho-de-pedidos" class="hidden">
+      <div id="carrinho-content" class="min-h-screen bg-gray-50 pb-24">
+        <!-- Cabeçalho com ação -->
+        <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-100 px-5 pt-4 pb-3">
+          <button onclick="mostrarTela('home-vitrine')" class="flex items-center gap-2 text-indigo-700 hover:text-indigo-800 font-body text-sm font-medium transition-colors active:scale-95 mb-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Continuar Comprando
+          </button>
+          <h1 class="font-display text-2xl font-bold text-gray-900 leading-tight">Meu Carrinho</h1>
+          <p id="carrinho-count-text" class="text-sm text-gray-500 font-body mt-0.5">3 itens no pedido</p>
+        </div>
+
+        <!-- Lista de itens -->
+        <div id="carrinho-itens" class="px-5 pt-4 space-y-3"></div>
+
+        <!-- Cupom de desconto -->
+        <div class="px-5 pt-5">
+          <div class="card p-4">
+            <h2 class="font-display text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">Cupom de Desconto</h2>
+            <div class="flex gap-2">
+              <input
+                id="input-cupom"
+                type="text"
+                placeholder="Digite o código"
+                class="flex-1 min-w-0 px-3 py-2.5 border border-gray-200 rounded-xl font-body text-sm text-gray-800 placeholder-gray-400 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all uppercase tracking-wider"
+              />
+              <button
+                onclick="carrinho_de_pedidos_aplicar_cupom(this, document.getElementById('input-cupom'))"
+                class="bg-indigo-700 hover:bg-indigo-800 text-white font-body text-sm font-semibold px-5 py-2.5 rounded-xl transition-all active:scale-95 whitespace-nowrap"
+              >
+                Aplicar
+              </button>
+            </div>
+            <p id="cupom-msg" class="text-xs mt-2 font-body hidden"></p>
+            <p class="text-xs text-gray-400 font-body mt-2">Experimente: <button onclick="document.getElementById('input-cupom').value='FRETE10'" class="text-indigo-600 underline hover:text-indigo-800">FRETE10</button> ou <button onclick="document.getElementById('input-cupom').value='BOASVINDAS'" class="text-indigo-600 underline hover:text-indigo-800">BOASVINDAS</button></p>
+          </div>
+        </div>
+
+        <!-- Resumo do pedido -->
+        <div class="px-5 pt-4 pb-4">
+          <div class="card p-5 space-y-3">
+            <h2 class="font-display text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Resumo do Pedido</h2>
+            <div class="flex justify-between items-center font-body text-sm">
+              <span class="text-gray-500">Subtotal</span>
+              <span id="resumo-subtotal" class="font-semibold text-gray-800">R$ 0,00</span>
+            </div>
+            <div class="flex justify-between items-center font-body text-sm">
+              <span class="text-gray-500">Entrega</span>
+              <span id="resumo-entrega" class="font-semibold text-gray-800">R$ 8,00</span>
+            </div>
+            <div id="resumo-desconto-row" class="flex justify-between items-center font-body text-sm hidden">
+              <span class="text-green-600">Desconto</span>
+              <span id="resumo-desconto" class="font-semibold text-green-600">- R$ 0,00</span>
+            </div>
+            <div class="border-t border-gray-200 my-1"></div>
+            <div class="flex justify-between items-center">
+              <span class="font-display font-bold text-gray-900 text-base">Total</span>
+              <span id="resumo-total" class="font-display font-extrabold text-indigo-700 text-xl">R$ 0,00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spacer para botão fixo -->
+        <div class="h-24"></div>
+      </div>
+
+      <!-- Botão Finalizar fixo -->
+      <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-5 py-3 z-20" style="max-width:390px;margin:0 auto;left:50%;transform:translateX(-50%);width:100%;">
+        <button
+          onclick="carrinho_de_pedidos_finalizar()"
+          class="w-full bg-indigo-700 hover:bg-indigo-800 active:scale-[0.97] text-white font-display font-bold text-base py-3.5 rounded-2xl transition-all shadow-lg shadow-indigo-700/25"
+        >
+          Finalizar Pedido &nbsp;→
+        </button>
+      </div>
+    </section>
+    <script>
+      (function() {
+        var carrinho = [
+          { id: 'p1', iniciais: 'PM', cor: 'bg-red-500', nome: 'Pizza Margherita', desc: 'Média · molho de tomate, mussarela, manjericão', preco: 45.90, qtd: 1 },
+          { id: 'p2', iniciais: 'CC', cor: 'bg-red-600', nome: 'Coca-Cola 350ml', desc: 'Lata gelada', preco: 6.50, qtd: 2 },
+          { id: 'p3', iniciais: 'PQ', cor: 'bg-amber-500', nome: 'Pão de Queijo', desc: 'Porção com 6 unidades · queijo minas', preco: 12.00, qtd: 1 },
+          { id: 'p4', iniciais: 'SL', cor: 'bg-orange-400', nome: 'Suco de Laranja', desc: 'Natural · 500ml · sem adição de açúcar', preco: 14.50, qtd: 1 },
+          { id: 'p5', iniciais: 'BG', cor: 'bg-pink-500', nome: 'Brigadeiro Gourmet', desc: 'Unidade · chocolate belga 70%', preco: 8.00, qtd: 3 },
+          { id: 'p6', iniciais: 'AC', cor: 'bg-purple-500', nome: 'Açaí Premium', desc: 'Tigela 500ml · banana, granola, mel', preco: 22.90, qtd: 1 }
+        ];
+
+        var descontoAplicado = null;
+        var valorDesconto = 0;
+        var taxaEntrega = 8.00;
+
+        function brl(v) { return 'R$ ' + v.toFixed(2).replace('.', ','); }
+
+        function calcularSubtotal() {
+          return carrinho.reduce(function(s, i) { return s + (i.preco * i.qtd); }, 0);
+        }
+
+        function renderizar() {
+          var container = document.getElementById('carrinho-itens');
+          var countEl = document.getElementById('carrinho-count-text');
+
+          if (carrinho.length === 0) {
+            container.innerHTML =
+              '<div class="flex flex-col items-center justify-center py-16 px-8 text-center">' +
+                '<div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">' +
+                  '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                '</div>' +
+                '<p class="font-display text-lg font-bold text-gray-700 mb-1">Carrinho vazio</p>' +
+                '<p class="font-body text-sm text-gray-400 mb-5">Nenhum item adicionado ainda.<br/>Explore nosso cardápio!</p>' +
+                '<button onclick="mostrarTela(\'home-vitrine\')" class="bg-indigo-700 hover:bg-indigo-800 text-white font-display font-semibold text-sm px-6 py-3 rounded-xl transition-all active:scale-95">Ver Cardápio</button>' +
+              '</div>';
+
+            var btnFinalizar = document.querySelector('[data-tela="carrinho-de-pedidos"] button[onclick*="finalizar"]');
+            if (btnFinalizar) btnFinalizar.disabled = true;
+            countEl.textContent = '0 itens no pedido';
+          } else {
+            container.innerHTML = carrinho.map(function(item) {
+              return '<div class="card p-3.5 flex items-center gap-3.5 animate-[fadeInUp_0.3s_ease-out]">' +
+                '<div class="w-14 h-14 rounded-xl ' + item.cor + ' flex items-center justify-center flex-shrink-0 shadow-sm">' +
+                  '<span class="text-white font-bold text-xs tracking-wide">' + item.iniciais + '</span>' +
+                '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                  '<p class="font-body font-semibold text-gray-900 text-sm leading-tight truncate">' + item.nome + '</p>' +
+                  '<p class="font-body text-xs text-gray-400 truncate">' + item.desc + '</p>' +
+                  '<p class="font-body font-bold text-indigo-700 text-sm mt-0.5">' + brl(item.preco) + '</p>' +
+                '</div>' +
+                '<div class="flex flex-col items-end gap-2 flex-shrink-0">' +
+                  '<div class="flex items-center gap-0.5 bg-gray-100 rounded-lg overflow-hidden">' +
+                    '<button onclick="carrinho_de_pedidos_alterar_qtd(\'' + item.id + '\', -1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-indigo-700 hover:bg-gray-200 transition-colors active:bg-gray-300">' +
+                      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+                    '</button>' +
+                    '<span id="qtd-' + item.id + '" class="w-7 h-8 flex items-center justify-center font-body text-sm font-bold text-gray-800">' + item.qtd + '</span>' +
+                    '<button onclick="carrinho_de_pedidos_alterar_qtd(\'' + item.id + '\', 1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-indigo-700 hover:bg-gray-200 transition-colors active:bg-gray-300">' +
+                      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+                    '</button>' +
+                  '</div>' +
+                  '<span id="subtotal-' + item.id + '" class="font-body text-sm font-bold text-gray-900">' + brl(item.preco * item.qtd) + '</span>' +
+                  '<button onclick="carrinho_de_pedidos_remover_item(' + item.id + ')" class="text-red-400 hover:text-red-600 transition-colors p-1 active:scale-90" title="Remover item">' +
+                    '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+                  '</button>' +
+                '</div>' +
+              '</div>';
+            }).join('');
+
+            var btnFinalizar = document.querySelector('[data-tela="carrinho-de-pedidos"] button[onclick*="finalizar"]');
+            if (btnFinalizar) btnFinalizar.disabled = false;
+
+            var totalItems = carrinho.reduce(function(s, i) { return s + i.qtd; }, 0);
+            countEl.textContent = totalItems + ' ' + (totalItems === 1 ? 'item' : 'itens') + ' no pedido';
+          }
+
+          renderizarResumo();
+        }
+
+        function renderizarResumo() {
+          var subtotal = calcularSubtotal();
+          var desconto = valorDesconto;
+          var entrega = carrinho.length > 0 ? taxaEntrega : 0;
+          var total = Math.max(subtotal + entrega - desconto, 0);
+
+          document.getElementById('resumo-subtotal').textContent = brl(subtotal);
+          document.getElementById('resumo-entrega').textContent = carrinho.length > 0 ? brl(entrega) : 'Grátis';
+
+          var rowDesc = document.getElementById('resumo-desconto-row');
+          if (desconto > 0) {
+            rowDesc.classList.remove('hidden');
+            document.getElementById('resumo-desconto').textContent = '- ' + brl(desconto);
+          } else {
+            rowDesc.classList.add('hidden');
+          }
+
+          document.getElementById('resumo-total').textContent = brl(total);
+        }
+
+        window.carrinho_de_pedidos_alterar_qtd = function(id, delta) {
+          var item = carrinho.find(function(i) { return i.id === id; });
+          if (!item) return;
+          var novaQtd = item.qtd + delta;
+          if (novaQtd < 1) {
+            abrirModal(
+              '<p class="font-body text-gray-700 text-center py-4">Remover <strong>' + item.nome + '</strong> do carrinho?</p>',
+              'Remover item',
+              function() { window.carrinho_de_pedidos_remover_item(id); }
+            );
+            return;
+          }
+          item.qtd = novaQtd;
+          renderizar();
+        };
+
+        window.carrinho_de_pedidos_remover_item = function(id) {
+          var item = carrinho.find(function(i) { return i.id === id; });
+          var nome = item ? item.nome : 'item';
+          carrinho = carrinho.filter(function(i) { return i.id !== id; });
+          renderizar();
+          if (carrinho.length === 0) {
+            toast('Carrinho esvaziado', 'info');
+          } else {
+            toast(nome + ' removido do carrinho', 'ok');
+          }
+        };
+
+        window.carrinho_de_pedidos_aplicar_cupom = function(btn, input) {
+          var codigo = input.value.trim().toUpperCase();
+          if (!codigo) { toast('Digite um código de cupom', 'erro'); return; }
+          var msgEl = document.getElementById('cupom-msg');
+
+          if (codigo === 'FRETE10') {
+            descontoAplicado = codigo;
+            valorDesconto = Math.round(subtotal * 0.10 * 100) / 100;
+            msgEl.textContent = 'Cupom aplicado: 10% de desconto!';
+            msgEl.className = 'text-xs mt-2 font-body text-green-600';
+            toast('Cupom FRETE10 aplicado!', 'ok');
+          } else if (codigo === 'BOASVINDAS') {
+            descontoAplicado = codigo;
+            valorDesconto = 15.00;
+            msgEl.textContent = 'Cupom aplicado: R$ 15,00 de desconto!';
+            msgEl.className = 'text-xs mt-2 font-body text-green-600';
+            toast('Cupom BOASVINDAS aplicado!', 'ok');
+          } else {
+            msgEl.textContent = 'Cupom inválido ou expirado.';
+            msgEl.className = 'text-xs mt-2 font-body text-red-500';
+            toast('Cupom inválido', 'erro');
+            descontoAplicado = null;
+            valorDesconto = 0;
+          }
+          renderizarResumo();
+          btn.blur();
+        };
+
+        window.carrinho_de_pedidos_finalizar = function() {
+          if (carrinho.length === 0) {
+            toast('Adicione itens ao carrinho primeiro', 'erro');
+            return;
+          }
+          mostrarTela('checkout-e-pagamento');
+        };
+
+        renderizar();
+      })();
+    </script>
+
     <!-- TELAS -->
       </div>
     </main>
