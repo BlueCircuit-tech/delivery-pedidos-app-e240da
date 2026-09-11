@@ -1754,6 +1754,543 @@
         document.addEventListener('DOMContentLoaded', acompanhar_pedido_init);
     </script>
 
+    <section data-tela="historico-de-pedidos" class="hidden">
+      <div id="historico-content">
+        <!-- Header da tela -->
+        <div class="px-5 pt-6 pb-3 animate-fade-in">
+          <h1 class="font-display text-2xl font-bold text-gray-900">Histórico de Pedidos</h1>
+          <p class="text-sm text-gray-500 mt-1">Acompanhe todos os seus pedidos anteriores</p>
+        </div>
+
+        <!-- Cards de indicadores -->
+        <div class="px-5 pb-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-marca-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                </div>
+                <span class="text-xs text-gray-500 font-medium uppercase tracking-wide">Total</span>
+              </div>
+              <p class="font-display text-xl font-bold text-gray-900">24</p>
+              <p class="text-xs text-gray-400 mt-0.5">pedidos realizados</p>
+            </div>
+            <div class="card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <span class="text-xs text-gray-500 font-medium uppercase tracking-wide">Concluídos</span>
+              </div>
+              <p class="font-display text-xl font-bold text-gray-900">21</p>
+              <p class="text-xs text-green-600 mt-0.5 font-medium">87,5% de sucesso</p>
+            </div>
+            <div class="card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <span class="text-xs text-gray-500 font-medium uppercase tracking-wide">Pendentes</span>
+              </div>
+              <p class="font-display text-xl font-bold text-gray-900">2</p>
+              <p class="text-xs text-amber-600 mt-0.5 font-medium">em andamento</p>
+            </div>
+            <div class="card p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </div>
+                <span class="text-xs text-gray-500 font-medium uppercase tracking-wide">Cancelados</span>
+              </div>
+              <p class="font-display text-xl font-bold text-gray-900">1</p>
+              <p class="text-xs text-red-600 mt-0.5 font-medium">4,2% do total</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico de gastos mensais -->
+        <div class="px-5 pb-3">
+          <div class="card p-4">
+            <h3 class="font-display text-sm font-semibold text-gray-800 mb-3">Gastos por Mês</h3>
+            <svg viewBox="0 0 300 100" class="w-full h-24">
+              <defs>
+                <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6366f1" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#6366f1" stop-opacity="0.3"/>
+                </linearGradient>
+              </defs>
+              <line x1="20" y1="85" x2="280" y2="85" stroke="#e5e7eb" stroke-width="1"/>
+              <rect x="28" y="50" width="22" height="35" rx="3" fill="url(#barGrad)"/>
+              <rect x="62" y="35" width="22" height="50" rx="3" fill="url(#barGrad)"/>
+              <rect x="96" y="60" width="22" height="25" rx="3" fill="url(#barGrad)"/>
+              <rect x="130" y="25" width="22" height="60" rx="3" fill="url(#barGrad)"/>
+              <rect x="164" y="40" width="22" height="45" rx="3" fill="url(#barGrad)"/>
+              <rect x="198" y="20" width="22" height="65" rx="3" fill="url(#barGrad)"/>
+              <rect x="232" y="30" width="22" height="55" rx="3" fill="url(#barGrad)" opacity="0.7"/>
+              <text x="39" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Ago</text>
+              <text x="73" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Set</text>
+              <text x="107" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Out</text>
+              <text x="141" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Nov</text>
+              <text x="175" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Dez</text>
+              <text x="209" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Jan</text>
+              <text x="243" y="96" text-anchor="middle" class="text-[8px] fill-gray-400">Fev</text>
+            </svg>
+            <p class="text-xs text-gray-400 text-center mt-2">Últimos 7 meses</p>
+          </div>
+        </div>
+
+        <!-- Busca -->
+        <div class="px-5 pb-2">
+          <div class="relative">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="historico-busca" placeholder="Buscar por pedido ou produto..."
+              class="w-full pl-10 pr-10 py-3 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent transition-all">
+            <button id="historico-limpar-busca" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center">
+              <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtro por período -->
+        <div class="px-5 pb-2">
+          <div class="flex gap-2 overflow-x-auto pb-1 -mx-5 px-5" style="scrollbar-width:none;-ms-overflow-style:none;">
+            <button onclick="historico_de_pedidos_filtrarPeriodo('7d')" class="historico-periodo-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-periodo="7d">Últimos 7 dias</button>
+            <button onclick="historico_de_pedidos_filtrarPeriodo('30d')" class="historico-periodo-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-periodo="30d">30 dias</button>
+            <button onclick="historico_de_pedidos_filtrarPeriodo('3m')" class="historico-periodo-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-periodo="3m">3 meses</button>
+            <button onclick="historico_de_pedidos_filtrarPeriodo('todos')" class="historico-periodo-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-periodo="todos">Todos</button>
+          </div>
+        </div>
+
+        <!-- Filtro por status -->
+        <div class="px-5 pb-3">
+          <div class="flex gap-2 overflow-x-auto pb-1 -mx-5 px-5" style="scrollbar-width:none;-ms-overflow-style:none;">
+            <button onclick="historico_de_pedidos_filtrarStatus('todos')" class="historico-status-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-status="todos">Todos</button>
+            <button onclick="historico_de_pedidos_filtrarStatus('concluido')" class="historico-status-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-status="concluido">Concluídos</button>
+            <button onclick="historico_de_pedidos_filtrarStatus('pendente')" class="historico-status-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-status="pendente">Pendentes</button>
+            <button onclick="historico_de_pedidos_filtrarStatus('cancelado')" class="historico-status-btn flex-shrink-0 px-4 py-2 text-xs font-medium rounded-lg border transition-all active:scale-95" data-status="cancelado">Cancelados</button>
+          </div>
+        </div>
+
+        <!-- Lista de pedidos -->
+        <div class="px-5 pb-6" id="historico-lista">
+          <!-- Pedido 1 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="1" data-status="concluido" data-data="2025-02-15" data-produtos="refrigerante 2L,gui pizza grande,molho extra">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10248</p>
+                <p class="text-xs text-gray-400 mt-0.5">15 de Fevereiro, 2025</p>
+              </div>
+              <span class="badge badge-green">Concluído</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">R</div>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">P</div>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">+2</div>
+                </div>
+                <span class="text-xs text-gray-500">4 itens</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 156,90</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Refrigerante 2L - Coca-Cola</span><span class="text-gray-900 font-medium">R$ 18,00</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Pizza Grande - Margherita</span><span class="text-gray-900 font-medium">R$ 62,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Pizza Grande - Pepperoni</span><span class="text-gray-900 font-medium">R$ 64,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Molho Extra</span><span class="text-gray-900 font-medium">R$ 5,00</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Taxa de entrega</span><span class="text-gray-900 font-medium">R$ 6,10</span></div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="event.stopPropagation(); historico_de_pedidos_repetir(1)" class="btn flex-1 text-sm active:scale-95">Repetir Pedido</button>
+                <button onclick="event.stopPropagation(); historico_de_pedidos_comprovante(1)" class="flex-shrink-0 px-3 py-2.5 text-sm border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                  <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pedido 2 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="2" data-status="pendente" data-data="2025-02-18" data-produtos="açaí 500ml,banana,leite ninho">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10249</p>
+                <p class="text-xs text-gray-400 mt-0.5">18 de Fevereiro, 2025</p>
+              </div>
+              <span class="badge badge-yellow">Pendente</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-400 to-purple-700 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">A</div>
+                </div>
+                <span class="text-xs text-gray-500">3 itens</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 38,50</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Açaí 500ml - Premium</span><span class="text-gray-900 font-medium">R$ 24,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Banana</span><span class="text-gray-900 font-medium">R$ 4,50</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Leite Ninho</span><span class="text-gray-900 font-medium">R$ 9,10</span></div>
+              </div>
+              <button onclick="event.stopPropagation(); mostrarTela('acompanhar-pedido')" class="btn w-full text-sm active:scale-95">Acompanhar Pedido</button>
+            </div>
+          </div>
+
+          <!-- Pedido 3 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="3" data-status="concluido" data-data="2025-02-10" data-produtos="sushi salmão,hossomaki,coke lata">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10247</p>
+                <p class="text-xs text-gray-400 mt-0.5">10 de Fevereiro, 2025</p>
+              </div>
+              <span class="badge badge-green">Concluído</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-pink-400 to-pink-700 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">S</div>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-300 to-emerald-600 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">H</div>
+                </div>
+                <span class="text-xs text-gray-500">5 itens</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 112,40</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Combo Sushi Salmão (20 peças)</span><span class="text-gray-900 font-medium">R$ 89,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Hossomaki (8 peças)</span><span class="text-gray-900 font-medium">R$ 24,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Coca-Cola Lata</span><span class="text-gray-900 font-medium">R$ 6,00</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Taxa de entrega</span><span class="text-gray-900 font-medium">R$ 8,40</span></div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="event.stopPropagation(); historico_de_pedidos_repetir(3)" class="btn flex-1 text-sm active:scale-95">Repetir Pedido</button>
+                <button onclick="event.stopPropagation(); historico_de_pedidos_comprovante(3)" class="flex-shrink-0 px-3 py-2.5 text-sm border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                  <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pedido 4 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="4" data-status="cancelado" data-data="2025-02-08" data-produtos="hambúrguer artesanal,batata frita,milkshake">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10246</p>
+                <p class="text-xs text-gray-400 mt-0.5">8 de Fevereiro, 2025</p>
+              </div>
+              <span class="badge badge-red">Cancelado</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">H</div>
+                </div>
+                <span class="text-xs text-gray-500">3 itens</span>
+              </div>
+              <span class="font-display font-bold text-gray-400 text-sm line-through">R$ 72,50</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Hambúrguer Artesanal - Smash</span><span class="text-gray-900 font-medium">R$ 42,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Batata Frita Grande</span><span class="text-gray-900 font-medium">R$ 18,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Milkshake Ovomaltine</span><span class="text-gray-900 font-medium">R$ 20,70</span></div>
+              </div>
+              <div class="bg-red-50 rounded-lg p-3 mb-2">
+                <p class="text-xs text-red-700 font-medium">Pedido cancelado</p>
+                <p class="text-xs text-red-500 mt-0.5">Solicitado pelo cliente às 19:45</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pedido 5 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="5" data-status="concluido" data-data="2025-02-03" data-produtos="salada caesar,frango grelhado,suco de laranja">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10245</p>
+                <p class="text-xs text-gray-400 mt-0.5">3 de Fevereiro, 2025</p>
+              </div>
+              <span class="badge badge-green">Concluído</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-green-400 to-green-700 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">C</div>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">F</div>
+                </div>
+                <span class="text-xs text-gray-500">3 itens</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 54,90</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Salada Caesar</span><span class="text-gray-900 font-medium">R$ 29,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Frango Grelhado</span><span class="text-gray-900 font-medium">R$ 18,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Suco de Laranja Natural 500ml</span><span class="text-gray-900 font-medium">R$ 8,10</span></div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="event.stopPropagation(); historico_de_pedidos_repetir(5)" class="btn flex-1 text-sm active:scale-95">Repetir Pedido</button>
+                <button onclick="event.stopPropagation(); historico_de_pedidos_comprovante(5)" class="flex-shrink-0 px-3 py-2.5 text-sm border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                  <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pedido 6 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="6" data-status="concluido" data-data="2025-01-28" data-produtos="açaí 700ml,morango,granola,leite condensado">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10244</p>
+                <p class="text-xs text-gray-400 mt-0.5">28 de Janeiro, 2025</p>
+              </div>
+              <span class="badge badge-green">Concluído</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-400 to-purple-700 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">A</div>
+                </div>
+                <span class="text-xs text-gray-500">1 item</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 29,90</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Açaí 700ml - Morango c/ Granola</span><span class="text-gray-900 font-medium">R$ 29,90</span></div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="event.stopPropagation(); historico_de_pedidos_repetir(6)" class="btn flex-1 text-sm active:scale-95">Repetir Pedido</button>
+                <button onclick="event.stopPropagation(); historico_de_pedidos_comprovante(6)" class="flex-shrink-0 px-3 py-2.5 text-sm border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                  <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pedido 7 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="7" data-status="concluido" data-data="2025-01-25" data-produtos="x-burger,x-salada,refri lata">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10243</p>
+                <p class="text-xs text-gray-400 mt-0.5">25 de Janeiro, 2025</p>
+              </div>
+              <span class="badge badge-green">Concluído</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">X</div>
+                </div>
+                <span class="text-xs text-gray-500">3 itens</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 64,70</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">X-Burger Especial</span><span class="text-gray-900 font-medium">R$ 28,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">X-Salada</span><span class="text-gray-900 font-medium">R$ 26,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Guaraná Antarctica Lata</span><span class="text-gray-900 font-medium">R$ 5,00</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Taxa de entrega</span><span class="text-gray-900 font-medium">R$ 3,90</span></div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="event.stopPropagation(); historico_de_pedidos_repetir(7)" class="btn flex-1 text-sm active:scale-95">Repetir Pedido</button>
+                <button onclick="event.stopPropagation(); historico_de_pedidos_comprovante(7)" class="flex-shrink-0 px-3 py-2.5 text-sm border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                  <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pedido 8 -->
+          <div class="historico-card card p-4 mb-3 cursor-pointer transition-all active:scale-[0.98] hover:shadow-lg" data-id="8" data-status="pendente" data-data="2025-02-20" data-produtos="pizza calabresa,borda catupiry,coca 2L">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-display font-bold text-gray-900 text-sm">Pedido #10250</p>
+                <p class="text-xs text-gray-400 mt-0.5">20 de Fevereiro, 2025</p>
+              </div>
+              <span class="badge badge-yellow">Pendente</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">P</div>
+                </div>
+                <span class="text-xs text-gray-500">3 itens</span>
+              </div>
+              <span class="font-display font-bold text-marca-700 text-sm">R$ 81,80</span>
+            </div>
+            <div class="historico-detalhes hidden mt-3 pt-3 border-t border-gray-100">
+              <div class="space-y-2 mb-3">
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Pizza Média - Calabresa</span><span class="text-gray-900 font-medium">R$ 54,90</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Borda Recheada - Catupiry</span><span class="text-gray-900 font-medium">R$ 9,00</span></div>
+                <div class="flex justify-between text-sm"><span class="text-gray-600">Coca-Cola 2L</span><span class="text-gray-900 font-medium">R$ 15,90</span></div>
+              </div>
+              <button onclick="event.stopPropagation(); mostrarTela('acompanhar-pedido')" class="btn w-full text-sm active:scale-95">Acompanhar Pedido</button>
+            </div>
+          </div>
+
+          <!-- Estado vazio (hidden by default) -->
+          <div id="historico-vazio" class="hidden py-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+              <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            </div>
+            <p class="font-display font-semibold text-gray-700 text-sm">Nenhum pedido encontrado</p>
+            <p class="text-xs text-gray-400 mt-1">Tente ajustar os filtros ou a busca</p>
+          </div>
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        const pedidos = [
+          { id: 1, numero: '#10248', data: '2025-02-15', valor: 156.90, status: 'concluido', itens: 4, produtos: 'Refrigerante 2L - Coca-Cola,R\$ 18,00|Pizza Grande - Margherita,R\$ 62,90|Pizza Grande - Pepperoni,R\$ 64,90|Molho Extra,R\$ 5,00|Taxa de entrega,R\$ 6,10' },
+          { id: 2, numero: '#10249', data: '2025-02-18', valor: 38.50, status: 'pendente', itens: 3, produtos: 'Açaí 500ml - Premium,R\$ 24,90|Banana,R\$ 4,50|Leite Ninho,R\$ 9,10' },
+          { id: 3, numero: '#10247', data: '2025-02-10', valor: 112.40, status: 'concluido', itens: 5, produtos: 'Combo Sushi Salmão (20 peças),R\$ 89,90|Hossomaki (8 peças),R\$ 24,90|Coca-Cola Lata,R\$ 6,00|Taxa de entrega,R\$ 8,40' },
+          { id: 4, numero: '#10246', data: '2025-02-08', valor: 72.50, status: 'cancelado', itens: 3, produtos: 'Hambúrguer Artesanal - Smash,R\$ 42,90|Batata Frita Grande,R\$ 18,90|Milkshake Ovomaltine,R\$ 20,70' },
+          { id: 5, numero: '#10245', data: '2025-02-03', valor: 54.90, status: 'concluido', itens: 3, produtos: 'Salada Caesar,R\$ 29,90|Frango Grelhado,R\$ 18,90|Suco de Laranja Natural 500ml,R\$ 8,10' },
+          { id: 6, numero: '#10244', data: '2025-01-28', valor: 29.90, status: 'concluido', itens: 1, produtos: 'Açaí 700ml - Morango c/ Granola,R\$ 29,90' },
+          { id: 7, numero: '#10243', data: '2025-01-25', valor: 64.70, status: 'concluido', itens: 3, produtos: 'X-Burger Especial,R\$ 28,90|X-Salada,R\$ 26,90|Guaraná Antarctica Lata,R\$ 5,00|Taxa de entrega,R\$ 3,90' },
+          { id: 8, numero: '#10250', data: '2025-02-20', valor: 81.80, status: 'pendente', itens: 3, produtos: 'Pizza Média - Calabresa,R\$ 54,90|Borda Recheada - Catupiry,R\$ 9,00|Coca-Cola 2L,R\$ 15,90' }
+        ];
+
+        let periodoFiltro = 'todos';
+        let statusFiltro = 'todos';
+        let termoBusca = '';
+
+        function agoraPeriodo() {
+          const d = new Date();
+          if (periodoFiltro === '7d') return new Date(d.getTime() - 7 * 86400000);
+          if (periodoFiltro === '30d') return new Date(d.getTime() - 30 * 86400000);
+          if (periodoFiltro === '3m') return new Date(d.getTime() - 90 * 86400000);
+          return new Date(0);
+        }
+
+        function filtrarPedidos() {
+          const limite = agoraPeriodo();
+          const cards = document.querySelectorAll('.historico-card');
+          let visiveis = 0;
+          cards.forEach(function(card) {
+            const data = card.getAttribute('data-data');
+            const status = card.getAttribute('data-status');
+            const produtos = card.getAttribute('data-produtos') || '';
+            const numero = card.querySelector('.font-display')?.textContent || '';
+            const dataOk = periodoFiltro === 'todos' || new Date(data) >= limite;
+            const statusOk = statusFiltro === 'todos' || status === statusFiltro;
+            const buscaOk = !termoBusca || numero.toLowerCase().includes(termoBusca) || produtos.toLowerCase().includes(termoBusca);
+            if (dataOk && statusOk && buscaOk) {
+              card.classList.remove('hidden');
+              visiveis++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+          const vazio = document.getElementById('historico-vazio');
+          if (vazio) vazio.classList.toggle('hidden', visiveis > 0);
+        }
+
+        window.historico_de_pedidos_filtrarPeriodo = function(p) {
+          periodoFiltro = p;
+          document.querySelectorAll('.historico-periodo-btn').forEach(function(btn) {
+            const ativo = btn.getAttribute('data-periodo') === p;
+            btn.classList.remove('bg-marca-600', 'text-white', 'border-marca-600', 'bg-white', 'text-gray-600', 'border-gray-200');
+            if (ativo) {
+              btn.classList.add('bg-marca-600', 'text-white', 'border-marca-600');
+            } else {
+              btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+            }
+          });
+          filtrarPedidos();
+        };
+
+        window.historico_de_pedidos_filtrarStatus = function(s) {
+          statusFiltro = s;
+          document.querySelectorAll('.historico-status-btn').forEach(function(btn) {
+            const ativo = btn.getAttribute('data-status') === s;
+            btn.classList.remove('bg-marca-600', 'text-white', 'border-marca-600', 'bg-white', 'text-gray-600', 'border-gray-200');
+            if (ativo) {
+              btn.classList.add('bg-marca-600', 'text-white', 'border-marca-600');
+            } else {
+              btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+            }
+          });
+          filtrarPedidos();
+        };
+
+        document.getElementById('historico-busca').addEventListener('input', function(e) {
+          termoBusca = e.target.value.toLowerCase().trim();
+          const limparBtn = document.getElementById('historico-limpar-busca');
+          if (termoBusca) {
+            limparBtn.classList.remove('hidden');
+            limparBtn.classList.add('flex');
+          } else {
+            limparBtn.classList.add('hidden');
+            limparBtn.classList.remove('flex');
+          }
+          filtrarPedidos();
+        });
+
+        document.getElementById('historico-limpar-busca').addEventListener('click', function() {
+          document.getElementById('historico-busca').value = '';
+          termoBusca = '';
+          this.classList.add('hidden');
+          this.classList.remove('flex');
+          filtrarPedidos();
+        });
+
+        document.querySelectorAll('.historico-card').forEach(function(card) {
+          card.addEventListener('click', function(e) {
+            if (e.target.closest('button')) return;
+            const detalhes = card.querySelector('.historico-detalhes');
+            const isOpen = !detalhes.classList.contains('hidden');
+            document.querySelectorAll('.historico-detalhes').forEach(function(d) { d.classList.add('hidden'); });
+            document.querySelectorAll('.historico-card').forEach(function(c) { c.classList.remove('ring-2', 'ring-marca-200'); });
+            if (!isOpen) {
+              detalhes.classList.remove('hidden');
+              card.classList.add('ring-2', 'ring-marca-200');
+            }
+          });
+        });
+
+        window.historico_de_pedidos_repetir = function(id) {
+          const pedido = pedidos.find(function(p) { return p.id === id; });
+          if (!pedido) return;
+          toast('Itens adicionados ao carrinho!', 'ok');
+          mostrarTela('carrinho-de-pedidos');
+        };
+
+        window.historico_de_pedidos_comprovante = function(id) {
+          const pedido = pedidos.find(function(p) { return p.id === id; });
+          if (!pedido) return;
+          const linhas = pedido.produtos.split('|').map(function(l) {
+            const partes = l.split(',');
+            return '<div class="flex justify-between text-sm"><span class="text-gray-600">' + partes[0] + '</span><span class="text-gray-900 font-medium">' + partes[1] + '</span></div>';
+          }).join('');
+          const html = '<div class="space-y-4">' +
+            '<div class="text-center pb-4 border-b border-gray-100">' +
+              '<p class="font-display font-bold text-lg text-gray-900">' + pedido.numero + '</p>' +
+              '<p class="text-xs text-gray-500 mt-1">Data: ' + pedido.data + '</p>' +
+              '<span class="badge badge-' + pedido.status + ' mt-2">' + pedido.status.charAt(0).toUpperCase() + pedido.status.slice(1) + '</span>' +
+            '</div>' +
+            '<div class="space-y-2">' + linhas + '</div>' +
+            '<div class="border-t border-gray-200 pt-3 flex justify-between text-sm font-bold"><span>Total</span><span class="text-marca-700">R$ ' + pedido.valor.toFixed(2).replace('.', ',') + '</span></div>' +
+            '<div class="bg-gray-50 rounded-lg p-3 flex items-center gap-3">' +
+              '<svg class="w-5 h-5 text-marca-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>' +
+              '<span class="text-xs text-gray-600">Pagamento confirmado via cartão de crédito</span>' +
+            '</div>' +
+            (pedido.status === 'concluido' ? '<button onclick="fecharModal(); historico_de_pedidos_repetir(' + pedido.id + ')" class="btn w-full text-sm active:scale-95">Repetir Pedido</button>' : '') +
+          '</div>';
+          abrirModal(html, 'Comprovante do Pedido ' + pedido.numero);
+        };
+
+        // Inicializa filtros
+        window.historico_de_pedidos_filtrarPeriodo('todos');
+        window.historico_de_pedidos_filtrarStatus('todos');
+      })();
+      </script>
+    </section>
+
     <!-- TELAS -->
       </div>
     </main>
