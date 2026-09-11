@@ -2291,6 +2291,212 @@
       </script>
     </section>
 
+    <section data-tela="notificacoes" class="hidden">
+  <div class="px-4 pt-2 pb-24">
+    <div class="flex items-center justify-between mb-1">
+      <div>
+        <h2 class="text-2xl font-display font-bold text-gray-900 leading-tight">Notificações</h2>
+        <p class="text-sm text-gray-500 mt-0.5">3 não lidas</p>
+      </div>
+      <button onclick="notificacoes_marcarTodasLidas()" class="text-sm font-semibold text-marca-600 hover:text-marca-700 active:scale-95 transition-all px-3 py-2 rounded-lg hover:bg-marca-50">
+        Marcar todas como lidas
+      </button>
+    </div>
+
+    <div class="flex mt-4 bg-gray-100 rounded-xl p-1 gap-1">
+      <button onclick="notificacoes_aba('todas')" id="aba-todas" class="aba-btn flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 bg-white text-gray-900 shadow-sm">Todas</button>
+      <button onclick="notificacoes_aba('pedidos')" id="aba-pedidos" class="aba-btn flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Pedidos</button>
+      <button onclick="notificacoes_aba('promocoes')" id="aba-promocoes" class="aba-btn flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Promoções</button>
+    </div>
+
+    <div id="lista-notificacoes" class="mt-4 space-y-3"></div>
+
+    <div id="estado-vazio" class="hidden mt-8 flex flex-col items-center text-center px-6">
+      <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      </div>
+      <p class="text-gray-600 font-semibold text-base">Nenhuma notificação</p>
+      <p class="text-gray-400 text-sm mt-1">Você está em dia com tudo!</p>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const svgIcone = {
+      order: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>',
+      delivery: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>',
+      promo: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>',
+      support: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-4.72C3.512 14.042 3 12.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>',
+      payment: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>',
+      reminder: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+    };
+
+    const coresCategoria = {
+      order: 'bg-blue-50 text-blue-600',
+      delivery: 'bg-green-50 text-green-600',
+      promo: 'bg-orange-50 text-orange-600',
+      support: 'bg-purple-50 text-purple-600',
+      payment: 'bg-emerald-50 text-emerald-600',
+      reminder: 'bg-amber-50 text-amber-600'
+    };
+
+    let notificacoes = [
+      { id:1, tipo:'delivery', titulo:'Seu pedido #PC-0042 saiu para entrega', descricao:'O entregador Carlos está a caminho. Previsão: 25 min.', tempo:'há 5 min', lida:false, pedidoId:'PC-0042', acao:'acompanhar-pedido' },
+      { id:2, tipo:'order', titulo:'Pedido #PC-0041 foi entregue', descricao:'Seu pedido de 3 hambúrgueres artesanais chegou!', tempo:'há 12 min', lida:false, pedidoId:'PC-0041', acao:'acompanhar-pedido' },
+      { id:3, tipo:'promo', titulo:'Promoção relâmpago: burgers com 30% OFF', descricao:'Aproveite até hoje à meia-noite na categoria Hamburgueres.', tempo:'há 30 min', lida:false, categoria:'hamburgueres', acao:'categorias' },
+      { id:4, tipo:'payment', titulo:'Pagamento confirmado — Pedido #PC-0042', descricao:'R$ 87,50 via cartão de crédito. Obrigado pela preferência!', tempo:'há 45 min', lida:true, pedidoId:'PC-0042', acao:'acompanhar-pedido' },
+      { id:5, tipo:'support', titulo:'Resposta do suporte sobre o pedido #PC-0039', descricao:'Olá! Verificamos seu pedido e o reembolso já foi processado.', tempo:'há 1 hora', lida:true, pedidoId:'PC-0039', acao:'historico-de-pedidos' },
+      { id:6, tipo:'order', titulo:'Pedido #PC-0040 em preparação', descricao:'A cozinha já está preparando seu pedido de combo família.', tempo:'há 2 horas', lida:true, pedidoId:'PC-0040', acao:'acompanhar-pedido' },
+      { id:7, tipo:'promo', titulo:'Novos itens na categoria Bebidas', descricao:'Conheça os sucos naturais e energéticos acabaram de chegar.', tempo:'há 3 horas', lida:true, categoria:'bebidas', acao:'categorias' },
+      { id:8, tipo:'reminder', titulo:'Você tem itens no carrinho', descricao:'2 itens esperando por você. Complete seu pedido!', tempo:'há 5 horas', lida:true, acao:'carrinho-de-pedidos' },
+      { id:9, tipo:'promo', titulo:'Frete grátis em pedidos acima de R$ 50', descricao:'Válido até domingo em toda a região Sul.', tempo:'há 1 dia', lida:true, acao:'categorias' },
+      { id:10, tipo:'order', titulo:'Pedido #PC-0038 cancelado', descricao:'Pedido cancelado a seu pedido. Reembolso em até 5 dias úteis.', tempo:'há 2 dias', lida:true, pedidoId:'PC-0038', acao:'historico-de-pedidos' }
+    ];
+
+    let abaAtual = 'todas';
+    const noLidas = notificacoes.filter(n => !n.lida);
+    const countNaoLidasEl = () => document.querySelector('[data-tela="notificacoes"]')?.previousElementSibling?.querySelector('.notif-badge');
+
+    function notificacoes_aba(aba) {
+      abaAtual = aba;
+      document.querySelectorAll('.aba-btn').forEach(btn => {
+        btn.classList.remove('bg-white','text-gray-900','shadow-sm');
+        btn.classList.add('text-gray-500');
+      });
+      const ativo = document.getElementById('aba-' + aba);
+      ativo.classList.add('bg-white','text-gray-900','shadow-sm');
+      ativo.classList.remove('text-gray-500');
+      notificacoes_renderizar();
+    }
+
+    function notificacoes_marcarTodasLidas() {
+      let alterou = false;
+      notificacoes.forEach(n => { if(!n.lida){ n.lida = true; alterou = true; } });
+      if(alterou){
+        notificacoes_renderizar();
+        notificacoes_atualizarBadge();
+        toast('Todas as notificações foram marcadas como lidas', 'ok');
+      }
+    }
+
+    function notificacoes_marcarLida(id) {
+      const n = notificacoes.find(x => x.id === id);
+      if(n && !n.lida){
+        n.lida = true;
+        notificacoes_renderizar();
+        notificacoes_atualizarBadge();
+      }
+    }
+
+    function notificacoes_arquivar(id) {
+      notificacoes = notificacoes.filter(n => n.id !== id);
+      notificacoes_renderizar();
+      notificacoes_atualizarBadge();
+      toast('Notificação arquivada', 'info');
+    }
+
+    function notificacoes_compartilhar(id) {
+      const n = notificacoes.find(x => x.id === id);
+      if(n && navigator.share){
+        navigator.share({ title: n.titulo, text: n.descricao });
+      } else {
+        toast('Link copiado para a área de transferência', 'ok');
+      }
+    }
+
+    function notificacoes_clicar(id) {
+      const n = notificacoes.find(x => x.id === id);
+      if(!n) return;
+      if(!n.lida){
+        n.lida = true;
+        notificacoes_renderizar();
+        notificacoes_atualizarBadge();
+      }
+      if(n.acao){
+        setTimeout(() => mostrarTela(n.acao), 300);
+      }
+    }
+
+    function notificacoes_atualizarBadge() {
+      const naoLidas = notificacoes.filter(n => !n.lida).length;
+      const bellBtn = document.getElementById('nav-notificacoes');
+      if(bellBtn){
+        let badge = bellBtn.querySelector('.notif-badge');
+        if(!badge){
+          badge = document.createElement('span');
+          badge.className = 'notif-badge absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center';
+          bellBtn.appendChild(badge);
+        }
+        if(naoLidas > 0){
+          badge.textContent = naoLidas > 9 ? '9+' : naoLidas;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+    }
+
+    function notificacoes_renderizar() {
+      const container = document.getElementById('lista-notificacoes');
+      const vazio = document.getElementById('estado-vazio');
+      let filtradas = notificacoes;
+      if(abaAtual === 'pedidos') filtradas = notificacoes.filter(n => n.tipo === 'order' || n.tipo === 'delivery' || n.tipo === 'payment' || n.tipo === 'support' || n.tipo === 'reminder');
+      if(abaAtual === 'promocoes') filtradas = notificacoes.filter(n => n.tipo === 'promo');
+
+      if(filtradas.length === 0){
+        container.classList.add('hidden');
+        vazio.classList.remove('hidden');
+        return;
+      }
+      container.classList.remove('hidden');
+      vazio.classList.add('hidden');
+
+      container.innerHTML = filtradas.map(n => {
+        const corClasse = coresCategoria[n.tipo] || 'bg-gray-50 text-gray-600';
+        const naoLida = !n.lida;
+        const pedidoRef = n.pedidoId ? `<span class="text-xs font-mono text-gray-400 mt-0.5">Pedido ${n.pedidoId}</span>` : '';
+        return '<div class="notif-item relative overflow-hidden rounded-2xl border-l-[3px] ' + (naoLida ? 'border-l-marca-500 bg-white shadow-sm' : 'border-l-transparent bg-gray-50/50') + ' transition-all duration-200" ontouchstart="notificacoes_touchStart(event,' + n.id + ')" ontouchend="notificacoes_touchEnd(event,' + n.id + ')" ontouchmove="notificacoes_touchMove(event)" onclick="notificacoes_clicar(' + n.id + ')"><div class="notif-inner flex items-start gap-3 p-3.5 cursor-pointer active:bg-gray-50 transition-colors"><div class="flex-shrink-0 w-10 h-10 rounded-xl ' + corClasse + ' flex items-center justify-center mt-0.5">' + svgIcone[n.tipo] + '</div><div class="flex-1 min-w-0">' + (naoLida ? '<div class="w-2 h-2 rounded-full bg-marca-500 absolute top-3.5 right-3.5"></div>' : '') + '<p class="text-sm font-semibold text-gray-900 leading-snug ' + (naoLida ? '' : 'font-medium') + '">' + n.titulo + '</p><p class="text-xs text-gray-500 mt-1 leading-relaxed line-clamp-2">' + n.descricao + '</p>' + pedidoRef + '<span class="text-[11px] text-gray-400 mt-1.5 block">' + n.tempo + '</span></div></div><div class="notif-swipe-actions absolute inset-y-0 right-0 flex items-center translate-x-full transition-transform duration-200"><button onclick="event.stopPropagation(); notificacoes_arquivar(' + n.id + ')" class="h-full w-16 bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-semibold"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg></button><button onclick="event.stopPropagation(); notificacoes_compartilhar(' + n.id + ')" class="h-full w-16 bg-marca-100 text-marca-700 flex items-center justify-center text-xs font-semibold"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.684 13.342C8.886 12.938 9 12.5 9 12c0-.5-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 110 2.684M5.636 18.364l9.728-4.636a3 3 0 000-2.728L5.636 5.636a3 3 0 00-4.243 4.243"/></svg></button></div></div>';
+      }).join('');
+    }
+
+    let touchStartX = 0, touchCurrentX = 0, swipingId = null;
+    function notificacoes_touchStart(e, id){
+      touchStartX = e.touches[0].clientX;
+      swipingId = id;
+    }
+    function notificacoes_touchMove(e){
+      if(!swipingId) return;
+      touchCurrentX = e.touches[0].clientX;
+      const diff = touchCurrentX - touchStartX;
+      const item = document.querySelector(`.notif-item[onclick*="notificacoes_clicar(${swipingId})"]`);
+      if(item){
+        if(diff < -30){
+          item.querySelector('.notif-swipe-actions').style.transform = 'translateX(-128px)';
+        } else if(diff > 80){
+          item.querySelector('.notif-swipe-actions').style.transform = 'translateX(0px)';
+        }
+      }
+    }
+    function notificacoes_touchEnd(e, id){
+      const diff = touchCurrentX - touchStartX;
+      const item = e.currentTarget;
+      const actions = item.querySelector('.notif-swipe-actions');
+      if(diff < -30){
+        actions.style.transform = 'translateX(-128px)';
+      } else {
+        actions.style.transform = 'translateX(100%)';
+      }
+      touchStartX = 0; touchCurrentX = 0; swipingId = null;
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      notificacoes_renderizar();
+      notificacoes_atualizarBadge();
+    });
+  })();
+  </script>
+</section>
+
     <!-- TELAS -->
       </div>
     </main>
