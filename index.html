@@ -852,6 +852,426 @@
       })();
     </script>
 
+    <section data-tela="checkout-e-pagamento" class="hidden">
+      <div class="px-4 pt-6 pb-28 min-h-screen bg-gray-50">
+        <!-- Header da tela -->
+        <div class="mb-5">
+          <h1 class="font-display text-xl font-bold text-gray-900">Checkout</h1>
+          <p class="text-sm text-gray-500 mt-0.5">Confira os dados e finalize o pedido</p>
+        </div>
+
+        <!-- Resumo rápido do carrinho -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Seu pedido</span>
+            <span class="text-xs text-marca-600 font-medium cursor-pointer" onclick="mostrarTela('carrinho-de-pedidos')">Editar</span>
+          </div>
+          <div class="flex gap-3">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-marca-100 to-marca-200 flex items-center justify-center flex-shrink-0">
+              <svg class="w-7 h-7 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-900">3 itens no pedido</p>
+              <p class="text-xs text-gray-500 mt-0.5">Combos Family, X-Bacon Supremo, Refri 2L</p>
+            </div>
+            <span class="text-sm font-bold text-gray-900 flex-shrink-0">R$ 87,40</span>
+          </div>
+        </div>
+
+        <!-- Seção: Endereço de Entrega -->
+        <div class="mb-5">
+          <h2 class="font-display text-base font-bold text-gray-900 mb-3">Endereço de Entrega</h2>
+          <div id="lista-enderecos" class="space-y-2.5">
+            <label class="card cursor-pointer flex items-start gap-3 p-3.5 transition-all duration-200 hover:shadow-md" data-endereco="0">
+              <input type="radio" name="endereco" value="0" checked class="mt-1 accent-marca-600 w-4 h-4 flex-shrink-0" onchange="checkout_e_pagamento_selecionarEndereco(this)">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-marca-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243A8 8 0 1117.657 16.657z"/><circle cx="12" cy="11" r="1.5" fill="currentColor" stroke="none"/></svg>
+                  <span class="text-sm font-semibold text-gray-900">Casa — Av. Paulista, 1578</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 ml-6">Apto 42, Bela Vista — São Paulo, SP</p>
+                <span class="inline-block mt-1.5 ml-6 px-2 py-0.5 rounded-full bg-marca-50 text-marca-700 text-[10px] font-semibold">Principal</span>
+              </div>
+            </label>
+            <label class="card cursor-pointer flex items-start gap-3 p-3.5 transition-all duration-200 hover:shadow-md" data-endereco="1">
+              <input type="radio" name="endereco" value="1" class="mt-1 accent-marca-600 w-4 h-4 flex-shrink-0" onchange="checkout_e_pagamento_selecionarEndereco(this)">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243A8 8 0 1117.657 16.657z"/><circle cx="12" cy="11" r="1.5" fill="currentColor" stroke="none"/></svg>
+                  <span class="text-sm font-semibold text-gray-900">Trabalho — R. Augusta, 2300</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 ml-6">Sala 15, Consolação — São Paulo, SP</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Tipo de Entrega -->
+        <div class="mb-5">
+          <h2 class="font-display text-base font-bold text-gray-900 mb-3">Tipo de Entrega</h2>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" id="btn-entrega" onclick="checkout_e_pagamento_tipoEntrega('entrega')" class="card flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-marca-500 bg-marca-50 transition-all duration-200 active:scale-95">
+              <svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+              <span class="text-sm font-semibold text-marca-800">Entrega</span>
+            </button>
+            <button type="button" id="btn-retirada" onclick="checkout_e_pagamento_tipoEntrega('retirada')" class="card flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-gray-200 bg-white transition-all duration-200 active:scale-95">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              <span class="text-sm font-semibold text-gray-600">Retirada</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Data e Horário -->
+        <div class="mb-5">
+          <h2 class="font-display text-base font-bold text-gray-900 mb-3">Data e Horário</h2>
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-medium text-gray-500 block mb-1.5">Data preferencial</label>
+                <input type="date" id="data-entrega" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent transition-all" onchange="checkout_e_pagamento_verificarFormulario()">
+              </div>
+              <div>
+                <label class="text-xs font-medium text-gray-500 block mb-1.5">Horário preferencial</label>
+                <select id="horario-entrega" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent transition-all bg-white" onchange="checkout_e_pagamento_verificarFormulario()">
+                  <option value="">Selecione</option>
+                  <option value="09:00">09:00 — 10:00</option>
+                  <option value="10:00">10:00 — 11:00</option>
+                  <option value="11:00">11:00 — 12:00</option>
+                  <option value="12:00">12:00 — 13:00</option>
+                  <option value="13:00">13:00 — 14:00</option>
+                  <option value="14:00">14:00 — 15:00</option>
+                  <option value="15:00">15:00 — 16:00</option>
+                  <option value="16:00">16:00 — 17:00</option>
+                  <option value="17:00">17:00 — 18:00</option>
+                  <option value="18:00">18:00 — 19:00</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Observações -->
+        <div class="mb-5">
+          <h2 class="font-display text-base font-bold text-gray-900 mb-3">Observações da Entrega</h2>
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <textarea id="obs-entrega" rows="2" placeholder="Ex: Portão azul, deixar com o porteiro, apartamento..." class="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent transition-all resize-none"></textarea>
+          </div>
+        </div>
+
+        <!-- Método de Pagamento -->
+        <div class="mb-5">
+          <h2 class="font-display text-base font-bold text-gray-900 mb-3">Forma de Pagamento</h2>
+          <div class="space-y-2.5" id="metodos-pagamento">
+            <!-- Pix -->
+            <label class="card cursor-pointer flex items-center gap-3.5 p-3.5 transition-all duration-200 hover:shadow-md" data-metodo="pix">
+              <input type="radio" name="pagamento" value="pix" class="accent-marca-600 w-4 h-4 flex-shrink-0" onchange="checkout_e_pagamento_selecionarPagamento(this)">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M21.5 10.65L13.5 2.35a1.5 1.5 0 00-2.2.2l-8.3 9.65a1.5 1.5 0 00.1 2.1l7.4 7.4a1.5 1.5 0 002.2-.1l8.3-9.65a1.5 1.5 0 00.2-2.2z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-semibold text-gray-900">Pix</span>
+                <p class="text-xs text-gray-500 mt-0.5">Aprovação imediata • Sem taxa</p>
+              </div>
+              <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </label>
+
+            <!-- Cartão Corporativo -->
+            <label class="card cursor-pointer flex items-center gap-3.5 p-3.5 transition-all duration-200 hover:shadow-md" data-metodo="cartao-corp">
+              <input type="radio" name="pagamento" value="cartao-corp" class="accent-marca-600 w-4 h-4 flex-shrink-0" onchange="checkout_e_pagamento_selecionarPagamento(this)">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-semibold text-gray-900">Cartão Corporativo</span>
+                <p class="text-xs text-gray-500 mt-0.5">Final **** 4521 • Visa</p>
+              </div>
+            </label>
+
+            <!-- Faturamento -->
+            <label class="card cursor-pointer flex items-center gap-3.5 p-3.5 transition-all duration-200 hover:shadow-md" data-metodo="faturamento">
+              <input type="radio" name="pagamento" value="faturamento" class="accent-marca-600 w-4 h-4 flex-shrink-0" onchange="checkout_e_pagamento_selecionarPagamento(this)">
+              <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-6 4h6m-6 4h4m5-12v16a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v1m2 13h3a2 2 0 002-2v-5a2 2 0 00-2-2h-3"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-semibold text-gray-900">Faturamento</span>
+                <p class="text-xs text-gray-500 mt-0.5">Centro de Custo: Marketing</p>
+              </div>
+            </label>
+
+            <!-- Dinheiro -->
+            <label class="card cursor-pointer flex items-center gap-3.5 p-3.5 transition-all duration-200 hover:shadow-md" data-metodo="dinheiro">
+              <input type="radio" name="pagamento" value="dinheiro" class="accent-marca-600 w-4 h-4 flex-shrink-0" onchange="checkout_e_pagamento_selecionarPagamento(this)">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-semibold text-gray-900">Dinheiro</span>
+                <p class="text-xs text-gray-500 mt-0.5">Pagar na entrega</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Cupom -->
+        <div class="mb-5">
+          <h2 class="font-display text-base font-bold text-gray-900 mb-3">Cupom de Desconto</h2>
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <div class="flex gap-2">
+              <input type="text" id="cupom" placeholder="Código do cupom" class="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent transition-all uppercase tracking-wide" oninput="checkout_e_pagamento_aplicarCupom()">
+              <button type="button" onclick="checkout_e_pagamento_aplicarCupom()" class="px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-200 active:scale-95 transition-all">Aplicar</button>
+            </div>
+            <div id="cupom-msg" class="hidden mt-2 text-xs font-medium"></div>
+          </div>
+        </div>
+
+        <!-- Resumo Financeiro -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-24">
+          <h3 class="text-sm font-semibold text-gray-900 mb-3">Resumo do Pedido</h3>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between text-gray-600">
+              <span>Subtotal</span>
+              <span id="resumo-subtotal">R$ 87,40</span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>Taxa de entrega</span>
+              <span id="resumo-entrega">R$ 5,90</span>
+            </div>
+            <div id="resumo-desconto" class="hidden flex justify-between text-emerald-600">
+              <span>Desconto</span>
+              <span id="resumo-desconto-valor">- R$ 0,00</span>
+            </div>
+            <div class="border-t border-gray-100 pt-2 mt-2">
+              <div class="flex justify-between text-base font-bold text-gray-900">
+                <span>Total</span>
+                <span id="resumo-total">R$ 93,30</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1 text-right" id="resumo-parcelas"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rodapé fixo com botão de confirmação -->
+      <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] bg-white border-t border-gray-100 p-4 z-50">
+        <button id="btn-confirmar-pedido" type="button" onclick="checkout_e_pagamento_confirmarPedido()" class="w-full py-3.5 bg-marca-600 text-white font-semibold text-base rounded-2xl hover:bg-marca-700 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-marca-600/20 flex items-center justify-center gap-2 min-h-[52px]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          Confirmar Pedido — <span id="btn-total">R$ 93,30</span>
+        </button>
+      </div>
+
+      <!-- Overlay de Loading -->
+      <div id="checkout-loading" class="hidden fixed inset-0 bg-black/50 z-[60] flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 mx-8 text-center shadow-2xl max-w-[300px]">
+          <div class="w-16 h-16 mx-auto mb-4 relative">
+            <svg class="w-16 h-16 animate-spin text-marca-600" fill="none" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="4" opacity="0.2"/>
+              <path d="M32 4a28 28 0 0 1 24.2 40.2" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <p class="text-base font-bold text-gray-900 mb-1">Processando pedido...</p>
+          <p class="text-sm text-gray-500">Aguarde um momento</p>
+        </div>
+      </div>
+
+      <!-- Modal de sucesso / confirmação -->
+      <div id="checkout-modal-confirmacao" class="hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl p-6 mx-4 sm:mx-0 w-full sm:max-w-[360px] shadow-2xl animate-slide-up">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-emerald-100 flex items-center justify-center">
+            <svg class="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-gray-900 text-center mb-1">Pedido Confirmado!</h3>
+          <p class="text-sm text-gray-500 text-center mb-1">Seu pedido <strong id="modal-pedido-numero">#10847</strong> foi recebido com sucesso.</p>
+          <p class="text-xs text-gray-400 text-center mb-5">Previsão de entrega: <strong id="modal-previsao">30–45 min</strong></p>
+          <button type="button" onclick="checkout_e_pagamento_fecharConfirmacao()" class="w-full py-3.5 bg-marca-600 text-white font-semibold text-base rounded-2xl hover:bg-marca-700 active:scale-[0.98] transition-all duration-200 min-h-[48px]">Acompanhar Pedido</button>
+          <button type="button" onclick="checkout_e_pagamento_voltarHome()" class="w-full py-3 text-gray-500 font-medium text-sm mt-2 active:scale-[0.98] transition-all">Voltar para o Início</button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      var checkout_e_pagamento_valorCupom = 0;
+      var checkout_e_pagamento_tipoEntregaAtual = 'entrega';
+      var checkout_e_pagamento_pagamentoSelecionado = false;
+      var checkout_e_pagamento_valorItens = 87.40;
+      var checkout_e_pagamento_taxaEntrega = 5.90;
+
+      function checkout_e_pagamento_selecionarEndereco(radio) {
+        document.querySelectorAll('#lista-enderecos label').forEach(function(lbl) {
+          var inp = lbl.querySelector('input[type="radio"]');
+          if (inp === radio && inp.checked) {
+            lbl.classList.add('border-marca-300', 'bg-marca-50/50');
+            lbl.classList.remove('border-gray-200');
+          } else {
+            lbl.classList.remove('border-marca-300', 'bg-marca-50/50');
+            lbl.classList.add('border-gray-200');
+          }
+        });
+        checkout_e_pagamento_verificarFormulario();
+      }
+
+      function checkout_e_pagamento_tipoEntrega(tipo) {
+        checkout_e_pagamento_tipoEntregaAtual = tipo;
+        var btnEntrega = document.getElementById('btn-entrega');
+        var btnRetirada = document.getElementById('btn-retirada');
+        if (tipo === 'entrega') {
+          btnEntrega.classList.add('border-marca-500', 'bg-marca-50');
+          btnEntrega.classList.remove('border-gray-200', 'bg-white');
+          btnEntrega.querySelector('svg').classList.remove('text-gray-400');
+          btnEntrega.querySelector('svg').classList.add('text-marca-600');
+          btnEntrega.querySelector('span').classList.remove('text-gray-600');
+          btnEntrega.querySelector('span').classList.add('text-marca-800');
+          btnRetirada.classList.remove('border-marca-500', 'bg-marca-50');
+          btnRetirada.classList.add('border-gray-200', 'bg-white');
+          btnRetirada.querySelector('svg').classList.add('text-gray-400');
+          btnRetirada.querySelector('svg').classList.remove('text-marca-600');
+          btnRetirada.querySelector('span').classList.add('text-gray-600');
+          btnRetirada.querySelector('span').classList.remove('text-marca-800');
+          document.getElementById('resumo-entrega').textContent = 'R$ 5,90';
+        } else {
+          btnRetirada.classList.add('border-marca-500', 'bg-marca-50');
+          btnRetirada.classList.remove('border-gray-200', 'bg-white');
+          btnRetirada.querySelector('svg').classList.remove('text-gray-400');
+          btnRetirada.querySelector('svg').classList.add('text-marca-600');
+          btnRetirada.querySelector('span').classList.remove('text-gray-600');
+          btnRetirada.querySelector('span').classList.add('text-marca-800');
+          btnEntrega.classList.remove('border-marca-500', 'bg-marca-50');
+          btnEntrega.classList.add('border-gray-200', 'bg-white');
+          btnEntrega.querySelector('svg').classList.add('text-gray-400');
+          btnEntrega.querySelector('svg').classList.remove('text-marca-600');
+          btnEntrega.querySelector('span').classList.add('text-gray-600');
+          btnEntrega.querySelector('span').classList.remove('text-marca-800');
+          document.getElementById('resumo-entrega').textContent = 'Grátis';
+        }
+        checkout_e_pagamento_atualizarResumo();
+        checkout_e_pagamento_verificarFormulario();
+      }
+
+      function checkout_e_pagamento_selecionarPagamento(radio) {
+        checkout_e_pagamento_pagamentoSelecionado = radio.checked;
+        document.querySelectorAll('#metodos-pagamento label').forEach(function(lbl) {
+          var inp = lbl.querySelector('input[type="radio"]');
+          if (inp.checked) {
+            lbl.classList.add('border-marca-400', 'bg-marca-50/30', 'shadow-md');
+            lbl.classList.remove('border-gray-200');
+          } else {
+            lbl.classList.remove('border-marca-400', 'bg-marca-50/30', 'shadow-md');
+            lbl.classList.add('border-gray-200');
+          }
+        });
+        checkout_e_pagamento_atualizarResumo();
+        checkout_e_pagamento_verificarFormulario();
+      }
+
+      function checkout_e_pagamento_aplicarCupom() {
+        var input = document.getElementById('cupom');
+        var msg = document.getElementById('cupom-msg');
+        var codigo = input.value.trim().toUpperCase();
+        if (!codigo) { msg.classList.add('hidden'); return; }
+        if (codigo === 'BLUECIRCUIT10') {
+          checkout_e_pagamento_valorCupom = 8.74;
+          msg.textContent = 'Cupom aplicado! -R$ 8,74 de desconto';
+          msg.className = 'mt-2 text-xs font-medium text-emerald-600 bg-emerald-50 rounded-lg px-3 py-2';
+        } else if (codigo === 'FRETEGRATIS') {
+          checkout_e_pagamento_valorCupom = 5.90;
+          msg.textContent = 'Frete grátis aplicado!';
+          msg.className = 'mt-2 text-xs font-medium text-emerald-600 bg-emerald-50 rounded-lg px-3 py-2';
+        } else {
+          checkout_e_pagamento_valorCupom = 0;
+          msg.textContent = 'Cupom inválido ou expirado';
+          msg.className = 'mt-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg px-3 py-2';
+        }
+        msg.classList.remove('hidden');
+        checkout_e_pagamento_atualizarResumo();
+        toast(codigo === 'BLUECIRCUIT10' || codigo === 'FRETEGRATIS' ? 'Cupom aplicado com sucesso!' : 'Cupom não encontrado', codigo === 'BLUECIRCUIT10' || codigo === 'FRETEGRATIS' ? 'ok' : 'erro');
+      }
+
+      function checkout_e_pagamento_atualizarResumo() {
+        var taxa = checkout_e_pagamento_tipoEntregaAtual === 'entrega' ? checkout_e_pagamento_taxaEntrega : 0;
+        var total = checkout_e_pagamento_valorItens + taxa - checkout_e_pagamento_valorCupom;
+        total = Math.max(total, 0);
+        document.getElementById('resumo-subtotal').textContent = 'R$ ' + checkout_e_pagamento_valorItens.toFixed(2).replace('.', ',');
+        document.getElementById('resumo-entrega').textContent = checkout_e_pagamento_tipoEntregaAtual === 'entrega' ? 'R$ ' + taxa.toFixed(2).replace('.', ',') : 'Grátis';
+        if (checkout_e_pagamento_valorCupom > 0) {
+          document.getElementById('resumo-desconto').classList.remove('hidden');
+          document.getElementById('resumo-desconto-valor').textContent = '- R$ ' + checkout_e_pagamento_valorCupom.toFixed(2).replace('.', ',');
+        } else {
+          document.getElementById('resumo-desconto').classList.add('hidden');
+        }
+        document.getElementById('resumo-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+        document.getElementById('btn-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+        var metodo = document.querySelector('input[name="pagamento"]:checked');
+        if (metodo && metodo.value === 'cartao-corp') {
+          document.getElementById('resumo-parcelas').textContent = 'ou 3x de R$ ' + (total / 3).toFixed(2).replace('.', ',') + ' sem juros';
+        } else if (metodo && metodo.value === 'faturamento') {
+          document.getElementById('resumo-parcelas').textContent = 'Faturamento em 30 dias';
+        } else {
+          document.getElementById('resumo-parcelas').textContent = '';
+        }
+      }
+
+      function checkout_e_pagamento_verificarFormulario() {
+        var endereco = document.querySelector('input[name="endereco"]:checked');
+        var pagamento = document.querySelector('input[name="pagamento"]:checked');
+        var data = document.getElementById('data-entrega').value;
+        var horario = document.getElementById('horario-entrega').value;
+        var btn = document.getElementById('btn-confirmar-pedido');
+        if (endereco && pagamento && data && horario) {
+          btn.classList.remove('opacity-50', 'cursor-not-allowed');
+          btn.disabled = false;
+        } else {
+          btn.classList.add('opacity-50', 'cursor-not-allowed');
+          btn.disabled = true;
+        }
+      }
+
+      function checkout_e_pagamento_confirmarPedido() {
+        var endereco = document.querySelector('input[name="endereco"]:checked');
+        var pagamento = document.querySelector('input[name="pagamento"]:checked');
+        var data = document.getElementById('data-entrega').value;
+        var horario = document.getElementById('horario-entrega').value;
+        if (!endereco) { toast('Selecione um endereço de entrega', 'erro'); return; }
+        if (!pagamento) { toast('Selecione uma forma de pagamento', 'erro'); return; }
+        if (!data) { toast('Selecione a data de entrega', 'erro'); return; }
+        if (!horario) { toast('Selecione o horário de entrega', 'erro'); return; }
+        var loading = document.getElementById('checkout-loading');
+        loading.classList.remove('hidden');
+        loading.classList.add('flex');
+        setTimeout(function() {
+          loading.classList.add('hidden');
+          loading.classList.remove('flex');
+          var numPedido = '#10' + (Math.floor(Math.random() * 9000) + 1000);
+          document.getElementById('modal-pedido-numero').textContent = numPedido;
+          var previsaoTexto = checkout_e_pagamento_tipoEntregaAtual === 'entrega' ? '30–45 min' : '15–20 min';
+          document.getElementById('modal-previsao').textContent = previsaoTexto;
+          document.getElementById('checkout-modal-confirmacao').classList.remove('hidden');
+          toast('Pedido realizado com sucesso!', 'ok');
+        }, 2000);
+      }
+
+      function checkout_e_pagamento_fecharConfirmacao() {
+        document.getElementById('checkout-modal-confirmacao').classList.add('hidden');
+        mostrarTela('pedido-confirmado');
+      }
+
+      function checkout_e_pagamento_voltarHome() {
+        document.getElementById('checkout-modal-confirmacao').classList.add('hidden');
+        mostrarTela('home-vitrine');
+      }
+
+      (function initCheckout() {
+        var amanha = new Date();
+        amanha.setDate(amanha.getDate() + 1);
+        var dataInput = document.getElementById('data-entrega');
+        dataInput.value = amanha.toISOString().split('T')[0];
+        dataInput.min = new Date().toISOString().split('T')[0];
+        checkout_e_pagamento_selecionarEndereco(document.querySelector('input[name="endereco"]:checked'));
+        checkout_e_pagamento_selecionarPagamento(document.querySelector('input[name="pagamento"]:checked'));
+        document.getElementById('btn-confirmar-pedido').classList.add('opacity-50', 'cursor-not-allowed');
+        document.getElementById('btn-confirmar-pedido').disabled = true;
+      })();
+    </script>
+
     <!-- TELAS -->
       </div>
     </main>
