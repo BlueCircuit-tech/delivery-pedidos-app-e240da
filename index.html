@@ -1453,6 +1453,307 @@
   </script>
 </section>
 
+    <section data-tela="acompanhar-pedido" class="hidden">
+        <div class="px-4 pt-4 pb-2">
+            <div class="flex items-start justify-between mb-1">
+                <div>
+                    <h2 class="font-display text-xl font-bold text-gray-900 leading-tight">Acompanhar Pedido</h2>
+                    <p class="text-sm text-gray-500 mt-0.5" id="acompanhar_order-code">#DLV-20250614-0847</p>
+                </div>
+                <button onclick="acompanhar_pedido_showOptions()" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 active:scale-90 transition-all mt-1">
+                    <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="px-4">
+            <div id="acompanhar_map-container" class="w-full h-52 rounded-2xl overflow-hidden relative bg-gray-200 mb-3">
+                <svg id="acompanhar_map-svg" class="w-full h-full" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#e5e7eb"/>
+                            <stop offset="100%" style="stop-color:#f3f4f6"/>
+                        </linearGradient>
+                        <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#0ea5e9"/>
+                            <stop offset="100%" style="stop-color:#f59e0b"/>
+                        </linearGradient>
+                        <filter id="shadowMap" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000030"/>
+                        </filter>
+                        <filter id="pulseMap">
+                            <feGaussianBlur stdDeviation="3" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <rect width="340" height="200" fill="#f0fdf4"/>
+                    <rect x="0" y="30" width="340" height="8" rx="4" fill="#e5e7eb" opacity="0.6"/>
+                    <rect x="0" y="70" width="340" height="6" rx="3" fill="#e5e7eb" opacity="0.4"/>
+                    <rect x="0" y="100" width="340" height="8" rx="4" fill="#e5e7eb" opacity="0.6"/>
+                    <rect x="0" y="145" width="340" height="6" rx="3" fill="#e5e7eb" opacity="0.4"/>
+                    <rect x="50" y="0" width="6" height="200" rx="3" fill="#e5e7eb" opacity="0.4"/>
+                    <rect x="140" y="0" width="6" height="200" rx="3" fill="#e5e7eb" opacity="0.4"/>
+                    <rect x="230" y="0" width="6" height="200" rx="3" fill="#e5e7eb" opacity="0.4"/>
+                    <polyline points="50,70 90,68 130,72 170,65 210,60 250,58 280,55" fill="none" stroke="url(#routeGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 4" opacity="0.9">
+                        <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.5s" repeatCount="indefinite"/>
+                    </polyline>
+                    <polyline points="130,72 170,65 210,60 250,58" fill="none" stroke="#0ea5e9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.4">
+                        <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.5s" repeatCount="indefinite"/>
+                    </polyline>
+                    <g id="acompanhar_marker-origin" transform="translate(50,70)" filter="url(#shadowMap)">
+                        <circle cx="0" cy="0" r="14" fill="#0ea5e9" opacity="0.2">
+                            <animate attributeName="r" values="14;18;14" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.2;0.05;0.2" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="0" cy="0" r="10" fill="#0ea5e9"/>
+                        <text x="0" y="4" text-anchor="middle" font-size="10" fill="white" font-weight="bold">A</text>
+                    </g>
+                    <g id="acompanhar_marker-destination" transform="translate(280,55)" filter="url(#shadowMap)">
+                        <circle cx="0" cy="0" r="14" fill="#10b981" opacity="0.2">
+                            <animate attributeName="r" values="14;18;14" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                            <animate attributeName="opacity" values="0.2;0.05;0.2" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                        </circle>
+                        <circle cx="0" cy="0" r="10" fill="#10b981"/>
+                        <text x="0" y="4" text-anchor="middle" font-size="10" fill="white" font-weight="bold">B</text>
+                    </g>
+                    <g id="acompanhar_marker-driver" transform="translate(210,60)" filter="url(#shadowMap)">
+                        <circle cx="0" cy="0" r="16" fill="#f59e0b" opacity="0.15">
+                            <animate attributeName="r" values="16;22;16" dur="1.5s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.15;0.03;0.15" dur="1.5s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="0" cy="0" r="11" fill="#f59e0b"/>
+                        <text x="0" y="4" text-anchor="middle" font-size="11" fill="white" font-weight="bold">🛵</text>
+                    </g>
+                </svg>
+                <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-lg flex items-center gap-2">
+                    <svg class="w-4 h-4 text-marca-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                    <span class="text-xs font-semibold text-gray-800" id="acompanhar_distance">3.2 km</span>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-xs text-gray-600" id="acompanhar_eta">~12 min</span>
+                </div>
+                <button onclick="acompanhar_pedido_openFullMap()" class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-xl p-2 shadow-lg active:scale-90 transition-all">
+                    <svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-display font-bold text-gray-900 text-sm">Status do Pedido</h3>
+                    <span class="text-xs text-gray-400">Atualizado há 2 min</span>
+                </div>
+                <div class="space-y-0" id="acompanhar_timeline"></div>
+            </div>
+        </div>
+
+        <div id="acompanhar_driver-section" class="px-4 mb-3">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                <h3 class="font-display font-bold text-gray-900 text-sm mb-3">Entregador</h3>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0">
+                        <span class="text-white font-bold text-sm">RS</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-gray-900 text-sm">Ricardo Santos</p>
+                        <p class="text-xs text-gray-500">Entregador · Moto</p>
+                    </div>
+                    <div class="flex gap-2 flex-shrink-0">
+                        <a href="https://wa.me/5511999887766?text=Ol%C3%A1%20Ricardo%2C%20tudo%20bem%3F%20Sobre%20meu%20pedido..." target="_blank" rel="noopener" class="w-10 h-10 flex items-center justify-center rounded-full bg-green-50 active:scale-90 transition-all" onclick="acompanhar_pedido_whatsappClick(event)">
+                            <svg class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </a>
+                        <a href="tel:+5511999887766" class="w-10 h-10 flex items-center justify-center rounded-full bg-marca-50 active:scale-90 transition-all" onclick="acompanhar_pedido_callClick(event)">
+                            <svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.04 12.04 0 01-7.143-7.143c-.162-.441.004-.928.38-1.211l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 mb-3">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                <h3 class="font-display font-bold text-gray-900 text-sm mb-3">Resumo do Pedido</h3>
+                <div id="acompanhar_items" class="space-y-2 mb-3"></div>
+                <div class="border-t border-gray-100 pt-3 space-y-1.5">
+                    <div class="flex justify-between text-sm"><span class="text-gray-500">Subtotal</span><span class="text-gray-800 font-medium" id="acompanhar_subtotal">R$ 0,00</span></div>
+                    <div class="flex justify-between text-sm"><span class="text-gray-500">Taxa de entrega</span><span class="text-gray-800 font-medium" id="acompanhar_delivery-fee">R$ 0,00</span></div>
+                    <div class="flex justify-between text-base font-bold pt-1.5 border-t border-gray-100"><span>Total</span><span class="text-marca-700" id="acompanhar_total">R$ 0,00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 mb-3">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-display font-bold text-gray-900 text-sm">Notificações</h3>
+                    <span class="text-xs text-gray-400">Hoje</span>
+                </div>
+                <div class="space-y-3" id="acompanhar_notifications"></div>
+            </div>
+        </div>
+
+        <div class="px-4 mb-4 space-y-3" id="acompanhar-action-buttons">
+            <button onclick="acompanhar_pedido_chatSupport()" class="w-full bg-marca-600 text-white rounded-2xl py-3.5 font-semibold text-sm flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg shadow-marca-600/20 hover:bg-marca-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 013 21V12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg>
+                Ligar para Suporte
+            </button>
+            <button onclick="acompanhar_pedido_shareLocation()" class="w-full bg-white text-marca-600 border-2 border-marca-200 rounded-2xl py-3.5 font-semibold text-sm flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-marca-50">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                Compartilhar Localização
+            </button>
+        </div>
+
+        <div class="h-4"></div>
+    </section>
+
+    <script>
+        const acompanhar_pedido_order = {
+            id: 'DLV-20250614-0847',
+            customer: { nome: 'Carlos Eduardo Lima', telefone: '(11) 99887-6655' },
+            address: 'Av. Brigadeiro Faria Lima, 3477 — Pinheiros, São Paulo — SP',
+            addressNumber: '3477',
+            complement: 'Bloco B, apto 42',
+            deliveryType: 'entrega',
+            currentStep: 4,
+            steps: [
+                { id: 'confirmed', label: 'Pedido Confirmado', timestamp: '2025-06-14T10:30:00', color: '#0ea5e9', icon: '✓' },
+                { id: 'preparing', label: 'Preparando', timestamp: '2025-06-14T10:45:00', color: '#6366f1', icon: '⚙' },
+                { id: 'ready', label: 'Pronto para Envio', timestamp: '2025-06-14T11:20:00', color: '#10b981', icon: '📦' },
+                { id: 'transit', label: 'Em Rota', timestamp: '2025-06-14T11:35:00', color: '#f59e0b', icon: '🛵' },
+                { id: 'delivered', label: 'Entregue', timestamp: null, color: '#10b981', icon: '✓' }
+            ],
+            driver: { nome: 'Ricardo Santos', telefone: '(11) 99887-6655', veiculo: 'Moto Honda CG 160', placa: 'BRA-2E19' },
+            items: [
+                { nome: 'Pizza Margherita Grande', qtd: 1, preco: 64.90, obs: 'Sem cebola, borda catupiry' },
+                { nome: 'Coca-Cola 2L', qtd: 2, preco: 16.00 },
+                { nome: 'Pão de Queijo (6 un)', qtd: 1, preco: 14.50 }
+            ],
+            subtotal: 95.40, deliveryFee: 8.90, total: 104.30,
+            distance: '3.2 km', eta: '~12 min',
+            notifications: [
+                { tempo: '10:30', texto: 'Pedido confirmado pelo restaurante', tipo: 'info' },
+                { tempo: '10:45', texto: 'Seu pedido começou a ser preparado', tipo: 'info' },
+                { tempo: '11:20', texto: 'Pedido pronto! Entregador a caminho', tipo: 'ok' },
+                { tempo: '11:35', texto: 'Ricardo está a 1.2 km do destino', tipo: 'info' }
+            ]
+        };
+
+        const acompanharSVGRefs = {
+            confirmed: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+            preparing: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',
+            ready: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>',
+            transit: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>',
+            delivered: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'
+        };
+
+        function acompanhar_pedido_renderTimeline() {
+            const el = document.getElementById('acompanhar_timeline');
+            if (!el) return;
+            el.innerHTML = acompanhar_pedido_order.steps.map((step, i) => {
+                const completed = i <= acompanhar_pedido_order.currentStep;
+                const current = i === acompanhar_pedido_order.currentStep;
+                const last = i === acompanhar_pedido_order.steps.length - 1;
+                const timeStr = step.timestamp ? new Date(step.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
+                const opacityClass = completed ? 'opacity-100' : 'opacity-35';
+                return `<div class="flex gap-3 ${!last ? 'pb-4' : ''}">
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${current ? 'ring-2 ring-offset-2 animate-pulse' : ''}" style="background-color:${step.color}${completed ? '' : '40'}; color:${step.color}; ${current ? 'ring-color:' + step.color : ''}">
+                            ${completed ? acompanharSVGRefs[step.id] || '✓' : ''}
+                        </div>
+                        ${!last ? `<div class="w-0.5 flex-1 mt-1 rounded-full" style="background: ${completed ? step.color : '#e5e7eb'}"></div>` : ''}
+                    </div>
+                    <div class="flex-1 -mt-0.5">
+                        <p class="text-sm font-semibold ${completed ? 'text-gray-900' : 'text-gray-400'}">${step.label}</p>
+                        <p class="text-xs ${completed ? 'text-gray-500' : 'text-gray-300'}">${timeStr}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function acompanhar_pedido_renderItems() {
+            const el = document.getElementById('acompanhar_items');
+            if (!el) return;
+            el.innerHTML = acompanhar_pedido_order.items.map(item => `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                        <div class="w-8 h-8 rounded-lg bg-marca-50 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">${item.nome}</p>
+                            <p class="text-xs text-gray-500">Qtd: ${item.qtd}${item.obs ? ' · ' + item.obs : ''}</p>
+                        </div>
+                    </div>
+                    <span class="text-sm font-semibold text-gray-800 flex-shrink-0 ml-2">${brl(item.preco)}</span>
+                </div>
+            `).join('');
+        }
+
+        function acompanhar_pedido_renderNotifications() {
+            const el = document.getElementById('acompanhar_notifications');
+            if (!el) return;
+            const typeStyles = { info: 'bg-sky-50 text-sky-700', ok: 'bg-green-50 text-green-700' };
+            el.innerHTML = acompanhar_pedido_order.notifications.map(n => `
+                <div class="flex gap-3">
+                    <div class="w-1 rounded-full bg-marca-400 flex-shrink-0"></div>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-700">${n.texto}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">${n.tempo}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function acompanhar_pedido_openFullMap() {
+            abrirModal(`<div class="text-center py-4"><div class="w-16 h-16 bg-marca-50 rounded-full flex items-center justify-center mx-auto mb-3"><svg class="w-8 h-8 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg></div><p class="font-semibold text-gray-900 mb-1">Mapa Completo</p><p class="text-sm text-gray-500">Abrindo aplicativo de mapas…</p></div>`, 'Rota do Pedido');
+            setTimeout(() => fecharModal(), 1800);
+        }
+
+        function acompanhar_pedido_chatSupport() {
+            abrirModal('<div class="space-y-3"><p class="text-sm text-gray-600">Selecione o canal de atendimento:</p><a href="https://wa.me/551140028922?text=Preciso%20de%20ajuda%20com%20o%20pedido%20%23DLV-20250614-0847" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-xl bg-green-50 hover:bg-green-100 active:scale-95 transition-all"><div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center"><svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div><div><p class="text-sm font-semibold text-gray-900">WhatsApp</p><p class="text-xs text-gray-500">(11) 4002-8922</p></div></a><a href="tel:+551140028922" class="flex items-center gap-3 p-3 rounded-xl bg-marca-50 hover:bg-marca-100 active:scale-95 transition-all"><div class="w-10 h-10 rounded-full bg-marca-600 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.04 12.04 0 01-7.143-7.143c-.162-.441.004-.928.38-1.211l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg></div><div><p class="text-sm font-semibold text-gray-900">Ligar</p><p class="text-xs text-gray-500">(11) 4002-8922</p></div></a></div>', 'Suporte ao Cliente');
+        }
+
+        function acompanhar_pedido_whatsappClick(e) {
+            const link = e.currentTarget.getAttribute('href');
+            if (link && link.startsWith('http')) {
+                toast('Abrindo WhatsApp…', 'info');
+            }
+        }
+
+        function acompanhar_pedido_callClick(e) {
+            toast('Ligando para entregador…', 'info');
+        }
+
+        function acompanhar_pedido_shareLocation() {
+            navigator.clipboard.writeText(acompanhar_pedido_order.address).then(() => {
+                toast('Endereço copiado! Cole no WhatsApp para compartilhar.', 'ok');
+            }).catch(() => {
+                toast('Link de localização copiado!', 'ok');
+            });
+        }
+
+        function acompanhar_pedido_showOptions() {
+            abrirModal('<div class="space-y-1"><button onclick="acompanhar_pedido_cancelOrder(); fecharModal();" class="w-full text-left px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 active:scale-95 transition-all font-medium text-sm">Cancelar Pedido</button><button onclick="acompanhar_pedido_reorder(); fecharModal();" class="w-full text-left px-4 py-3 rounded-xl text-marca-600 hover:bg-marca-50 active:scale-95 transition-all font-medium text-sm">Refazer Pedido</button></div>', 'Opções do Pedido');
+        }
+
+        function acompanhar_pedido_cancelOrder() {
+            toast('Solicitação de cancelamento enviada.', 'info');
+        }
+
+        function acompanhar_pedido_reorder() {
+            toast('Itens adicionados ao carrinho!', 'ok');
+        }
+
+        function acompanhar_pedido_init() {
+            document.getElementById('acompanhar_subtotal').textContent = brl(acompanhar_pedido_order.subtotal);
+            document.getElementById('acompanhar_delivery-fee').textContent = brl(acompanhar_pedido_order.deliveryFee);
+            document.getElementById('acompanhar_total').textContent = brl(acompanhar_pedido_order.total);
+            acompanhar_pedido_renderTimeline();
+            acompanhar_pedido_renderItems();
+            acompanhar_pedido_renderNotifications();
+        }
+
+        document.addEventListener('DOMContentLoaded', acompanhar_pedido_init);
+    </script>
+
     <!-- TELAS -->
       </div>
     </main>
