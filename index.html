@@ -56,7 +56,165 @@
 
     <main id="app" class="h-full overflow-y-auto overflow-x-hidden pb-20 bg-gray-50">
       <div class="pt-12">
-        <!-- TELAS -->
+        <section data-tela="home-vitrine" class="hidden animate-fadein">
+  <div class="max-w-full px-4 pb-20 pt-4 mx-auto space-y-4">
+    <!-- Saudação e notificações -->
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <h1 class="font-display text-2xl text-marca-900">Olá, Juliana!</h1>
+        <p class="font-body text-sm text-marca-700">Bem-vinda ao Delivery Interno</p>
+      </div>
+      <button onclick="mostrarTela('notificacoes')" class="relative p-2 rounded-full bg-marca-50 hover:bg-marca-100 transition">
+        <svg width="24" height="24" fill="none" class="text-marca-700">
+          <path d="M12 23a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm8-6V10a8 8 0 1 0-16 0v7l-2 2v1h20v-1l-2-2Z" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span id="home_vitrine_notify_badge" class="badge badge-red absolute top-1 right-1">3</span>
+      </button>
+    </div>
+    <!-- Banner rotativo -->
+    <div id="home_vitrine_banner" class="overflow-hidden rounded-xl shadow-md mb-2 relative group">
+      <div class="flex transition-transform duration-700" style="transform:translateX(0)">
+        <div class="min-w-full bg-gradient-to-r from-marca-100 to-marca-50 flex items-center px-6 py-5">
+          <div class="mr-5">
+            <svg width="48" height="48" class="text-marca-600" fill="none"><rect x="6" y="6" width="36" height="36" rx="18" fill="currentColor" opacity="0.08"/><path d="M16 32v-8a8 8 0 0 1 16 0v8" stroke="currentColor" stroke-width="2"/><path d="M28 36a4 4 0 1 1-8 0" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="font-display text-lg text-marca-900">Promoção: Entrega Expressa</div>
+            <div class="font-body text-sm text-marca-700">Pedidos entregues em até 2h. Válido para serviços técnicos.</div>
+          </div>
+        </div>
+        <div class="min-w-full bg-gradient-to-r from-destaque-50 to-destaque-100 flex items-center px-6 py-5">
+          <div class="mr-5">
+            <svg width="48" height="48" class="text-destaque-700" fill="none"><rect x="6" y="6" width="36" height="36" rx="18" fill="currentColor" opacity="0.13"/><path d="M16 24l7-7 7 7" stroke="currentColor" stroke-width="2"/><path d="M23 17v14" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="font-display text-lg text-destaque-800">Novidade: Material de Escritório</div>
+            <div class="font-body text-sm text-destaque-700">Itens de papelaria com entrega diária para a equipe.</div>
+          </div>
+        </div>
+        <div class="min-w-full bg-gradient-to-r from-marca-50 to-marca-100 flex items-center px-6 py-5">
+          <div class="mr-5">
+            <svg width="48" height="48" class="text-marca-700" fill="none"><rect x="6" y="6" width="36" height="36" rx="18" fill="currentColor" opacity="0.11"/><path d="M16 28l12-12" stroke="currentColor" stroke-width="2"/><path d="M16 16v12h12" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="font-display text-lg text-marca-900">Agendamento de Serviços Técnicos</div>
+            <div class="font-body text-sm text-marca-700">Solicite instalação, manutenção e suporte via app.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Navegação do banner -->
+      <button id="home_vitrine_banner_prev" class="group absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-40 hover:bg-opacity-70 rounded-full p-1 transition">
+        <svg width="22" height="22" class="text-marca-600" fill="none"><path d="M14 6l-4 5 4 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="home_vitrine_banner_next" class="group absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-40 hover:bg-opacity-70 rounded-full p-1 transition">
+        <svg width="22" height="22" class="text-marca-600" fill="none"><path d="M8 6l4 5-4 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="flex justify-center gap-2 mt-2 mb-1">
+        <span id="home_vitrine_banner_dot_0" class="h-2 w-2 rounded-full bg-marca-500 opacity-90"></span>
+        <span id="home_vitrine_banner_dot_1" class="h-2 w-2 rounded-full bg-marca-300 opacity-50"></span>
+        <span id="home_vitrine_banner_dot_2" class="h-2 w-2 rounded-full bg-marca-300 opacity-50"></span>
+      </div>
+    </div>
+    <!-- Barra de busca -->
+    <form class="flex items-center gap-2 bg-marca-50 px-3 py-2 rounded-lg shadow-sm">
+      <button type="button" onclick="home_vitrine_expand_search()" class="p-2 rounded-full hover:bg-marca-100 transition">
+        <svg width="20" height="20" fill="none" class="text-marca-700"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 16l-4-4" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <input id="home_vitrine_search" type="text" autocomplete="off" placeholder="Buscar produto ou serviço..." class="font-body flex-1 bg-transparent outline-none text-marca-900 placeholder-marca-500 text-sm"/>
+    </form>
+    <!-- Carrossel de categorias rápidas -->
+    <div class="overflow-x-auto py-2 px-1">
+      <div class="flex gap-4 min-w-max">
+        <button class="card flex flex-col items-center px-3 py-2 min-w-[88px] hover:bg-marca-100 active:scale-95 transition" onclick="home_vitrine_select_categoria('Material de Escritório')">
+          <span class="rounded-full bg-marca-200 flex items-center justify-center w-9 h-9 mb-1">
+            <svg width="24" height="24" fill="none" class="text-marca-700"><rect x="2" y="4" width="20" height="16" rx="4" stroke="currentColor" stroke-width="2"/><rect x="7" y="9" width="10" height="2" rx="1" fill="currentColor" class="text-marca-500"/></svg>
+          </span>
+          <span class="font-body text-xs text-marca-700 break-words text-center">Material de Escritório</span>
+        </button>
+        <button class="card flex flex-col items-center px-3 py-2 min-w-[88px] hover:bg-destaque-100 active:scale-95 transition" onclick="home_vitrine_select_categoria('Equipamentos')">
+          <span class="rounded-full bg-destaque-200 flex items-center justify-center w-9 h-9 mb-1">
+            <svg width="24" height="24" fill="none" class="text-destaque-700"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2"/><rect x="10" y="10" width="4" height="4" rx="2" fill="currentColor" class="text-destaque-500"/></svg>
+          </span>
+          <span class="font-body text-xs text-destaque-700 break-words text-center">Equipamentos</span>
+        </button>
+        <button class="card flex flex-col items-center px-3 py-2 min-w-[88px] hover:bg-marca-100 active:scale-95 transition" onclick="home_vitrine_select_categoria('Serviços Técnicos')">
+          <span class="rounded-full bg-marca-200 flex items-center justify-center w-9 h-9 mb-1">
+            <svg width="24" height="24" fill="none" class="text-marca-700"><path d="M6 18l6-12 6 12" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="16" r="2" fill="currentColor" /></svg>
+          </span>
+          <span class="font-body text-xs text-marca-700 break-words text-center">Serviços Técnicos</span>
+        </button>
+        <button class="card flex flex-col items-center px-3 py-2 min-w-[88px] hover:bg-marca-100 active:scale-95 transition" onclick="home_vitrine_select_categoria('Documentação')">
+          <span class="rounded-full bg-marca-200 flex items-center justify-center w-9 h-9 mb-1">
+            <svg width="24" height="24" fill="none" class="text-marca-700"><rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="16" r="1" fill="currentColor" /></svg>
+          </span>
+          <span class="font-body text-xs text-marca-700 break-words text-center">Documentação</span>
+        </button>
+        <button class="card flex flex-col items-center px-3 py-2 min-w-[88px] hover:bg-destaque-100 active:scale-95 transition" onclick="home_vitrine_select_categoria('Suporte')">
+          <span class="rounded-full bg-destaque-200 flex items-center justify-center w-9 h-9 mb-1">
+            <svg width="24" height="24" fill="none" class="text-destaque-700"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <span class="font-body text-xs text-destaque-700 break-words text-center">Suporte</span>
+        </button>
+      </div>
+    </div>
+    <!-- Produtos e Serviços em destaque -->
+    <div class="flex items-center justify-between mt-2 mb-2">
+      <h2 class="font-display text-lg text-marca-900">Destaques</h2>
+      <button class="font-body text-xs text-destaque-700 hover:underline transition" onclick="mostrarTela('categorias')">Ver todos</button>
+    </div>
+    <div id="home_vitrine_grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <!-- Os produtos são renderizados por JS -->
+    </div>
+    <!-- Estado vazio -->
+    <div id="home_vitrine_empty" class="hidden flex flex-col items-center justify-center py-16">
+      <svg width="68" height="68" class="mb-6 text-marca-300" fill="none"><rect x="10" y="10" width="48" height="48" rx="24" fill="currentColor" opacity="0.13"/><path d="M28 32v-8a8 8 0 0 1 16 0v8" stroke="currentColor" stroke-width="2"/><path d="M40 36a4 4 0 1 1-8 0" stroke="currentColor" stroke-width="2"/></svg>
+      <div class="font-display text-lg text-marca-700 mb-2">Nada encontrado</div>
+      <div class="font-body text-sm text-marca-500">Tente buscar outro termo ou filtrar por categoria.</div>
+    </div>
+  </div>
+  <!-- Barra de navegação inferior -->
+  <nav class="fixed left-0 bottom-0 w-full max-w-[390px] mx-auto border-t bg-white z-50">
+    <div class="flex justify-around p-2">
+      <button onclick="mostrarTela('home-vitrine')" class="flex flex-col items-center gap-1 px-2 py-1 rounded-md hover:bg-marca-50 active:scale-95 transition">
+        <svg width="26" height="26" fill="none" class="text-marca-700"><path d="M3 12l10-7 10 7v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" stroke="currentColor" stroke-width="2"/><path d="M10 22v-6h4v6" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="font-body text-xs text-marca-700">Home</span>
+      </button>
+      <button onclick="mostrarTela('categorias')" class="flex flex-col items-center gap-1 px-2 py-1 rounded-md hover:bg-marca-50 active:scale-95 transition">
+        <svg width="26" height="26" fill="none" class="text-marca-700"><rect x="3" y="7" width="6" height="12" rx="2" stroke="currentColor" stroke-width="2"/><rect x="11" y="4" width="6" height="15" rx="2" stroke="currentColor" stroke-width="2"/><rect x="19" y="9" width="4" height="10" rx="2" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="font-body text-xs text-marca-700">Categorias</span>
+      </button>
+      <button onclick="mostrarTela('carrinho-de-pedidos')" class="relative flex flex-col items-center gap-1 px-2 py-1 rounded-md hover:bg-marca-50 active:scale-95 transition">
+        <svg width="26" height="26" fill="none" class="text-marca-700"><rect x="5" y="9" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 9V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="font-body text-xs text-marca-700">Carrinho</span>
+        <span id="home_vitrine_cart_badge" class="badge badge-destaque absolute top-1 right-2">2</span>
+      </button>
+      <button onclick="mostrarTela('historico-de-pedidos')" class="flex flex-col items-center gap-1 px-2 py-1 rounded-md hover:bg-marca-50 active:scale-95 transition">
+        <svg width="26" height="26" fill="none" class="text-marca-700"><circle cx="13" cy="13" r="10" stroke="currentColor" stroke-width="2"/><path d="M13 6v8l5 3" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="font-body text-xs text-marca-700">Pedidos</span>
+      </button>
+      <button onclick="mostrarTela('painel-administrativo')" class="flex flex-col items-center gap-1 px-2 py-1 rounded-md hover:bg-marca-50 active:scale-95 transition">
+        <svg width="26" height="26" fill="none" class="text-marca-700"><rect x="4" y="4" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/><path d="M13 8v10" stroke="currentColor" stroke-width="2"/><path d="M8 13h10" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="font-body text-xs text-marca-700">Painel</span>
+      </button>
+    </div>
+  </nav>
+  <script>
+  // Dados de exemplo do catálogo
+  const home_vitrine_cat = [
+    {
+      id: "010",
+      nome: "Papel Sulfite A4",
+      preco: 43.90,
+      foto: "PS",
+      categoria: "Material de Escritório",
+      descricao: "Caixa com 10 resmas de papel 75g, ideal para impressões e uso diário.",
+      estoque: 12,
+    },
+    {
+      id: "011",
+      nome: "Kit Canetas Esfer
+
+    <!-- TELAS -->
       </div>
     </main>
 
