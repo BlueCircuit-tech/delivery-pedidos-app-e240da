@@ -214,6 +214,149 @@
       id: "011",
       nome: "Kit Canetas Esfer
 
+    <section data-tela="categorias" class="hidden">
+  <div class="px-5 pt-4 pb-2">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h1 class="text-2xl font-display font-bold text-gray-900">Categorias</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Encontre produtos e serviços</p>
+      </div>
+      <div class="w-10 h-10 rounded-full bg-marca-100 flex items-center justify-center">
+        <svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+      </div>
+    </div>
+
+    <div class="relative mb-4">
+      <svg class="w-5 h-5 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="cat-busca" placeholder="Buscar categoria..." class="w-full pl-11 pr-4 py-3 bg-gray-100 rounded-2xl text-sm font-body text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-300 focus:bg-white transition-all" oninput="categorias_filtrar()">
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide" id="cat-filtros-dept">
+      <button onclick="categorias_filtroDepartamento('todos')" data-dept="todos" class="cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-marca-600 text-white transition-all active:scale-95">Todos</button>
+      <button onclick="categorias_filtroDepartamento('tecnologia')" data-dept="tecnologia" class="cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95">Tecnologia</button>
+      <button onclick="categorias_filtroDepartamento('facilidades')" data-dept="facilidades" class="cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95">Facilidades</button>
+      <button onclick="categorias_filtroDepartamento('compras')" data-dept="compras" class="cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95">Compras</button>
+      <button onclick="categorias_filtroDepartamento('administrativo')" data-dept="administrativo" class="cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95">Administrativo</button>
+    </div>
+  </div>
+
+  <div class="px-5 pt-1 pb-2">
+    <div class="flex items-center justify-between mb-3">
+      <p class="text-xs text-gray-400 font-medium uppercase tracking-wider" id="cat-contador">6 categorias</p>
+      <span class="text-xs text-gray-400" id="cat-ordenar-label">Mais itens primeiro</span>
+    </div>
+
+    <div id="cat-grid" class="grid grid-cols-2 gap-3 pb-2">
+    </div>
+
+    <div id="cat-vazio" class="hidden flex-col items-center justify-center py-16 text-center">
+      <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      </div>
+      <p class="text-sm text-gray-500 font-medium">Nenhuma categoria encontrada</p>
+      <p class="text-xs text-gray-400 mt-1">Tente outro termo ou filtro</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const categorias = [
+    { id: 'informatica', nome: 'Informática', qtd: 24, dept: 'tecnologia', cor: 'bg-blue-500', corClara: 'bg-blue-50', icone: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/>' },
+    { id: 'moveis', nome: 'Móveis', qtd: 18, dept: 'facilidades', cor: 'bg-amber-500', corClara: 'bg-amber-50', icone: '<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>' },
+    { id: 'limpeza', nome: 'Limpeza', qtd: 32, dept: 'facilidades', cor: 'bg-teal-500', corClara: 'bg-teal-50', icone: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75v6m-4.5-3h9m-9 3h4.5m-4.5 3h4.5m-4.5 3h4.5M5.25 6.75h13.5a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18.75v-9a2.25 2.25 0 012.25-2.25z"/>' },
+    { id: 'seguranca', nome: 'Segurança', qtd: 15, dept: 'administrativo', cor: 'bg-red-500', corClara: 'bg-red-50', icone: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>' },
+    { id: 'consultoria', nome: 'Consultoria', qtd: 12, dept: 'administrativo', cor: 'bg-indigo-500', corClara: 'bg-indigo-50', icone: '<path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.014.45-.042.67A11.943 11.943 0 0118 18.72M15.75 10.5V21a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 21V10.5m16.5 0a48.105 48.105 0 00-16.5 0M16.5 10.5a48.111 48.111 0 01-16.5 0"/>' },
+    { id: 'manutencao', nome: 'Manutenção', qtd: 21, dept: 'facilidades', cor: 'bg-orange-500', corClara: 'bg-orange-50', icone: '<path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.1-5.1m0 0l5.1-5.1m-5.1 5.1l5.1 5.1m5.1-5.1l-5.1 5.1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>' }
+  ];
+
+  let filtroDept = 'todos';
+  window._categoriaSelecionada = null;
+
+  function categorias_renderizar(lista) {
+    const grid = document.getElementById('cat-grid');
+    const vazio = document.getElementById('cat-vazio');
+    const contador = document.getElementById('cat-contador');
+
+    grid.innerHTML = '';
+    contador.textContent = lista.length + ' categor' + (lista.length === 1 ? 'ia' : 'ias');
+
+    if (lista.length === 0) {
+      grid.classList.add('hidden');
+      vazio.classList.remove('hidden');
+      vazio.classList.add('flex');
+      return;
+    }
+
+    grid.classList.remove('hidden');
+    vazio.classList.add('hidden');
+    vazio.classList.remove('flex');
+
+    lista.forEach(function(cat, i) {
+      const card = document.createElement('div');
+      card.className = 'card bg-white rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.97] select-none';
+      card.style.animationDelay = (i * 60) + 'ms';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.onclick = function(){ categorias_abrirCategoria(cat.id); };
+      card.onkeydown = function(e){ if(e.key==='Enter') categorias_abrirCategoria(cat.id); };
+
+      card.innerHTML = '<div class="w-11 h-11 rounded-xl ' + cat.corClara + ' flex items-center justify-center mb-3">' +
+        '<svg class="w-6 h-6 ' + cat.cor.replace('bg-', 'text-') + '" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">' + cat.icone + '</svg>' +
+      '</div>' +
+      '<h3 class="text-sm font-display font-semibold text-gray-800 leading-tight">' + cat.nome + '</h3>' +
+      '<div class="flex items-center gap-1.5 mt-2">' +
+        '<span class="text-xs text-gray-400">' + cat.qtd + ' itens</span>' +
+        '<svg class="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>' +
+      '</div>' +
+      '<div class="mt-2.5 h-1 rounded-full bg-gray-100 overflow-hidden">' +
+        '<div class="h-full rounded-full ' + cat.cor + ' opacity-60" style="width:' + Math.min(cat.qtd * 2.2, 100) + '%"></div>' +
+      '</div>';
+
+      grid.appendChild(card);
+    });
+  }
+
+  window.categorias_filtroDepartamento = function(dept) {
+    filtroDept = dept;
+    document.querySelectorAll('.cat-dept-btn').forEach(function(btn) {
+      if (btn.dataset.dept === dept) {
+        btn.className = 'cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-marca-600 text-white transition-all active:scale-95';
+      } else {
+        btn.className = 'cat-dept-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all active:scale-95';
+      }
+    });
+    categorias_filtrar();
+  };
+
+  window.categorias_filtrar = function() {
+    const termo = document.getElementById('cat-busca').value.toLowerCase().trim();
+    let lista = categorias.slice();
+
+    if (filtroDept !== 'todos') {
+      lista = lista.filter(function(c) { return c.dept === filtroDept; });
+    }
+    if (termo) {
+      lista = lista.filter(function(c) { return c.nome.toLowerCase().indexOf(termo) !== -1; });
+    }
+    lista.sort(function(a, b) { return b.qtd - a.qtd; });
+    categorias_renderizar(lista);
+  };
+
+  window.categorias_abrirCategoria = function(catId) {
+    const cat = categorias.find(function(c) { return c.id === catId; });
+    if (!cat) return;
+    window._categoriaSelecionada = cat;
+    toast('Filtrando por: ' + cat.nome, 'info');
+    setTimeout(function() {
+      mostrarTela('home-vitrine');
+    }, 200);
+  };
+
+  categorias_filtrar();
+})();
+</script>
+
     <!-- TELAS -->
       </div>
     </main>
